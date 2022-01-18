@@ -1,0 +1,6 @@
+name: SFAdvancements
+version: '${project.version}'
+main: me.char321.sfadvancements.SFAdvancements
+api-version: 1.18
+depend: [ Slimefun ]
+authors: [ char321 ]
