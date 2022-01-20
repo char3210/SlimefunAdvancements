@@ -3,6 +3,7 @@ package me.char321.sfadvancements;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import me.char321.sfadvancements.core.AdvManager;
 import me.char321.sfadvancements.core.command.SFACommand;
+import me.char321.sfadvancements.core.command.tasks.InventoryTask;
 import me.char321.sfadvancements.core.gui.AdvGUIManager;
 import me.char321.sfadvancements.core.AdvancementsItemGroup;
 import me.char321.sfadvancements.core.registry.AdvancementsRegistry;
@@ -30,6 +31,8 @@ public final class SFAdvancements extends JavaPlugin implements SlimefunAddon {
 
         DefaultAdvancements.registerDefaultAdvancements();
         getCommand("sfadvancements").setExecutor(new SFACommand(this));
+
+        new InventoryTask().runTaskTimer(this, 10L, 10L);
     }
 
 

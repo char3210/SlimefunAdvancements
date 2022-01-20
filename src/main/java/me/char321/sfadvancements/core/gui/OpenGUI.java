@@ -35,7 +35,7 @@ public class OpenGUI {
     }
 
     public Inventory getInventory() {
-//        refresh();
+        refresh();
         return inventory;
     }
 
@@ -143,9 +143,9 @@ public class OpenGUI {
             ItemStack display = null;
             if(advindex < advancements.size()) {
                 display = advancements.get(advindex).getDisplay();
-            }
-            if(SFAdvancements.instance().getAdvManager().isCompleted(player, advancements.get(advindex))) {
-                display = Utils.makeShiny(display);
+                if(SFAdvancements.instance().getAdvManager().isCompleted(player, advancements.get(advindex))) {
+                    display = Utils.makeShiny(display);
+                }
             }
 
             inventory.setItem(slot, display);

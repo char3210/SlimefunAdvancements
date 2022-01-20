@@ -1,5 +1,8 @@
 package me.char321.sfadvancements.util;
 
+import me.char321.sfadvancements.SFAdvancements;
+import me.char321.sfadvancements.api.Advancement;
+import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
@@ -13,5 +16,13 @@ public class Utils {
         im.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         item.setItemMeta(im);
         return item;
+    }
+
+    public static NamespacedKey keyOf(String value) {
+        return new NamespacedKey(SFAdvancements.instance(), value);
+    }
+
+    public static Advancement fromKey(String value) {
+        return SFAdvancements.getRegistry().getAdvancement(keyOf(value));
     }
 }

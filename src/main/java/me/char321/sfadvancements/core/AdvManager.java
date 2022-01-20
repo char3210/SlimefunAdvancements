@@ -4,8 +4,10 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonWriter;
+import io.github.thebusybiscuit.slimefun4.libraries.dough.config.Config;
 import me.char321.sfadvancements.SFAdvancements;
 import me.char321.sfadvancements.api.Advancement;
+import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 
 import java.io.BufferedReader;
@@ -22,7 +24,7 @@ import java.util.Set;
 import java.util.UUID;
 
 public class AdvManager {
-    private final Map<UUID, Set<String>> playerMap = new HashMap<>();
+    private final Map<UUID, Set<NamespacedKey>> playerMap = new HashMap<>();
 
     public void complete(Player p, Advancement advancement) {
         complete(p.getUniqueId(), advancement);
@@ -32,18 +34,19 @@ public class AdvManager {
         if(!playerMap.containsKey(uuid)) {
             loadPlayer(uuid);
         }
-        Set<String> advancements = playerMap.get(uuid);
-        advancements.add(advancement.getId());
+        Set<NamespacedKey> advancements = playerMap.get(uuid);
+        advancements.add(advancement.getKey());
     }
 
     private void loadPlayer(UUID uuid) {
-        File f = new File("/plugins/" + SFAdvancements.instance().getName(), uuid.toString()+".json");
+        File f = new File("plugins/" + SFAdvancements.instance().getName() + "/advancements", uuid.toString()+".json");
         if(f.exists()) {
+            SFAdvancements.info("rEEE");
             try {
                 JsonArray arr = JsonParser.parseReader(new BufferedReader(new FileReader(f, StandardCharsets.UTF_8))).getAsJsonArray();
-                Set<String> advancements = new HashSet<>();
+                Set<NamespacedKey> advancements = new HashSet<>();
                 for (JsonElement element : arr) {
-                    advancements.add(element.getAsString());
+                    advancements.add(NamespacedKey.fromString(element.getAsString()));
                 }
                 this.playerMap.put(uuid, advancements);
             } catch (IOException e) {
@@ -60,20 +63,24 @@ public class AdvManager {
 
     public boolean isCompleted(UUID player, Advancement advancement) {
         if(!playerMap.containsKey(player)) {
-            return false;
+            loadPlayer(player);
         }
-        Set<String> advancements = playerMap.get(player);
-        return advancements.contains(advancement.getId());
+        Set<NamespacedKey> advancements = playerMap.get(player);
+        return advancements.contains(advancement.getKey());
 
     }
 
     public void save() throws IOException {
-        for (Map.Entry<UUID, Set<String>> entry : playerMap.entrySet()) {
-            File f = new File("/plugins/" + SFAdvancements.instance().getName(), entry.getKey().toString()+".json");
+        for (Map.Entry<UUID, Set<NamespacedKey>> entry : playerMap.entrySet()) {
+            File f = new File("plugins/" + SFAdvancements.instance().getName() + "/advancements", entry.getKey().toString()+".json");
+            f.mkdirs();
+            //this is probably bad
+            f.delete();
+            f.createNewFile();
             JsonWriter writer = new JsonWriter(new BufferedWriter(new FileWriter(f)));
             writer.beginArray();
-            for(String s : entry.getValue()) {
-                writer.value(s);
+            for(NamespacedKey key : entry.getValue()) {
+                writer.value(key.toString());
             }
             writer.endArray();
             writer.close();
