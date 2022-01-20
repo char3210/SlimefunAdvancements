@@ -1,20 +1,23 @@
 package me.char321.sfadvancements;
 
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
-import me.char321.sfadvancements.api.AdvancementGroup;
+import me.char321.sfadvancements.core.AdvManager;
+import me.char321.sfadvancements.core.command.SFACommand;
 import me.char321.sfadvancements.core.gui.AdvGUIManager;
-import me.char321.sfadvancements.core.itemgroup.AdvancementsItemGroup;
+import me.char321.sfadvancements.core.AdvancementsItemGroup;
 import me.char321.sfadvancements.core.registry.AdvancementsRegistry;
+import me.char321.sfadvancements.implementation.DefaultAdvancements;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.io.IOException;
+import java.util.logging.Level;
 
 public final class SFAdvancements extends JavaPlugin implements SlimefunAddon {
     private static SFAdvancements instance;
+    private final AdvManager advManager = new AdvManager();
     private final AdvGUIManager guiManager = new AdvGUIManager();
     private final AdvancementsRegistry registry = new AdvancementsRegistry();
 
@@ -25,13 +28,19 @@ public final class SFAdvancements extends JavaPlugin implements SlimefunAddon {
         Bukkit.getPluginManager().registerEvents(guiManager, this);
         new AdvancementsItemGroup().register(this);
 
-        registerDefaultAdvancements();
+        DefaultAdvancements.registerDefaultAdvancements();
+        getCommand("sfadvancements").setExecutor(new SFACommand(this));
     }
 
 
     @Override
     public void onDisable() {
-
+        try {
+            advManager.save();
+        } catch (IOException e) {
+            error("could not save advancements");
+            e.printStackTrace();
+        }
     }
 
     @Nonnull
@@ -50,6 +59,10 @@ public final class SFAdvancements extends JavaPlugin implements SlimefunAddon {
         return instance;
     }
 
+    public AdvManager getAdvManager() {
+        return advManager;
+    }
+
     public static AdvGUIManager getGuiManager() {
         return instance.guiManager;
     }
@@ -62,8 +75,12 @@ public final class SFAdvancements extends JavaPlugin implements SlimefunAddon {
         instance.getLogger().info(msg.toString());
     }
 
-    private void registerDefaultAdvancements() {
+    public static void warn(Object msg) {
+        instance.getLogger().warning(msg.toString());
+    }
 
+    public static void error(Object msg) {
+        instance.getLogger().severe(msg.toString());
     }
 
 }

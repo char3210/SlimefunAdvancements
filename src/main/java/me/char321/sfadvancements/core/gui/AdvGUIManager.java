@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.UUID;
 
 public class AdvGUIManager implements Listener {
-    private Map<UUID, OpenGUI> guis = new HashMap<>();
+    private final Map<UUID, OpenGUI> guis = new HashMap<>();
 
     public void displayGUI(Player p) {
         OpenGUI gui = getByPlayer(p);
@@ -29,8 +29,9 @@ public class AdvGUIManager implements Listener {
     public OpenGUI getByPlayer(Player p) {
         UUID uuid = p.getUniqueId();
         if(!guis.containsKey(uuid)) {
-            guis.put(uuid, new OpenGUI());
+            guis.put(uuid, new OpenGUI(p));
         }
         return guis.get(uuid);
     }
+
 }

@@ -5,30 +5,37 @@ import me.char321.sfadvancements.SFAdvancements;
 import me.char321.sfadvancements.api.Advancement;
 import me.char321.sfadvancements.api.AdvancementGroup;
 import me.char321.sfadvancements.core.registry.AdvancementsRegistry;
+import me.char321.sfadvancements.util.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.util.List;
+import java.util.UUID;
+
 public class OpenGUI {
     private final Inventory inventory;
     private final AdvancementsRegistry registry;
+    private final UUID player;
     private int page = 1;
     private int groupIndex = 0;
     private int scroll = 0;
 
-    public OpenGUI() {
+    public OpenGUI(Player p) {
         this.inventory = Bukkit.createInventory(null, 54, ChatColor.BLUE + "Advancements");
         this.registry = SFAdvancements.getRegistry();
+        this.player = p.getUniqueId();
         refresh();
     }
 
     public Inventory getInventory() {
-        refresh();
+//        refresh();
         return inventory;
     }
 
@@ -93,11 +100,7 @@ public class OpenGUI {
             if(registry.getAdvancementGroups().size() > dispIndex) {
                 display = registry.getAdvancementGroups().get(dispIndex).getDisplayItem();
                 if(dispIndex == groupIndex) {
-                    display = display.clone();
-                    ItemMeta im = display.getItemMeta();
-                    im.addEnchant(Enchantment.DURABILITY, 1, true);
-                    im.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-                    display.setItemMeta(im);
+                    display = Utils.makeShiny(display);
                 }
             } else {
                 display = MenuItems.GRAY;
@@ -105,9 +108,48 @@ public class OpenGUI {
             inventory.setItem(slot, display);
         }
         //endregion
-        //region Advancements
-        AdvancementGroup advancementGroup = registry.getAdvancementGroups().get(groupIndex);
+        //region Scroll bar
+        AdvancementGroup group = registry.getAdvancementGroups().get(groupIndex);
+        inventory.setItem(26, MenuItems.YELLOW);
+        inventory.setItem(35, MenuItems.YELLOW);
+        inventory.setItem(44, MenuItems.YELLOW);
 
+        ItemStack scrollUp;
+        if(scroll == 0) {
+            scrollUp = MenuItems.YELLOW;
+        } else {
+            scrollUp = new CustomItemStack(Material.ARROW, "&eScroll Up");
+        }
+        inventory.setItem(17, scrollUp);
+
+        ItemStack scrollDown;
+        int size = group.getAdvancements().size();
+        int maxScroll = (size - 1) / 8 - 4;
+        if(scroll >= maxScroll) {
+            scrollDown = MenuItems.YELLOW;
+        } else {
+            scrollDown = new CustomItemStack(Material.ARROW, "&eScroll Down");
+        }
+        inventory.setItem(53, scrollDown);
+        //endregion
+        //region Advancements
+        List<Advancement> advancements = group.getAdvancements();
+        for(int i = 0; i < 40; i++) {
+            int row = i / 8 + 1;
+            int col = i % 8;
+            int slot = row * 9 + col;
+
+            int advindex = i + 8 * scroll;
+            ItemStack display = null;
+            if(advindex < advancements.size()) {
+                display = advancements.get(advindex).getDisplay();
+            }
+            if(SFAdvancements.instance().getAdvManager().isCompleted(player, advancements.get(advindex))) {
+                display = Utils.makeShiny(display);
+            }
+
+            inventory.setItem(slot, display);
+        }
         //endregion
     }
 

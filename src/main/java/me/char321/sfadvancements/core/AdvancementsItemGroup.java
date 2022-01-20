@@ -1,4 +1,4 @@
-package me.char321.sfadvancements.core.itemgroup;
+package me.char321.sfadvancements.core;
 
 import io.github.thebusybiscuit.slimefun4.api.items.groups.FlexItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
