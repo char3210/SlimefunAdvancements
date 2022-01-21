@@ -3,7 +3,8 @@ package me.char321.sfadvancements;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import me.char321.sfadvancements.core.AdvManager;
 import me.char321.sfadvancements.core.command.SFACommand;
-import me.char321.sfadvancements.core.command.tasks.InventoryTask;
+import me.char321.sfadvancements.core.tasks.AutoSaveTask;
+import me.char321.sfadvancements.core.tasks.InventoryTask;
 import me.char321.sfadvancements.core.gui.AdvGUIManager;
 import me.char321.sfadvancements.core.AdvancementsItemGroup;
 import me.char321.sfadvancements.core.registry.AdvancementsRegistry;
@@ -14,7 +15,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.io.IOException;
-import java.util.logging.Level;
 
 public final class SFAdvancements extends JavaPlugin implements SlimefunAddon {
     private static SFAdvancements instance;
@@ -30,9 +30,11 @@ public final class SFAdvancements extends JavaPlugin implements SlimefunAddon {
         new AdvancementsItemGroup().register(this);
 
         DefaultAdvancements.registerDefaultAdvancements();
+
         getCommand("sfadvancements").setExecutor(new SFACommand(this));
 
         new InventoryTask().runTaskTimer(this, 10L, 10L);
+        new AutoSaveTask().runTaskTimerAsynchronously(this, 6000L, 6000L);
     }
 
 
@@ -62,8 +64,8 @@ public final class SFAdvancements extends JavaPlugin implements SlimefunAddon {
         return instance;
     }
 
-    public AdvManager getAdvManager() {
-        return advManager;
+    public static AdvManager getAdvManager() {
+        return instance.advManager;
     }
 
     public static AdvGUIManager getGuiManager() {

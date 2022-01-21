@@ -26,22 +26,25 @@ import java.util.UUID;
 public class AdvManager {
     private final Map<UUID, Set<NamespacedKey>> playerMap = new HashMap<>();
 
-    public void complete(Player p, Advancement advancement) {
-        complete(p.getUniqueId(), advancement);
+    /**
+     * completes an advancement
+     *
+     * @param p player
+     * @param advancement advancement
+     * @return true if it was completed, false otherwise
+     */
+    public boolean complete(Player p, Advancement advancement) {
+        return complete(p.getUniqueId(), advancement);
     }
 
-    public void complete(UUID uuid, Advancement advancement) {
-        if(!playerMap.containsKey(uuid)) {
-            loadPlayer(uuid);
-        }
-        Set<NamespacedKey> advancements = playerMap.get(uuid);
-        advancements.add(advancement.getKey());
+    public boolean complete(UUID uuid, Advancement advancement) {
+        Set<NamespacedKey> advancements = getAdvancements(uuid);
+        return advancements.add(advancement.getKey());
     }
 
     private void loadPlayer(UUID uuid) {
         File f = new File("plugins/" + SFAdvancements.instance().getName() + "/advancements", uuid.toString()+".json");
         if(f.exists()) {
-            SFAdvancements.info("rEEE");
             try {
                 JsonArray arr = JsonParser.parseReader(new BufferedReader(new FileReader(f, StandardCharsets.UTF_8))).getAsJsonArray();
                 Set<NamespacedKey> advancements = new HashSet<>();
@@ -62,12 +65,20 @@ public class AdvManager {
     }
 
     public boolean isCompleted(UUID player, Advancement advancement) {
+        Set<NamespacedKey> advancements = getAdvancements(player);
+        return advancements.contains(advancement.getKey());
+
+    }
+
+    public Set<NamespacedKey> getAdvancements(Player player) {
+        return getAdvancements(player.getUniqueId());
+    }
+
+    public Set<NamespacedKey> getAdvancements(UUID player) {
         if(!playerMap.containsKey(player)) {
             loadPlayer(player);
         }
-        Set<NamespacedKey> advancements = playerMap.get(player);
-        return advancements.contains(advancement.getKey());
-
+        return playerMap.get(player);
     }
 
     public void save() throws IOException {

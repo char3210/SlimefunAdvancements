@@ -1,11 +1,11 @@
-package me.char321.sfadvancements.core.command.tasks;
+package me.char321.sfadvancements.core.tasks;
 
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.char321.sfadvancements.SFAdvancements;
 import me.char321.sfadvancements.api.Advancement;
 import me.char321.sfadvancements.api.InventoryAdvancement;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -35,8 +35,10 @@ public class InventoryTask extends BukkitRunnable {
                 contents.merge(clone, item.getAmount(), Integer::sum);
             }
             for (ItemStack item : contents.keySet()) {
-                if(goals.containsKey(item)) {
-                    goals.get(item).complete(p);
+                for (ItemStack goalitem : goals.keySet()) {
+                    if(SlimefunUtils.isItemSimilar(item, goalitem, true)) {
+                        goals.get(goalitem).complete(p);
+                    }
                 }
             }
         }

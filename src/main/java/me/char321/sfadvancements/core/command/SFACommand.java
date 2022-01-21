@@ -13,6 +13,9 @@ public class SFACommand implements CommandExecutor {
     private final List<SubCommand> subcommands = new LinkedList<>();
 
     public SFACommand(SFAdvancements plugin) {
+        subcommands.add(new SaveCommand());
+        subcommands.add(new RevokeCommand());
+
         plugin.getCommand("sfadvancements").setTabCompleter(new SFATabCompleter(this));
     }
 
@@ -21,8 +24,7 @@ public class SFACommand implements CommandExecutor {
         if (args.length > 0) {
             for(SubCommand subcmd : subcommands) {
                 if(args[0].equalsIgnoreCase(subcmd.getCommandName())) {
-                    subcmd.onExecute(sender, args);
-                    return true;
+                    return subcmd.onExecute(sender, command, label, args);
                 }
             }
             sender.sendMessage("Unknown subcommand! Available subcommands are: " + subcommands.stream().map(SubCommand::getCommandName).collect(Collectors.joining(", ")));
