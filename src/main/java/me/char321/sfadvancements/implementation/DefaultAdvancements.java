@@ -46,5 +46,18 @@ public class DefaultAdvancements {
                 .register();
 
         basic.register();
+
+        new AdvancementBuilder()
+                .key(Utils.keyOf("energy_regulator"))
+                .group(electric)
+                .display(new CustomItemStack(SlimefunItems.ENERGY_REGULATOR,
+                        "&aEnergy Regulator",
+                        "Craft an Energy Regulator"))
+                .name("&a[Energy Regulator]")
+                .type(AdvancementType.INVENTORY)
+                .goal(SlimefunItems.ENERGY_REGULATOR)
+                .register();
+
+        electric.register();
     }
 }

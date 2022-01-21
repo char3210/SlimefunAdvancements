@@ -1,0 +1,4 @@
+auto-update: true
+
+#use advancements api (experimental)
+use-advancements-api: false

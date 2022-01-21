@@ -3,6 +3,7 @@ package me.char321.sfadvancements.api;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import me.char321.sfadvancements.SFAdvancements;
+import me.char321.sfadvancements.api.criteria.Criterion;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -23,6 +24,7 @@ public class Advancement {
     private AdvancementGroup group;
     private ItemStack display;
     private String name;
+    private Criterion[] criteria;
 
     public Advancement(NamespacedKey key, AdvancementGroup group, ItemStack display, String name) {
         this.key = key;
@@ -44,13 +46,15 @@ public class Advancement {
     }
 
     public String getDescription() {
+        String res = getName().replaceAll("[\\[\\]]", "");
+        res += "\n";
         if(display.hasItemMeta()) {
             ItemMeta im = display.getItemMeta();
             if(im != null && im.hasLore()) {
-                return String.join(" ", im.getLore());
+                res += String.join(" ", im.getLore());
             }
         }
-        return "";
+        return res;
     }
 
     public void register() {
@@ -67,11 +71,8 @@ public class Advancement {
         if(SFAdvancements.getAdvManager().complete(p, this)) {
             BaseComponent component = new TextComponent();
             component.addExtra(p.getName() + " has made the advancement ");
-            BaseComponent sub = new TextComponent(name);
-            sub.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
-                    new Text(name.replaceAll("[\\[\\]]", "")),
-                    new Text(getDescription())
-            ));
+            BaseComponent sub = new TextComponent(getName());
+            sub.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(getDescription())));
             component.addExtra(sub);
             Bukkit.spigot().broadcast(component);
 //            Bukkit.broadcastMessage(p.getName() + " has completed the advancement " + name);
