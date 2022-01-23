@@ -8,7 +8,7 @@ import org.bukkit.inventory.ItemStack;
 /**
  * impractical, only for example purposes
  */
-public class InteractCriterion extends Criterion implements Listener {
+public class InteractCriterion extends Criterion {
     private final ItemStack item;
 
     /**

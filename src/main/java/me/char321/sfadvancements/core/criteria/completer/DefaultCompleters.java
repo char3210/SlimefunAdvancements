@@ -6,5 +6,8 @@ public class DefaultCompleters {
     public static void registerDefaultCompleters() {
         InteractCriterionCompleter interact = new InteractCriterionCompleter();
         SFAdvancements.getRegistry().getCompleters().put(interact.getCriterionClass(), interact);
+
+        InventoryCriterionCompleter inventory = new InventoryCriterionCompleter();
+        SFAdvancements.getRegistry().getCompleters().put(inventory.getCriterionClass(), inventory);
     }
 }

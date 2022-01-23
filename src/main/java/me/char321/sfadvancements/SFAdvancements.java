@@ -5,7 +5,6 @@ import me.char321.sfadvancements.core.AdvManager;
 import me.char321.sfadvancements.core.AdvancementsItemGroup;
 import me.char321.sfadvancements.core.command.SFACommand;
 import me.char321.sfadvancements.core.criteria.completer.DefaultCompleters;
-import me.char321.sfadvancements.core.criteria.completer.InventoryTask;
 import me.char321.sfadvancements.core.gui.AdvGUIManager;
 import me.char321.sfadvancements.core.registry.AdvancementsRegistry;
 import me.char321.sfadvancements.core.tasks.AutoSaveTask;
@@ -35,7 +34,6 @@ public final class SFAdvancements extends JavaPlugin implements SlimefunAddon {
 
         getCommand("sfadvancements").setExecutor(new SFACommand(this));
 
-        new InventoryTask().runTaskTimer(this, 10L, 10L);
         new AutoSaveTask().runTaskTimerAsynchronously(this, 6000L, 6000L);
     }
 
