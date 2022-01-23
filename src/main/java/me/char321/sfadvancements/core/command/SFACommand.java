@@ -15,6 +15,7 @@ public class SFACommand implements CommandExecutor {
     public SFACommand(SFAdvancements plugin) {
         subcommands.add(new SaveCommand());
         subcommands.add(new RevokeCommand());
+        subcommands.add(new GrantCommand());
 
         plugin.getCommand("sfadvancements").setTabCompleter(new SFATabCompleter(this));
     }

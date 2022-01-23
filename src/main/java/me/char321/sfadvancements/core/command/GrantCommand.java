@@ -40,12 +40,9 @@ public class GrantCommand extends SubCommand {
             return false;
         }
 
-        if (adv.complete(p)) {
-            sender.sendMessage("Successfully granted advancement " + adv.getKey() + " to player " + p.getName());
-            return true;
-        }
-
-        return false;
+        adv.complete(p);
+        sender.sendMessage("Successfully granted advancement " + adv.getKey() + " to player " + p.getName());
+        return true;
     }
 
     @Override

@@ -9,12 +9,9 @@ import me.char321.sfadvancements.util.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.List;
 import java.util.UUID;
@@ -143,7 +140,7 @@ public class OpenGUI {
             ItemStack display = null;
             if(advindex < advancements.size()) {
                 display = advancements.get(advindex).getDisplay();
-                if(SFAdvancements.instance().getAdvManager().isCompleted(player, advancements.get(advindex))) {
+                if(SFAdvancements.getAdvManager().isCompleted(player, advancements.get(advindex))) {
                     display = Utils.makeShiny(display);
                 }
             }

@@ -1,13 +1,10 @@
 package me.char321.sfadvancements.api;
 
-import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
-import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import me.char321.sfadvancements.SFAdvancements;
 import me.char321.sfadvancements.api.criteria.Criterion;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
-import net.md_5.bungee.api.chat.hover.content.Item;
 import net.md_5.bungee.api.chat.hover.content.Text;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -17,7 +14,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 /**
  * i'm gonna make this immutable becaus eyes
@@ -29,11 +25,12 @@ public class Advancement {
     private String name;
     private Criterion[] criteria;
 
-    public Advancement(NamespacedKey key, AdvancementGroup group, ItemStack display, String name) {
+    public Advancement(NamespacedKey key, AdvancementGroup group, ItemStack display, String name, Criterion... criteria) {
         this.key = key;
         this.group = group;
         this.display = display;
         this.name = ChatColor.translateAlternateColorCodes('&', name);
+        this.criteria = criteria;
     }
 
     public NamespacedKey getKey() {
@@ -46,6 +43,19 @@ public class Advancement {
 
     public String getName() {
         return name;
+    }
+
+    public Criterion[] getCriteria() {
+        return criteria;
+    }
+
+    public Criterion getCriterion(String id) {
+        for (Criterion criterion : criteria) {
+            if(criterion.getId().equals(id)) {
+                return criterion;
+            }
+        }
+        return null;
     }
 
     public String getDescription() {
@@ -70,24 +80,14 @@ public class Advancement {
      *
      * @param p player
      */
-    public boolean complete(Player p) {
-        if(SFAdvancements.getAdvManager().complete(p, this)) {
-            BaseComponent component = new TextComponent();
-            component.addExtra(p.getName() + " has made the advancement ");
-            BaseComponent sub = new TextComponent(getName());
-            sub.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(getDescription())));
-            component.addExtra(sub);
-            Bukkit.spigot().broadcast(component);
+    public void complete(Player p) {
+        BaseComponent component = new TextComponent();
+        component.addExtra(p.getName() + " has made the advancement ");
+        BaseComponent sub = new TextComponent(getName());
+        sub.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(getDescription())));
+        component.addExtra(sub);
+        Bukkit.spigot().broadcast(component);
 //            Bukkit.broadcastMessage(p.getName() + " has completed the advancement " + name);
-            return true;
-        }
-        return false;
-    }
-
-    public void updateCriteria() {
-        for (Criterion criterion : criteria) {
-            criterion.update();
-        }
     }
 
     @Override

@@ -1,20 +1,18 @@
 package me.char321.sfadvancements.api;
 
-import me.char321.sfadvancements.SFAdvancements;
+import me.char321.sfadvancements.api.criteria.Criterion;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class AdvancementBuilder {
     private NamespacedKey key;
     private AdvancementGroup group;
     private ItemStack display;
     private String name;
-    private AdvancementType type = AdvancementType.NORMAL;
-    private ItemStack goal;
-
-    public AdvancementBuilder() {
-
-    }
+    private List<Criterion> criteria = new ArrayList<>();
 
     public AdvancementBuilder key(NamespacedKey key) {
         this.key = key;
@@ -36,27 +34,18 @@ public class AdvancementBuilder {
         return this;
     }
 
-    public AdvancementBuilder type(AdvancementType type) {
-        this.type = type;
-        return this;
-    }
-
-    public AdvancementBuilder goal(ItemStack goal) {
-        this.goal = goal;
+    public AdvancementBuilder criteria(Criterion... criteria) {
+        this.criteria.addAll(List.of(criteria));
         return this;
     }
 
     public void register() {
-        Advancement adv;
-        switch(type) {
-            case INVENTORY -> adv = new InventoryAdvancement(key, group, display, name, goal);
-            default -> adv = new Advancement(key, group, display, name);
-        }
+        Advancement adv = new Advancement(key, group, display, name, criteria.toArray(new Criterion[0]));
         adv.register();
     }
 
     public Advancement toAdvancement() {
-        return new Advancement(key, group, display, name);
+        return new Advancement(key, group, display, name, criteria.toArray(new Criterion[0]));
     }
 
 }

@@ -1,12 +1,10 @@
 package me.char321.sfadvancements.core.command;
 
 import me.char321.sfadvancements.SFAdvancements;
-import me.char321.sfadvancements.core.AdvManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class SaveCommand extends SubCommand {

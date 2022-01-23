@@ -2,12 +2,13 @@ package me.char321.sfadvancements;
 
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import me.char321.sfadvancements.core.AdvManager;
-import me.char321.sfadvancements.core.command.SFACommand;
-import me.char321.sfadvancements.core.tasks.AutoSaveTask;
-import me.char321.sfadvancements.core.tasks.InventoryTask;
-import me.char321.sfadvancements.core.gui.AdvGUIManager;
 import me.char321.sfadvancements.core.AdvancementsItemGroup;
+import me.char321.sfadvancements.core.command.SFACommand;
+import me.char321.sfadvancements.core.criteria.completer.DefaultCompleters;
+import me.char321.sfadvancements.core.criteria.completer.InventoryTask;
+import me.char321.sfadvancements.core.gui.AdvGUIManager;
 import me.char321.sfadvancements.core.registry.AdvancementsRegistry;
+import me.char321.sfadvancements.core.tasks.AutoSaveTask;
 import me.char321.sfadvancements.implementation.DefaultAdvancements;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -29,6 +30,7 @@ public final class SFAdvancements extends JavaPlugin implements SlimefunAddon {
         Bukkit.getPluginManager().registerEvents(guiManager, this);
         new AdvancementsItemGroup().register(this);
 
+        DefaultCompleters.registerDefaultCompleters();
         DefaultAdvancements.registerDefaultAdvancements();
 
         getCommand("sfadvancements").setExecutor(new SFACommand(this));

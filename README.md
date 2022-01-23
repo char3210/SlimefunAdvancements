@@ -12,4 +12,5 @@ TODO:
 - configurability
 - docs
 - add advancements
+- cheat menu
 - advancements api (crazy)

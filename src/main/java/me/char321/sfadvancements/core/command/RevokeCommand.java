@@ -1,6 +1,7 @@
 package me.char321.sfadvancements.core.command;
 
 import me.char321.sfadvancements.SFAdvancements;
+import me.char321.sfadvancements.core.criteria.progress.PlayerProgress;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.NamespacedKey;
@@ -9,7 +10,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class RevokeCommand extends SubCommand {
@@ -26,13 +26,16 @@ public class RevokeCommand extends SubCommand {
             return false;
         }
 
+        PlayerProgress progress = SFAdvancements.getAdvManager().getProgress(p);
         if(args[2].equals("*") || args[2].equals("all")) {
-            SFAdvancements.getAdvManager().getAdvancements(p).clear();
+            for (NamespacedKey adv : progress.getCompletedAdvancements()) {
+                progress.revokeAdvancement(adv);
+            }
             sender.sendMessage("Successfully revoked all achievements!");
             return true;
         }
 
-        if (!SFAdvancements.getAdvManager().getAdvancements(p).remove(NamespacedKey.fromString(args[2]))) {
+        if (!progress.revokeAdvancement(NamespacedKey.fromString(args[2]))) {
             sender.sendMessage(ChatColor.RED + "Could not revoke advancement " + args[2] + " from player " + args[1]);
             return false;
         } else {
@@ -62,7 +65,7 @@ public class RevokeCommand extends SubCommand {
                 List<String> res = new ArrayList<>();
                 res.add("*");
                 res.add("all");
-                for (NamespacedKey key : SFAdvancements.getAdvManager().getAdvancements(p.getUniqueId())) {
+                for (NamespacedKey key : SFAdvancements.getAdvManager().getProgress(p).getCompletedAdvancements()) {
                     res.add(key.toString());
                 }
                 return res;
