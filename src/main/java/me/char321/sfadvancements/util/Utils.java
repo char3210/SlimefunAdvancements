@@ -25,4 +25,8 @@ public class Utils {
     public static Advancement fromKey(String value) {
         return SFAdvancements.getRegistry().getAdvancement(keyOf(value));
     }
+
+    public static Advancement fromKey(NamespacedKey value) {
+        return SFAdvancements.getRegistry().getAdvancement(value);
+    }
 }

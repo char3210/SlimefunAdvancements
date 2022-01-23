@@ -19,6 +19,9 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+/**
+ * i'm gonna make this immutable becaus eyes
+ */
 public class Advancement {
     private NamespacedKey key;
     private AdvancementGroup group;
@@ -79,6 +82,12 @@ public class Advancement {
             return true;
         }
         return false;
+    }
+
+    public void updateCriteria() {
+        for (Criterion criterion : criteria) {
+            criterion.update();
+        }
     }
 
     @Override
