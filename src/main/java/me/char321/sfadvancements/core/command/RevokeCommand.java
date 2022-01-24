@@ -15,19 +15,19 @@ import java.util.List;
 public class RevokeCommand extends SubCommand {
     @Override
     boolean onExecute(CommandSender sender, Command command, String label, String[] args) {
-        if(args.length < 3) {
+        if (args.length < 3) {
             sender.sendMessage(ChatColor.RED + "Usage: /" + label + " <player> <advancement>");
             return false;
         }
 
         Player p = Bukkit.getPlayer(args[1]);
-        if(p == null) {
+        if (p == null) {
             sender.sendMessage(ChatColor.RED + "Could not find player " + args[1]);
             return false;
         }
 
         PlayerProgress progress = SFAdvancements.getAdvManager().getProgress(p);
-        if(args[2].equals("*") || args[2].equals("all")) {
+        if (args[2].equals("*") || args[2].equals("all")) {
             for (NamespacedKey adv : progress.getCompletedAdvancements()) {
                 progress.revokeAdvancement(adv);
             }
@@ -51,15 +51,15 @@ public class RevokeCommand extends SubCommand {
 
     @Override
     List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
-        if(args.length == 2) {
+        if (args.length == 2) {
             List<String> res = new ArrayList<>();
-            for(Player p : Bukkit.getOnlinePlayers()) {
-                if(p.getName().contains(args[1])) {
+            for (Player p : Bukkit.getOnlinePlayers()) {
+                if (p.getName().contains(args[1])) {
                     res.add(p.getName());
                 }
             }
             return res;
-        } else if(args.length == 3) {
+        } else if (args.length == 3) {
             Player p = Bukkit.getPlayer(args[1]);
             if (p != null) {
                 List<String> res = new ArrayList<>();

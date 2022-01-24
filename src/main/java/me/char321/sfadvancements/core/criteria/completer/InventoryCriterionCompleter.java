@@ -31,7 +31,7 @@ public class InventoryCriterionCompleter implements CriterionCompleter, Listener
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onInventory(EntityPickupItemEvent e) {
-        if(e.getEntity() instanceof Player) {
+        if (e.getEntity() instanceof Player) {
             onInventory1((Player)e.getEntity());
         }
     }
@@ -45,7 +45,7 @@ public class InventoryCriterionCompleter implements CriterionCompleter, Listener
         Inventory inv = p.getInventory();
         Map<ItemStack, Integer> contents = new HashMap<>();
         for (ItemStack item : inv) {
-            if(item == null || item.getType() == Material.AIR) {
+            if (item == null || item.getType() == Material.AIR) {
                 continue;
             }
             ItemStack clone = item.clone();
@@ -54,11 +54,11 @@ public class InventoryCriterionCompleter implements CriterionCompleter, Listener
         }
         for (ItemStack item : contents.keySet()) {
             Material material = item.getType();
-            if(!criteria.containsKey(material)) {
+            if (!criteria.containsKey(material)) {
                 continue;
             }
             for (InventoryCriterion criterion : criteria.get(material)) {
-                if(SlimefunUtils.isItemSimilar(criterion.getItem(), item, false)) {
+                if (SlimefunUtils.isItemSimilar(criterion.getItem(), item, false)) {
                     SFAdvancements.getAdvManager().getProgress(p).doCriterion(criterion);
                 }
             }
@@ -67,7 +67,7 @@ public class InventoryCriterionCompleter implements CriterionCompleter, Listener
 
     @Override
     public void register(Criterion criterion) {
-        if(!(criterion instanceof InventoryCriterion)) {
+        if (!(criterion instanceof InventoryCriterion)) {
             throw new IllegalArgumentException("criterion must be an interactcriterion");
         }
         InventoryCriterion criterion1 = (InventoryCriterion) criterion;

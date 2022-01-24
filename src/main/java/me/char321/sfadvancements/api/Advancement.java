@@ -51,7 +51,7 @@ public class Advancement {
 
     public Criterion getCriterion(String id) {
         for (Criterion criterion : criteria) {
-            if(criterion.getId().equals(id)) {
+            if (criterion.getId().equals(id)) {
                 return criterion;
             }
         }
@@ -61,9 +61,9 @@ public class Advancement {
     public String getDescription() {
         String res = getName().replaceAll("[\\[\\]]", "");
         res += "\n";
-        if(display.hasItemMeta()) {
+        if (display.hasItemMeta()) {
             ItemMeta im = display.getItemMeta();
-            if(im != null && im.hasLore()) {
+            if (im != null && im.hasLore()) {
                 res += String.join(" ", im.getLore());
             }
         }

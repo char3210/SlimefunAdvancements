@@ -41,7 +41,7 @@ public class InteractCriterionCompleter implements Listener, CriterionCompleter 
 
     @Override
     public void register(Criterion criterion) {
-        if(!(criterion instanceof InteractCriterion)) {
+        if (!(criterion instanceof InteractCriterion)) {
             throw new IllegalArgumentException("criterion must be an interactcriterion");
         }
         InteractCriterion criterion1 = (InteractCriterion) criterion;

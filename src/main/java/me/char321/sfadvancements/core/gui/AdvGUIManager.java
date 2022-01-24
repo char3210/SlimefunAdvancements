@@ -20,7 +20,7 @@ public class AdvGUIManager implements Listener {
     @EventHandler
     public void onClick(InventoryClickEvent e) {
         OpenGUI openGUI = getByPlayer((Player) e.getWhoClicked());
-        if(e.getInventory().equals(openGUI.getInventory())) {
+        if (e.getInventory().equals(openGUI.getInventory())) {
             openGUI.click(e.getRawSlot());
             e.setCancelled(true);
         }
@@ -28,7 +28,7 @@ public class AdvGUIManager implements Listener {
 
     public OpenGUI getByPlayer(Player p) {
         UUID uuid = p.getUniqueId();
-        if(!guis.containsKey(uuid)) {
+        if (!guis.containsKey(uuid)) {
             guis.put(uuid, new OpenGUI(p));
         }
         return guis.get(uuid);

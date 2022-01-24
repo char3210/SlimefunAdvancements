@@ -60,7 +60,7 @@ public class PlayerProgress {
         PlayerProgress res = new PlayerProgress(player);
 
         File f = new File("plugins/" + SFAdvancements.instance().getName() + "/advancements", player.toString()+".json");
-        if(f.exists()) {
+        if (f.exists()) {
             try {
                 JsonObject object = JsonParser.parseReader(new BufferedReader(new FileReader(f, StandardCharsets.UTF_8))).getAsJsonObject();
                 res.loadFromObject(object);
@@ -73,23 +73,23 @@ public class PlayerProgress {
 
     public void doCriterion(Criterion cri) {
         NamespacedKey adv = cri.getAdvancement();
-        if(!progressMap.containsKey(adv)) {
+        if (!progressMap.containsKey(adv)) {
             progressMap.put(adv, new AdvancementProgress(adv));
         }
 
         AdvancementProgress advProgress = progressMap.get(adv);
-        if(advProgress.done) {
+        if (advProgress.done) {
             return;
         }
 
         for (CriteriaProgress progress : advProgress.criteria) {
-            if(!progress.id.equals(cri.getId())) {
+            if (!progress.id.equals(cri.getId())) {
                 continue;
             }
 
-            if(progress.progress < cri.getCount()) {
+            if (progress.progress < cri.getCount()) {
                 progress.progress++;
-                if(progress.progress >= cri.getCount()) {
+                if (progress.progress >= cri.getCount()) {
                     progress.done = true;
                     advProgress.updateDone();
                 }
@@ -98,7 +98,7 @@ public class PlayerProgress {
     }
 
     public boolean revokeAdvancement(NamespacedKey adv) {
-        if(!progressMap.containsKey(adv)) {
+        if (!progressMap.containsKey(adv)) {
             return false;
         }
         progressMap.get(adv).done = false;
@@ -111,7 +111,7 @@ public class PlayerProgress {
     public List<NamespacedKey> getCompletedAdvancements() {
         List<NamespacedKey> res = new ArrayList<>();
         for (Map.Entry<NamespacedKey, AdvancementProgress> entry : progressMap.entrySet()) {
-            if(entry.getValue().done) {
+            if (entry.getValue().done) {
                 res.add(entry.getKey());
             }
         }
@@ -154,7 +154,7 @@ public class PlayerProgress {
     }
 
     public boolean isCompleted(NamespacedKey key) {
-        if(!progressMap.containsKey(key)) {
+        if (!progressMap.containsKey(key)) {
             return false;
         }
         AdvancementProgress prog = progressMap.get(key);
@@ -180,7 +180,7 @@ public class PlayerProgress {
 
         void updateDone() {
             for (CriteriaProgress criterion : criteria) {
-                if(!criterion.done) {
+                if (!criterion.done) {
                     return;
                 }
             }

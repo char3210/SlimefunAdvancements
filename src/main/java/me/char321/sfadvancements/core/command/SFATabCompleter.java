@@ -17,17 +17,17 @@ public class SFATabCompleter implements TabCompleter {
 
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
-        if(args.length == 1) {
+        if (args.length == 1) {
             List<String> list = new LinkedList<>();
-            for(SubCommand subcmd : basecmd.getSubCommands()) {
-                if(subcmd.getCommandName().contains(args[0].toLowerCase(Locale.ROOT))) {
+            for (SubCommand subcmd : basecmd.getSubCommands()) {
+                if (subcmd.getCommandName().contains(args[0].toLowerCase(Locale.ROOT))) {
                     list.add(subcmd.getCommandName());
                 }
             }
             return list;
-        } else if(args.length > 1) {
-            for(SubCommand subcmd : basecmd.getSubCommands()) {
-                if(subcmd.getCommandName().equals(args[0])) {
+        } else if (args.length > 1) {
+            for (SubCommand subcmd : basecmd.getSubCommands()) {
+                if (subcmd.getCommandName().equals(args[0])) {
                     return subcmd.onTabComplete(sender, command, alias, args);
                 }
             }

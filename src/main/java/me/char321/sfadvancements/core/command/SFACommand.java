@@ -23,8 +23,8 @@ public class SFACommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (args.length > 0) {
-            for(SubCommand subcmd : subcommands) {
-                if(args[0].equalsIgnoreCase(subcmd.getCommandName())) {
+            for (SubCommand subcmd : subcommands) {
+                if (args[0].equalsIgnoreCase(subcmd.getCommandName())) {
                     return subcmd.onExecute(sender, command, label, args);
                 }
             }

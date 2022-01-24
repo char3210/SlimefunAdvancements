@@ -16,7 +16,7 @@ public class GettingStartedListener implements Listener {
 
     @EventHandler
     public void onCraft(MultiBlockInteractEvent e) {
-        if(e.getMultiBlock().getSlimefunItem() instanceof EnhancedCraftingTable) {
+        if (e.getMultiBlock().getSlimefunItem() instanceof EnhancedCraftingTable) {
             Utils.fromKey("gettingstarted").complete(e.getPlayer());
         }
     }
