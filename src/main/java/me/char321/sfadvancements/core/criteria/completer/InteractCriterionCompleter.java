@@ -32,9 +32,9 @@ public class InteractCriterionCompleter implements Listener, CriterionCompleter 
             return;
         }
 
-        for (InteractCriterion cri : allCriteria) {
-            if (SlimefunUtils.isItemSimilar(clicked, cri.getItem(), false)) {
-                SFAdvancements.getAdvManager().getProgress(e.getPlayer()).doCriterion(cri);
+        for (InteractCriterion criterion : allCriteria) {
+            if (SlimefunUtils.isItemSimilar(clicked, criterion.getItem(), false)) {
+                criterion.perform(e.getPlayer());
             }
         }
     }

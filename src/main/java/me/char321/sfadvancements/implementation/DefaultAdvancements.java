@@ -6,6 +6,7 @@ import me.char321.sfadvancements.api.AdvancementBuilder;
 import me.char321.sfadvancements.api.AdvancementGroup;
 import me.char321.sfadvancements.api.criteria.InteractCriterion;
 import me.char321.sfadvancements.api.criteria.InventoryCriterion;
+import me.char321.sfadvancements.api.criteria.PlaceCriterion;
 import me.char321.sfadvancements.util.Utils;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -30,7 +31,6 @@ public class DefaultAdvancements {
                         "interact with a totem"))
                 .name("&a[Getting Started]")
                 .criteria(new InteractCriterion(
-                        Utils.keyOf("interact"),
                         "interact",
                         1,
                         new ItemStack(Material.TOTEM_OF_UNDYING)
@@ -44,9 +44,21 @@ public class DefaultAdvancements {
                         "obtain a energy regulator"))
                 .name("&a[Inventory]")
                 .criteria(new InventoryCriterion(
-                        Utils.keyOf("inventory"),
                         "inventory",
                         SlimefunItems.ENERGY_REGULATOR
+                ))
+                .register();
+        new AdvancementBuilder()
+                .key(Utils.keyOf("build"))
+                .group(testing)
+                .display(new CustomItemStack(Material.DIRT,
+                        "&abuild",
+                        "place 100 dirt"))
+                .name("&a[Build]")
+                .criteria(new PlaceCriterion(
+                        "build",
+                        100,
+                        Material.DIRT
                 ))
                 .register();
         testing.register();

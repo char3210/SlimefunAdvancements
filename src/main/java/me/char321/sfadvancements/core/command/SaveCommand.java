@@ -18,7 +18,7 @@ public class SaveCommand extends SubCommand {
         } catch(IOException e) {
             sender.sendMessage("An error occured while saving advancements!");
             sender.sendMessage("Check the console for details.");
-            SFAdvancements.warn(e);
+            e.printStackTrace();
             return false;
         }
     }

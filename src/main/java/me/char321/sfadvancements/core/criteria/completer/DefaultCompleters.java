@@ -9,5 +9,9 @@ public class DefaultCompleters {
 
         InventoryCriterionCompleter inventory = new InventoryCriterionCompleter();
         SFAdvancements.getRegistry().getCompleters().put(inventory.getCriterionClass(), inventory);
+
+        PlaceCriterionCompleter place = new PlaceCriterionCompleter();
+        SFAdvancements.getRegistry().getCompleters().put(place.getCriterionClass(), place);
+
     }
 }

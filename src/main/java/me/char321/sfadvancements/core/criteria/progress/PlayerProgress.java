@@ -129,11 +129,13 @@ public class PlayerProgress {
 
     public void save() throws IOException {
         File f = new File("plugins/" + SFAdvancements.instance().getName() + "/advancements", player +".json");
-        f.mkdirs();
-        //this is probably bad
-        f.delete();
-        f.createNewFile();
-        JsonWriter writer = new JsonWriter(new BufferedWriter(new FileWriter(f)));
+        if(!f.exists()) {
+            f.getParentFile().mkdirs();
+            if (!f.createNewFile()) {
+                throw new IOException("Could not create file " + f.getPath());
+            }
+        }
+        JsonWriter writer = new JsonWriter(new BufferedWriter(new FileWriter(f, StandardCharsets.UTF_8, false)));
         writer.beginObject();
         for (Map.Entry<NamespacedKey, AdvancementProgress> entry : progressMap.entrySet()) {
             writer.name(entry.getKey().toString());

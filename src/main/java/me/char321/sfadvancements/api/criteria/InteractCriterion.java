@@ -14,13 +14,12 @@ public class InteractCriterion extends Criterion {
     /**
      * this criterion is iterated when a player right clicks an item
      *
-     * @param advancement the key of the advancement
      * @param id the id of the criteria (should not be the same as other criteria in the same advancement)
      * @param amount how many times the player has to click
      * @param item the item player clicks
      */
-    public InteractCriterion(NamespacedKey advancement, String id, int amount, ItemStack item) {
-        super(advancement, id, amount);
+    public InteractCriterion(String id, int amount, ItemStack item) {
+        super(id, amount);
         this.item = item;
 
         SFAdvancements.getRegistry().getCompleter(this).register(this);

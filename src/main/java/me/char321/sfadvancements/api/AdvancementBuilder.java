@@ -40,6 +40,9 @@ public class AdvancementBuilder {
     }
 
     public void register() {
+        for (Criterion criterion : criteria) {
+            criterion.setAdvancement(key);
+        }
         Advancement adv = new Advancement(key, group, display, name, criteria.toArray(new Criterion[0]));
         adv.register();
     }

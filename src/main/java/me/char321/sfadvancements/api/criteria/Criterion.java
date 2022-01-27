@@ -1,21 +1,24 @@
 package me.char321.sfadvancements.api.criteria;
 
+import me.char321.sfadvancements.SFAdvancements;
 import org.bukkit.NamespacedKey;
+import org.bukkit.entity.Player;
+
+import java.util.UUID;
 
 /**
  * that means this also has to be immutable
  */
 public class Criterion {
-    protected final NamespacedKey advancement;
+    private NamespacedKey advancement;
     private final String id;
     private final int count;
 
-    public Criterion(NamespacedKey adv, String id) {
-        this(adv, id, 1);
+    public Criterion(String id) {
+        this(id, 1);
     }
 
-    public Criterion(NamespacedKey adv, String id, int count) {
-        this.advancement = adv;
+    public Criterion(String id, int count) {
         this.id = id;
         this.count = count;
     }
@@ -25,12 +28,35 @@ public class Criterion {
     }
 
     public int getCount() {
-        //yay technical debt
         return count;
     }
 
     public NamespacedKey getAdvancement() {
         return advancement;
+    }
+
+    public void setAdvancement(NamespacedKey advancement) {
+        this.advancement = advancement;
+    }
+
+    /**
+     * utility method for doing this criterion
+     * increments the progress for that player of this criterion by 1
+     *
+     * @param p uuid of player to perform the criterion
+     */
+    public void perform(UUID p) {
+        SFAdvancements.getAdvManager().getProgress(p).doCriterion(this);
+    }
+
+    /**
+     * utility method for doing this criterion
+     * increments the progress for that player of this criterion by 1
+     *
+     * @param p player to perform the criterion
+     */
+    public void perform(Player p) {
+        this.perform(p.getUniqueId());
     }
 
 }

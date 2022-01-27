@@ -32,7 +32,16 @@ public class InventoryCriterionCompleter implements CriterionCompleter, Listener
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onInventory(EntityPickupItemEvent e) {
         if (e.getEntity() instanceof Player) {
-            onInventory1((Player)e.getEntity());
+            Player p = (Player)e.getEntity();
+            Material material = e.getItem().getItemStack().getType();
+            if(!criteria.containsKey(material)) {
+                return;
+            }
+            for (InventoryCriterion criterion : criteria.get(material)) {
+                if(SlimefunUtils.isItemSimilar(criterion.getItem(), e.getItem().getItemStack(), false)) {
+                    criterion.perform(p);
+                }
+            }
         }
     }
 
@@ -59,7 +68,7 @@ public class InventoryCriterionCompleter implements CriterionCompleter, Listener
             }
             for (InventoryCriterion criterion : criteria.get(material)) {
                 if (SlimefunUtils.isItemSimilar(criterion.getItem(), item, false)) {
-                    SFAdvancements.getAdvManager().getProgress(p).doCriterion(criterion);
+                    criterion.perform(p);
                 }
             }
         }
