@@ -95,6 +95,21 @@ public class PlayerProgress {
         }
     }
 
+    public int getCriterionProgress(Criterion cri) {
+        NamespacedKey adv = cri.getAdvancement();
+        if(!progressMap.containsKey(adv)) {
+            return 0;
+        }
+
+        AdvancementProgress advProgress = progressMap.get(adv);
+        for (CriteriaProgress progress : advProgress.criteria) {
+            if (progress.id.equals(cri.getId())) {
+                return progress.progress;
+            }
+        }
+        throw new IllegalStateException();
+    }
+
     public boolean revokeAdvancement(NamespacedKey adv) {
         if (!progressMap.containsKey(adv)) {
             return false;
@@ -154,6 +169,11 @@ public class PlayerProgress {
         }
     }
 
+    /**
+     *
+     * @param key the key of the advancement
+     * @return if the advancement is completed
+     */
     public boolean isCompleted(NamespacedKey key) {
         if (!progressMap.containsKey(key)) {
             return false;

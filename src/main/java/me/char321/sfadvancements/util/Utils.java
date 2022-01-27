@@ -20,6 +20,11 @@ public class Utils {
         return item;
     }
 
+    public static void makeShiny(ItemMeta im) {
+        im.addEnchant(Enchantment.DURABILITY, 1, false);
+        im.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+    }
+
     public static NamespacedKey keyOf(String value) {
         return new NamespacedKey(SFAdvancements.instance(), value);
     }

@@ -7,6 +7,8 @@ public class InventoryCriterion extends Criterion {
 
     public InventoryCriterion(String id, ItemStack item) {
         super(id);
+        item = item.clone();
+        item.setAmount(1);
         this.item = item;
     }
 

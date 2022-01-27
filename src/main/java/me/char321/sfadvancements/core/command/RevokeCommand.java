@@ -9,6 +9,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -46,7 +47,7 @@ public class RevokeCommand implements SubCommand {
     }
 
     @Override
-    public String getCommandName() {
+    public @Nonnull String getCommandName() {
         return "revoke";
     }
 

@@ -78,6 +78,19 @@ public class DefaultAdvancements {
                         new NamespacedKey(Slimefun.instance(), "output_chest")
                 ))
                 .register();
+        new AdvancementBuilder()
+                .key(Utils.keyOf("multicriteria"))
+                .group(testing)
+                .display(new CustomItemStack(Material.SLIME_BALL,
+                        "&amulti",
+                        "place 10 cobble, research copper wire, have slimeball"))
+                .name("&a[multi]")
+                .criteria(
+                        new PlaceCriterion("cobble", 10, Material.COBBLESTONE),
+                        new ResearchCriterion("wireresearch", new NamespacedKey(Slimefun.instance(), "copper_wire")),
+                        new InventoryCriterion("slimeball", new ItemStack(Material.SLIME_BALL))
+                )
+                .register();
         testing.register();
 
     }

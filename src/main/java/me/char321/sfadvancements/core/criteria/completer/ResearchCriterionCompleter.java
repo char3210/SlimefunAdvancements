@@ -30,15 +30,11 @@ public class ResearchCriterionCompleter implements CriterionCompleter, Listener 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerJoin(PlayerJoinEvent e) {
         Player p = e.getPlayer();
-        Optional<PlayerProfile> optional = PlayerProfile.find(p);
-        if(optional.isEmpty()) {
-            return;
-        }
-
-        PlayerProfile profile = optional.get();
-        for (Research research : profile.getResearches()) {
-            performCriteria(p, research);
-        }
+        PlayerProfile.get(p, (profile) -> {
+            for (Research research : profile.getResearches()) {
+                performCriteria(p, research);
+            }
+        });
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
