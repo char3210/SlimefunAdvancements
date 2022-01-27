@@ -15,6 +15,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public final class SFAdvancements extends JavaPlugin implements SlimefunAddon {
     private static SFAdvancements instance;
@@ -22,10 +24,16 @@ public final class SFAdvancements extends JavaPlugin implements SlimefunAddon {
     private final AdvGUIManager guiManager = new AdvGUIManager();
     private final AdvancementsRegistry registry = new AdvancementsRegistry();
 
+    public SFAdvancements() {
+        if(instance == null) {
+            instance = this;
+        } else {
+            throw new IllegalStateException();
+        }
+    }
+
     @Override
     public void onEnable() {
-        instance = this;
-
         Bukkit.getPluginManager().registerEvents(guiManager, this);
         new AdvancementsItemGroup().register(this);
 
@@ -44,7 +52,7 @@ public final class SFAdvancements extends JavaPlugin implements SlimefunAddon {
             advManager.save();
         } catch (IOException e) {
             error("could not save advancements");
-            e.printStackTrace();
+            getLogger().log(Level.SEVERE, e, () -> "hi");
         }
     }
 
@@ -76,16 +84,20 @@ public final class SFAdvancements extends JavaPlugin implements SlimefunAddon {
         return instance.registry;
     }
 
-    public static void info(Object msg) {
-        instance.getLogger().info(msg.toString());
+    public static Logger logger() {
+        return instance.getLogger();
     }
 
-    public static void warn(Object msg) {
-        instance.getLogger().warning(msg.toString());
+    public static void info(String msg) {
+        instance.getLogger().info(msg);
     }
 
-    public static void error(Object msg) {
-        instance.getLogger().severe(msg.toString());
+    public static void warn(String msg) {
+        instance.getLogger().warning(msg);
+    }
+
+    public static void error(String msg) {
+        instance.getLogger().severe(msg);
     }
 
 }

@@ -4,6 +4,7 @@ import me.char321.sfadvancements.SFAdvancements;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.IOException;
+import java.util.logging.Level;
 
 public class AutoSaveTask extends BukkitRunnable {
     @Override
@@ -11,8 +12,7 @@ public class AutoSaveTask extends BukkitRunnable {
         try {
             SFAdvancements.getAdvManager().save();
         } catch (IOException e) {
-            SFAdvancements.error("Could not auto-save advancements!");
-            e.printStackTrace();
+            SFAdvancements.logger().log(Level.SEVERE, e, () -> "Could not auto-save advancements!");
         }
     }
 }

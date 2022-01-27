@@ -5,12 +5,14 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
+import java.util.logging.Level;
 
-public class SaveCommand extends SubCommand {
+public class SaveCommand implements SubCommand {
 
     @Override
-    boolean onExecute(CommandSender sender, Command command, String label, String[] args) {
+    public boolean onExecute(CommandSender sender, Command command, String label, String[] args) {
         try {
             SFAdvancements.getAdvManager().save();
             sender.sendMessage("Successfully saved advancements.");
@@ -18,18 +20,18 @@ public class SaveCommand extends SubCommand {
         } catch(IOException e) {
             sender.sendMessage("An error occured while saving advancements!");
             sender.sendMessage("Check the console for details.");
-            e.printStackTrace();
+            SFAdvancements.logger().log(Level.SEVERE, e, () -> "Could not save advancements");
             return false;
         }
     }
 
     @Override
-    String getCommandName() {
+    public String getCommandName() {
         return "save";
     }
 
     @Override
-    List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
-        return null;
+    public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
+        return Collections.emptyList();
     }
 }

@@ -28,9 +28,7 @@ public class AdvGUIManager implements Listener {
 
     public OpenGUI getByPlayer(Player p) {
         UUID uuid = p.getUniqueId();
-        if (!guis.containsKey(uuid)) {
-            guis.put(uuid, new OpenGUI(p));
-        }
+        guis.computeIfAbsent(uuid, OpenGUI::new);
         return guis.get(uuid);
     }
 

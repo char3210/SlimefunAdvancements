@@ -13,7 +13,6 @@ import org.bukkit.event.block.BlockPlaceEvent;
 
 import java.util.EnumMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 public class PlaceCriterionCompleter implements CriterionCompleter, Listener {

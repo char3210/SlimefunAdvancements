@@ -9,6 +9,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 public class Utils {
+    private Utils() {}
+
     public static ItemStack makeShiny(ItemStack item) {
         item = item.clone();
         ItemMeta im = item.getItemMeta();

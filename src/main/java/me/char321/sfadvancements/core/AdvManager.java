@@ -26,9 +26,7 @@ public class AdvManager {
     }
 
     public PlayerProgress getProgress(UUID player) {
-        if (!playerMap.containsKey(player)) {
-            playerMap.put(player, PlayerProgress.get(player));
-        }
+        playerMap.computeIfAbsent(player, PlayerProgress::get);
         return playerMap.get(player);
     }
 

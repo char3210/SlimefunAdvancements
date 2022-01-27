@@ -3,7 +3,6 @@ package me.char321.sfadvancements.core.criteria.completer;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.char321.sfadvancements.SFAdvancements;
 import me.char321.sfadvancements.api.criteria.Criterion;
-import me.char321.sfadvancements.api.criteria.InteractCriterion;
 import me.char321.sfadvancements.api.criteria.InventoryCriterion;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -81,9 +80,7 @@ public class InventoryCriterionCompleter implements CriterionCompleter, Listener
         }
         InventoryCriterion criterion1 = (InventoryCriterion) criterion;
         Material m = criterion1.getItem().getType();
-        if (!criteria.containsKey(m)) {
-            criteria.put(m, new HashSet<>());
-        }
+        criteria.computeIfAbsent(m, k -> new HashSet<>());
         criteria.get(m).add(criterion1);
     }
 

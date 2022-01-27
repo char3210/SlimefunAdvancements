@@ -87,7 +87,6 @@ public class Advancement {
         sub.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(getDescription())));
         component.addExtra(sub);
         Bukkit.spigot().broadcast(component);
-//            Bukkit.broadcastMessage(p.getName() + " has completed the advancement " + name);
     }
 
     @Override

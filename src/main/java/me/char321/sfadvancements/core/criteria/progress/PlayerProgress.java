@@ -73,9 +73,7 @@ public class PlayerProgress {
 
     public void doCriterion(Criterion cri) {
         NamespacedKey adv = cri.getAdvancement();
-        if (!progressMap.containsKey(adv)) {
-            progressMap.put(adv, new AdvancementProgress(adv));
-        }
+        progressMap.computeIfAbsent(adv, AdvancementProgress::new);
 
         AdvancementProgress advProgress = progressMap.get(adv);
         if (advProgress.done) {
@@ -136,23 +134,24 @@ public class PlayerProgress {
             }
         }
         JsonWriter writer = new JsonWriter(new BufferedWriter(new FileWriter(f, StandardCharsets.UTF_8, false)));
-        writer.beginObject();
-        for (Map.Entry<NamespacedKey, AdvancementProgress> entry : progressMap.entrySet()) {
-            writer.name(entry.getKey().toString());
+        try(writer) {
             writer.beginObject();
-            writer.name("done");
-            writer.value(entry.getValue().done);
-            writer.name("criteria");
-            writer.beginObject();
-            for (CriteriaProgress criterion : entry.getValue().criteria) {
-                writer.name(criterion.id);
-                writer.value(criterion.progress);
+            for (Map.Entry<NamespacedKey, AdvancementProgress> entry : progressMap.entrySet()) {
+                writer.name(entry.getKey().toString());
+                writer.beginObject();
+                writer.name("done");
+                writer.value(entry.getValue().done);
+                writer.name("criteria");
+                writer.beginObject();
+                for (CriteriaProgress criterion : entry.getValue().criteria) {
+                    writer.name(criterion.id);
+                    writer.value(criterion.progress);
+                }
+                writer.endObject();
+                writer.endObject();
             }
             writer.endObject();
-            writer.endObject();
         }
-        writer.endObject();
-        writer.close();
     }
 
     public boolean isCompleted(NamespacedKey key) {
@@ -187,6 +186,7 @@ public class PlayerProgress {
                 }
             }
             this.done = true;
+
             adv.complete(Bukkit.getPlayer(player));
         }
 

@@ -46,9 +46,7 @@ public class InteractCriterionCompleter implements Listener, CriterionCompleter 
         }
         InteractCriterion criterion1 = (InteractCriterion) criterion;
         Material m = criterion1.getItem().getType();
-        if (!criteria.containsKey(m)) {
-            criteria.put(m, new HashSet<>());
-        }
+        criteria.computeIfAbsent(m, k -> new HashSet<>());
         criteria.get(m).add(criterion1);
     }
 

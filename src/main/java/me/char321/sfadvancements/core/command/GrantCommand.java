@@ -10,11 +10,12 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-public class GrantCommand extends SubCommand {
+public class GrantCommand implements SubCommand {
     @Override
-    boolean onExecute(CommandSender sender, Command command, String label, String[] args) {
+    public boolean onExecute(CommandSender sender, Command command, String label, String[] args) {
         if (args.length < 3) {
             sender.sendMessage(ChatColor.RED + "Usage: /" + label + " <player> <advancement>");
             return false;
@@ -46,12 +47,12 @@ public class GrantCommand extends SubCommand {
     }
 
     @Override
-    String getCommandName() {
+    public String getCommandName() {
         return "grant";
     }
 
     @Override
-    List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
+    public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         if (args.length == 2) { //if only brigadier existed in spigot api
             List<String> res = new ArrayList<>();
             for (Player p : Bukkit.getOnlinePlayers()) {
@@ -74,6 +75,6 @@ public class GrantCommand extends SubCommand {
                 return res;
             }
         }
-        return null;
+        return Collections.emptyList();
     }
 }

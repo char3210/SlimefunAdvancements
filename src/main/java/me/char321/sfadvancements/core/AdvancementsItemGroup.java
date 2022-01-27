@@ -11,12 +11,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 public class AdvancementsItemGroup extends FlexItemGroup {
-    private static final NamespacedKey key = new NamespacedKey(SFAdvancements.instance(), "advancements");
-    private static final ItemStack item = new CustomItemStack(Material.FILLED_MAP, "&9Advancements");
-    private static final int tier = 0;
 
     public AdvancementsItemGroup() {
-        super(key, item, tier);
+        super(
+                new NamespacedKey(SFAdvancements.instance(), "advancements"),
+                new CustomItemStack(Material.FILLED_MAP, "&9Advancements"),
+                0);
     }
 
     @Override

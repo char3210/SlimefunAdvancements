@@ -12,6 +12,8 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 public class DefaultAdvancements {
+    private DefaultAdvancements() {}
+
     static AdvancementGroup basic = new AdvancementGroup(new CustomItemStack(Material.SLIME_BALL,
             "&fBasic",
             "&7&oThe core spirit of Slimefun."));

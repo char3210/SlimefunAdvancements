@@ -24,10 +24,14 @@ public class OpenGUI {
     private int groupIndex = 0;
     private int scroll = 0;
 
-    public OpenGUI(Player p) {
+    public OpenGUI(Player player) {
+        this(player.getUniqueId());
+    }
+
+    public OpenGUI(UUID player) {
         this.inventory = Bukkit.createInventory(null, 54, ChatColor.BLUE + "Advancements");
         this.registry = SFAdvancements.getRegistry();
-        this.player = p.getUniqueId();
+        this.player = player;
         refresh();
     }
 
