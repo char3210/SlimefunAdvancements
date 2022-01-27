@@ -9,14 +9,13 @@ public class DefaultCompleters {
     }
 
     public static void registerDefaultCompleters() {
-        InteractCriterionCompleter interact = new InteractCriterionCompleter();
-        SFAdvancements.getRegistry().getCompleters().put(interact.getCriterionClass(), interact);
+        register(new InteractCriterionCompleter());
+        register(new InventoryCriterionCompleter());
+        register(new PlaceCriterionCompleter());
+        register(new ResearchCriterionCompleter());
+    }
 
-        InventoryCriterionCompleter inventory = new InventoryCriterionCompleter();
-        SFAdvancements.getRegistry().getCompleters().put(inventory.getCriterionClass(), inventory);
-
-        PlaceCriterionCompleter place = new PlaceCriterionCompleter();
-        SFAdvancements.getRegistry().getCompleters().put(place.getCriterionClass(), place);
-
+    private static void register(CriterionCompleter completer) {
+        SFAdvancements.getRegistry().getCompleters().put(completer.getCriterionClass(), completer);
     }
 }

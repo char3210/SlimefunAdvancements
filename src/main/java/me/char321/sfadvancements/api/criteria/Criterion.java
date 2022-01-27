@@ -39,6 +39,10 @@ public class Criterion {
         this.advancement = advancement;
     }
 
+    public void register() {
+        SFAdvancements.getRegistry().getCompleter(this).register(this);
+    }
+
     /**
      * utility method for doing this criterion
      * increments the progress for that player of this criterion by 1

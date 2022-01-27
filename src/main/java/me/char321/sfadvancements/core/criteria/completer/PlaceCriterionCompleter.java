@@ -27,12 +27,12 @@ public class PlaceCriterionCompleter implements CriterionCompleter, Listener {
     public void onPlace(BlockPlaceEvent e) {
         Material m = e.getItemInHand().getType();
         Set<PlaceCriterion> all = criteria.get(m);
-        if(all == null) {
+        if (all == null) {
             return;
         }
 
         for (PlaceCriterion criterion : all) {
-            if(SlimefunUtils.isItemSimilar(criterion.getItem(), e.getItemInHand(), false, false)) {
+            if (SlimefunUtils.isItemSimilar(criterion.getItem(), e.getItemInHand(), false, false)) {
                 criterion.perform(e.getPlayer());
             }
         }
@@ -45,7 +45,7 @@ public class PlaceCriterionCompleter implements CriterionCompleter, Listener {
 
     @Override
     public void register(Criterion criterion) {
-        if(!(criterion instanceof PlaceCriterion)) {
+        if (!(criterion instanceof PlaceCriterion)) {
             throw new IllegalArgumentException("criterion must be an " + getCriterionClass().getName());
         }
 

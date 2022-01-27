@@ -1,6 +1,5 @@
 package me.char321.sfadvancements.api.criteria;
 
-import me.char321.sfadvancements.SFAdvancements;
 import org.bukkit.inventory.ItemStack;
 
 public class InventoryCriterion extends Criterion {
@@ -9,8 +8,6 @@ public class InventoryCriterion extends Criterion {
     public InventoryCriterion(String id, ItemStack item) {
         super(id);
         this.item = item;
-
-        SFAdvancements.getRegistry().getCompleter(this).register(this);
     }
 
     public ItemStack getItem() {

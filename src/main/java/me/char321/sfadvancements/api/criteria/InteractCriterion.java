@@ -1,6 +1,5 @@
 package me.char321.sfadvancements.api.criteria;
 
-import me.char321.sfadvancements.SFAdvancements;
 import org.bukkit.inventory.ItemStack;
 
 /**
@@ -19,8 +18,6 @@ public class InteractCriterion extends Criterion {
     public InteractCriterion(String id, int amount, ItemStack item) {
         super(id, amount);
         this.item = item;
-
-        SFAdvancements.getRegistry().getCompleter(this).register(this);
     }
 
     public ItemStack getItem() {

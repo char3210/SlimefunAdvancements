@@ -127,7 +127,7 @@ public class PlayerProgress {
 
     public void save() throws IOException {
         File f = new File("plugins/" + SFAdvancements.instance().getName() + "/advancements", player +".json");
-        if(!f.exists()) {
+        if (!f.exists()) {
             f.getParentFile().mkdirs();
             if (!f.createNewFile()) {
                 throw new IOException("Could not create file " + f.getPath());

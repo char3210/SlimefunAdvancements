@@ -25,7 +25,7 @@ public final class SFAdvancements extends JavaPlugin implements SlimefunAddon {
     private final AdvancementsRegistry registry = new AdvancementsRegistry();
 
     public SFAdvancements() {
-        if(instance == null) {
+        if (instance == null) {
             instance = this;
         } else {
             throw new IllegalStateException();

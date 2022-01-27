@@ -33,11 +33,11 @@ public class InventoryCriterionCompleter implements CriterionCompleter, Listener
         if (e.getEntity() instanceof Player) {
             Player p = (Player)e.getEntity();
             Material material = e.getItem().getItemStack().getType();
-            if(!criteria.containsKey(material)) {
+            if (!criteria.containsKey(material)) {
                 return;
             }
             for (InventoryCriterion criterion : criteria.get(material)) {
-                if(SlimefunUtils.isItemSimilar(criterion.getItem(), e.getItem().getItemStack(), false)) {
+                if (SlimefunUtils.isItemSimilar(criterion.getItem(), e.getItem().getItemStack(), false)) {
                     criterion.perform(p);
                 }
             }
