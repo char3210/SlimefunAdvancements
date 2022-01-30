@@ -1,5 +1,6 @@
 package me.char321.sfadvancements.api;
 
+import me.char321.sfadvancements.SFAdvancements;
 import me.char321.sfadvancements.api.criteria.Criterion;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
@@ -16,6 +17,17 @@ public class AdvancementBuilder {
 
     public AdvancementBuilder key(NamespacedKey key) {
         this.key = key;
+        return this;
+    }
+
+    public AdvancementBuilder group(String group) {
+        for (AdvancementGroup advgroup : SFAdvancements.getRegistry().getAdvancementGroups()) {
+            if(advgroup.getId().equals(group)) {
+                this.group = advgroup;
+                return this;
+            }
+        }
+        SFAdvancements.warn("unknown group: " + group);
         return this;
     }
 

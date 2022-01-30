@@ -9,8 +9,10 @@ import java.util.List;
 public class AdvancementGroup {
     private final ItemStack display;
     private List<Advancement> advancements = new ArrayList<>();
+    private String id;
 
-    public AdvancementGroup(ItemStack display) {
+    public AdvancementGroup(String id, ItemStack display) {
+        this.id = id;
         this.display = display;
     }
 
@@ -24,5 +26,9 @@ public class AdvancementGroup {
 
     public List<Advancement> getAdvancements() {
         return advancements;
+    }
+
+    public String getId() {
+        return id;
     }
 }

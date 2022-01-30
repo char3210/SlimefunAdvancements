@@ -154,10 +154,10 @@ public class OpenGUI {
                     Utils.makeShiny(displayim);
                 }
 
-                if (!displayim.hasLore()) {
-                    displayim.setLore(new ArrayList<>());
-                }
                 List<String> lore = displayim.getLore();
+                if(lore == null) {
+                    lore = new ArrayList<>();
+                }
                 lore.add("");
 
                 for (Criterion criterion : adv.getCriteria()) {

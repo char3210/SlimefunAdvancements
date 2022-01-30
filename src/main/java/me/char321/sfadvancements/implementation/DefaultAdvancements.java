@@ -17,13 +17,13 @@ import org.bukkit.inventory.ItemStack;
 public class DefaultAdvancements {
     private DefaultAdvancements() {}
 
-    static AdvancementGroup basic = new AdvancementGroup(new CustomItemStack(Material.SLIME_BALL,
+    static AdvancementGroup basic = new AdvancementGroup("basic", new CustomItemStack(Material.SLIME_BALL,
             "&fBasic",
             "&7&oThe core spirit of Slimefun."));
-    static AdvancementGroup electric = new AdvancementGroup(new CustomItemStack(Material.REDSTONE,
+    static AdvancementGroup electric = new AdvancementGroup("electric", new CustomItemStack(Material.REDSTONE,
             "&eElectric",
             "&7&oThe center of civilization."));
-    static AdvancementGroup testing = new AdvancementGroup(new CustomItemStack(Material.RED_STAINED_GLASS,
+    static AdvancementGroup testing = new AdvancementGroup("testing", new CustomItemStack(Material.RED_STAINED_GLASS,
             "&4Testing",
             "&7&ohi"));
 
