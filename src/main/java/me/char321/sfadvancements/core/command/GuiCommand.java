@@ -12,7 +12,7 @@ import java.util.List;
 public class GuiCommand implements SubCommand {
     @Override
     public boolean onExecute(CommandSender sender, Command command, String label, String[] args) {
-        if(!(sender instanceof Player)) {
+        if (!(sender instanceof Player)) {
             sender.sendMessage("you can't open a gui");
             return false;
         }

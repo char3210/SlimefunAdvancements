@@ -9,7 +9,7 @@ TODO:
   - ~~interact criteria~~
       - ~~place criteria~~
   - ~~research criteria~~
-- configurability
+- ~~configurability~~
 - docs
 - add advancements
 - cheat menu

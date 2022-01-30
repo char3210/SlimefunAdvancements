@@ -155,7 +155,7 @@ public class OpenGUI {
                 }
 
                 List<String> lore = displayim.getLore();
-                if(lore == null) {
+                if (lore == null) {
                     lore = new ArrayList<>();
                 }
                 lore.add("");

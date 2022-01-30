@@ -2,6 +2,7 @@ package me.char321.sfadvancements.api;
 
 import me.char321.sfadvancements.SFAdvancements;
 import me.char321.sfadvancements.api.criteria.Criterion;
+import me.char321.sfadvancements.util.ConfigUtils;
 import me.char321.sfadvancements.util.Utils;
 import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.ConfigurationSection;
@@ -21,17 +22,17 @@ public class AdvancementBuilder {
         AdvancementBuilder builder = new AdvancementBuilder();
         builder.key(Utils.keyOf(key));
         builder.group(config.getString("group"));
-        builder.display(config.getItemStack("display"));
+        builder.display(ConfigUtils.getItem(config, "display"));
         builder.name(config.getString("name"));
         ConfigurationSection cripath = config.getConfigurationSection("criteria");
-        if(cripath == null) {
+        if (cripath == null) {
             SFAdvancements.warn("criteria must be specified for advancement " + key);
             return null;
         }
         List<Criterion> criteria = new ArrayList<>();
         for (String id : cripath.getKeys(false)) {
             Criterion criterion = Criterion.loadFromConfig(id, cripath.getConfigurationSection(id));
-            if(criterion != null) {
+            if (criterion != null) {
                 criteria.add(criterion);
             }
         }
@@ -46,7 +47,7 @@ public class AdvancementBuilder {
 
     public AdvancementBuilder group(String group) {
         for (AdvancementGroup advgroup : SFAdvancements.getRegistry().getAdvancementGroups()) {
-            if(advgroup.getId().equals(group)) {
+            if (advgroup.getId().equals(group)) {
                 this.group = advgroup;
                 return this;
             }

@@ -17,6 +17,7 @@ import me.char321.sfadvancements.core.gui.AdvGUIManager;
 import me.char321.sfadvancements.core.registry.AdvancementsRegistry;
 import me.char321.sfadvancements.core.tasks.AutoSaveTask;
 import me.char321.sfadvancements.implementation.DefaultAdvancements;
+import me.char321.sfadvancements.util.ConfigUtils;
 import me.char321.sfadvancements.util.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -77,19 +78,19 @@ public final class SFAdvancements extends JavaPlugin implements SlimefunAddon {
     private void loadGroups() {
         groupConfig = YamlConfiguration.loadConfiguration(new File("plugins/" + getName(), "groups.yml"));
         for (String key : groupConfig.getKeys(false)) {
-            ItemStack display = groupConfig.getItemStack(key+".display");
+            ItemStack display = ConfigUtils.getItem(groupConfig, key+".display");
             AdvancementGroup group = new AdvancementGroup(key, display);
             group.register();
         }
     }
 
     private void loadAdvancements() {
-        DefaultAdvancements.registerDefaultAdvancements();
+//        DefaultAdvancements.registerDefaultAdvancements();
 
         advancementConfig = YamlConfiguration.loadConfiguration(new File("plugins/" + getName(), "advancements.yml"));
         for (String key : advancementConfig.getKeys(false)) {
             AdvancementBuilder builder = AdvancementBuilder.loadFromConfig(key, advancementConfig.getConfigurationSection(key));
-            if(builder != null) {
+            if (builder != null) {
                 builder.register();
             }
         }

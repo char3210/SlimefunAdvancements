@@ -1,6 +1,7 @@
 package me.char321.sfadvancements.api.criteria;
 
 import me.char321.sfadvancements.SFAdvancements;
+import me.char321.sfadvancements.util.ConfigUtils;
 import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
@@ -27,43 +28,43 @@ public class Criterion {
 
     public static Criterion loadFromConfig(String id, ConfigurationSection config) {
         String type = config.getString("type");
-        if(type == null) {
+        if (type == null) {
             SFAdvancements.warn("You must specify a type for criterion " + id + " in advancements.yml");
             return null;
         }
-        switch(type) {
+        switch(type) { //TODO: allow other plugins to add and make this overall better
             case "interact":
                 int amount = config.getInt("amount");
-                if(amount == 0) {
+                if (amount == 0) {
                     amount = 1;
                 }
-                ItemStack item = config.getItemStack("item");
-                if(item == null) {
+                ItemStack item = ConfigUtils.getItem(config, "item");
+                if (item == null) {
                     SFAdvancements.warn("unknown item for interact criterion " + id);
                     return null;
                 }
                 return new InteractCriterion(id, amount, item);
             case "inventory":
-                item = config.getItemStack("item");
-                if(item == null) {
+                item = ConfigUtils.getItem(config, "item");
+                if (item == null) {
                     SFAdvancements.warn("unknown item for inventory criterion " + id);
                     return null;
                 }
                 return new InventoryCriterion(id, item);
             case "place":
-                item = config.getItemStack("item");
-                if(item == null) {
+                item = ConfigUtils.getItem(config, "item");
+                if (item == null) {
                     SFAdvancements.warn("unknown item for place criterion " + id);
                     return null;
                 }
                 amount = config.getInt("amount");
-                if(amount == 0) {
+                if (amount == 0) {
                     amount = 1;
                 }
                 return new PlaceCriterion(id, amount, item);
             case "research":
                 String research = config.getString("research");
-                if(research == null) {
+                if (research == null) {
                     SFAdvancements.warn("specify a research for criterion " + id);
                     return null;
                 }

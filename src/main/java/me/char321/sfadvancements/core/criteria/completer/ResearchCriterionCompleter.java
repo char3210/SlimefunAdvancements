@@ -44,7 +44,7 @@ public class ResearchCriterionCompleter implements CriterionCompleter, Listener 
 
     private void performCriteria(Player player, Research research) {
         Set<ResearchCriterion> allcriteria = criteria.get(research.getKey());
-        if(allcriteria == null) {
+        if (allcriteria == null) {
             return;
         }
 
@@ -55,7 +55,7 @@ public class ResearchCriterionCompleter implements CriterionCompleter, Listener 
 
     @Override
     public void register(Criterion criterion) {
-        if(!(criterion instanceof ResearchCriterion)) {
+        if (!(criterion instanceof ResearchCriterion)) {
             throw new IllegalArgumentException("criterion must be an " + getCriterionClass().getName());
         }
 

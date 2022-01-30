@@ -97,7 +97,7 @@ public class PlayerProgress {
 
     public int getCriterionProgress(Criterion cri) {
         NamespacedKey adv = cri.getAdvancement();
-        if(!progressMap.containsKey(adv)) {
+        if (!progressMap.containsKey(adv)) {
             return 0;
         }
 
@@ -134,6 +134,10 @@ public class PlayerProgress {
     private void loadFromObject(JsonObject object) {
         for (Map.Entry<String, JsonElement> entry : object.entrySet()) {
             NamespacedKey advkey = NamespacedKey.fromString(entry.getKey());
+            if(!Utils.isValidAdvancement(advkey)) {
+                SFAdvancements.warn("unknown advancement: " + advkey);
+                continue;
+            }
             AdvancementProgress newprogress = new AdvancementProgress(advkey);
             progressMap.put(advkey, newprogress);
             newprogress.loadFromObject(entry.getValue().getAsJsonObject());

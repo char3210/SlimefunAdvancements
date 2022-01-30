@@ -36,4 +36,8 @@ public class Utils {
     public static Advancement fromKey(NamespacedKey value) {
         return SFAdvancements.getRegistry().getAdvancement(value);
     }
+
+    public static boolean isValidAdvancement(NamespacedKey key) {
+        return SFAdvancements.getRegistry().getAdvancements().containsKey(key);
+    }
 }
