@@ -16,7 +16,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.Objects;
 
 /**
- * i'm gonna make this immutable becaus eyes
+ * an advancement that appears in the advancements gui and players can complete
+ * when all of an advancement's criteria are completed, it becomes shiny oooh
  */
 public class Advancement {
     private NamespacedKey key;
@@ -76,7 +77,7 @@ public class Advancement {
     }
 
     /**
-     * please call this
+     * sends the message of completion, should move out of this class //TODO
      *
      * @param p player
      */
