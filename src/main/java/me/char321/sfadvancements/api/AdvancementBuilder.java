@@ -2,7 +2,9 @@ package me.char321.sfadvancements.api;
 
 import me.char321.sfadvancements.SFAdvancements;
 import me.char321.sfadvancements.api.criteria.Criterion;
+import me.char321.sfadvancements.util.Utils;
 import org.bukkit.NamespacedKey;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
@@ -14,6 +16,28 @@ public class AdvancementBuilder {
     private ItemStack display;
     private String name;
     private List<Criterion> criteria = new ArrayList<>();
+
+    public static AdvancementBuilder loadFromConfig(String key, ConfigurationSection config) {
+        AdvancementBuilder builder = new AdvancementBuilder();
+        builder.key(Utils.keyOf(key));
+        builder.group(config.getString("group"));
+        builder.display(config.getItemStack("display"));
+        builder.name(config.getString("name"));
+        ConfigurationSection cripath = config.getConfigurationSection("criteria");
+        if(cripath == null) {
+            SFAdvancements.warn("criteria must be specified for advancement " + key);
+            return null;
+        }
+        List<Criterion> criteria = new ArrayList<>();
+        for (String id : cripath.getKeys(false)) {
+            Criterion criterion = Criterion.loadFromConfig(id, cripath.getConfigurationSection(id));
+            if(criterion != null) {
+                criteria.add(criterion);
+            }
+        }
+        builder.criteria(criteria.toArray(new Criterion[0]));
+        return builder;
+    }
 
     public AdvancementBuilder key(NamespacedKey key) {
         this.key = key;

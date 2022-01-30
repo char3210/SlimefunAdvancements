@@ -88,82 +88,11 @@ public final class SFAdvancements extends JavaPlugin implements SlimefunAddon {
 
         advancementConfig = YamlConfiguration.loadConfiguration(new File("plugins/" + getName(), "advancements.yml"));
         for (String key : advancementConfig.getKeys(false)) {
-            AdvancementBuilder builder = new AdvancementBuilder();
-            builder.key(Utils.keyOf(key));
-            builder.group(advancementConfig.getString(key+".group"));
-            builder.display(advancementConfig.getItemStack(key+".display"));
-            builder.name(advancementConfig.getString(key+".name"));
-            builder.criteria(loadCriteria(key).toArray(new Criterion[0]));
-            builder.register();
-        }
-    }
-
-    private List<Criterion> loadCriteria(String key) {
-        List<Criterion> res = new ArrayList<>();
-        ConfigurationSection criteriaSection = advancementConfig.getConfigurationSection(key + ".criteria");
-        if(criteriaSection == null) {
-            info("advancement " + key + " must specify criteria!");
-            return Collections.emptyList();
-        }
-
-        for (String id : criteriaSection.getKeys(false)) {
-            ConfigurationSection cripath = criteriaSection.getConfigurationSection(id);
-//            String cripath = key + ".criteria." + id;
-            String type = cripath.getString("type");
-            if(type == null) {
-                warn("You must specify a typE!!!!!!!111 for criterion " + id + " in advancements.yml");
-                continue;
+            AdvancementBuilder builder = AdvancementBuilder.loadFromConfig(key, advancementConfig.getConfigurationSection(key));
+            if(builder != null) {
+                builder.register();
             }
-            Criterion criterion;
-            switch(type.toLowerCase(Locale.ROOT)) {
-                case "interact":
-                    int amount = cripath.getInt("amount");
-                    if(amount == 0) {
-                        amount = 1;
-                    }
-                    ItemStack item = cripath.getItemStack("item");
-                    if(item == null) {
-                        warn("unknown item for interact criterion " + id);
-                        continue;
-                    }
-                    criterion = new InteractCriterion(id, amount, item);
-                    break;
-                case "inventory":
-                    item = cripath.getItemStack("item");
-                    if(item == null) {
-                        warn("unknown item for inventory criterion " + id);
-                        continue;
-                    }
-                    criterion = new InventoryCriterion(id, item);
-                    break;
-                case "place":
-                    item = cripath.getItemStack("item");
-                    if(item == null) {
-                        warn("unknown item for place criterion " + id);
-                        continue;
-                    }
-                    amount = cripath.getInt("amount");
-                    if(amount == 0) {
-                        amount = 1;
-                    }
-                    criterion = new PlaceCriterion(id, amount, item);
-                    break;
-                case "research":
-                    String research = cripath.getString("research");
-                    if(research == null) {
-                        warn("specify a research for criterion " + id);
-                        continue;
-                    }
-                    criterion = new ResearchCriterion(id, NamespacedKey.fromString(research));
-                    break;
-                default:
-                    warn("unknown criterion type: " + type);
-                    continue;
-            }
-            criterion.setAdvancement(Utils.keyOf(key));
-            res.add(criterion);
         }
-        return res;
     }
 
     @Nonnull

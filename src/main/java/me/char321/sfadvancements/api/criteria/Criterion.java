@@ -2,7 +2,9 @@ package me.char321.sfadvancements.api.criteria;
 
 import me.char321.sfadvancements.SFAdvancements;
 import org.bukkit.NamespacedKey;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.UUID;
 
@@ -21,6 +23,55 @@ public class Criterion {
     public Criterion(String id, int count) {
         this.id = id;
         this.count = count;
+    }
+
+    public static Criterion loadFromConfig(String id, ConfigurationSection config) {
+        String type = config.getString("type");
+        if(type == null) {
+            SFAdvancements.warn("You must specify a type for criterion " + id + " in advancements.yml");
+            return null;
+        }
+        switch(type) {
+            case "interact":
+                int amount = config.getInt("amount");
+                if(amount == 0) {
+                    amount = 1;
+                }
+                ItemStack item = config.getItemStack("item");
+                if(item == null) {
+                    SFAdvancements.warn("unknown item for interact criterion " + id);
+                    return null;
+                }
+                return new InteractCriterion(id, amount, item);
+            case "inventory":
+                item = config.getItemStack("item");
+                if(item == null) {
+                    SFAdvancements.warn("unknown item for inventory criterion " + id);
+                    return null;
+                }
+                return new InventoryCriterion(id, item);
+            case "place":
+                item = config.getItemStack("item");
+                if(item == null) {
+                    SFAdvancements.warn("unknown item for place criterion " + id);
+                    return null;
+                }
+                amount = config.getInt("amount");
+                if(amount == 0) {
+                    amount = 1;
+                }
+                return new PlaceCriterion(id, amount, item);
+            case "research":
+                String research = config.getString("research");
+                if(research == null) {
+                    SFAdvancements.warn("specify a research for criterion " + id);
+                    return null;
+                }
+                return new ResearchCriterion(id, NamespacedKey.fromString(research));
+            default:
+                SFAdvancements.warn("unknown criterion type: " + type);
+                return null;
+        }
     }
 
     public String getId() {
