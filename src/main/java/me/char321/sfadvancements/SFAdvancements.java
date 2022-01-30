@@ -32,7 +32,9 @@ import org.yaml.snakeyaml.Yaml;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -76,7 +78,11 @@ public final class SFAdvancements extends JavaPlugin implements SlimefunAddon {
     }
 
     private void loadGroups() {
-        groupConfig = YamlConfiguration.loadConfiguration(new File("plugins/" + getName(), "groups.yml"));
+        File groupFile = new File("plugins/" + getName(), "groups.yml");
+        if(!groupFile.exists()) {
+            saveResource("groups.yml", false);
+        }
+        groupConfig = YamlConfiguration.loadConfiguration(groupFile);
         for (String key : groupConfig.getKeys(false)) {
             ItemStack display = ConfigUtils.getItem(groupConfig, key+".display");
             AdvancementGroup group = new AdvancementGroup(key, display);
@@ -86,8 +92,11 @@ public final class SFAdvancements extends JavaPlugin implements SlimefunAddon {
 
     private void loadAdvancements() {
 //        DefaultAdvancements.registerDefaultAdvancements();
-
-        advancementConfig = YamlConfiguration.loadConfiguration(new File("plugins/" + getName(), "advancements.yml"));
+        File advancementsFile = new File("plugins/" + getName(), "advancements.yml");
+        if(!advancementsFile.exists()) {
+            saveResource("advancements.yml", false);
+        }
+        advancementConfig = YamlConfiguration.loadConfiguration(advancementsFile);
         for (String key : advancementConfig.getKeys(false)) {
             AdvancementBuilder builder = AdvancementBuilder.loadFromConfig(key, advancementConfig.getConfigurationSection(key));
             if (builder != null) {

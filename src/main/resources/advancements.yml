@@ -1,0 +1,55 @@
+interact:
+  group: testing
+  display:
+    type: CRAFTING_TABLE
+    name: "&aGetting Started"
+    lore: "interact with a totem"
+  name: "&a[Getting Started]"
+  criteria:
+    interact:
+      type: interact
+      amount: 1
+      item:
+        type: TOTEM_OF_UNDYING
+
+inventory:
+  group: testing
+  display:
+    type: REDSTONE
+    name: "&ainventory"
+    lore:
+      - obtain a energy regulator
+  name: "&a[Inventory]"
+  criteria:
+    inventory:
+      type: inventory
+      item:
+        type: ENERGY_REGULATOR
+
+build:
+  group: testing
+  display:
+    type: DIRT
+    name: "&abuild"
+    lore:
+      - "place 100 dirt"
+  name: "&a[Build]"
+  criteria:
+    build:
+      type: place
+      amount: 100
+      item:
+        type: DIRT
+
+research:
+  group: testing
+  display:
+    type: EXPERIENCE_BOTTLE
+    name: "&aresearch"
+    lore:
+      - "research a output chest"
+  name: "&a[research]"
+  criteria:
+    research:
+      type: research
+      research: "slimefun:output_chest"

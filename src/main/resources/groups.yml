@@ -1,0 +1,20 @@
+basic:
+  display:
+    type: SLIME_BALL
+    name: "&fBasic"
+    lore:
+      - "&7&oThe core spirit of Slimefun."
+
+electric:
+  display:
+    type: REDSTONE
+    name: "&eElectric"
+    lore:
+      - "&7&oThe center of civilization."
+
+testing:
+  display:
+    type: RED_STAINED_GLASS
+    name: "&4Testing"
+    lore:
+      - "&7&ohi"
