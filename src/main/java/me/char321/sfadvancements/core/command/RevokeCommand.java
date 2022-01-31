@@ -68,7 +68,10 @@ public class RevokeCommand implements SubCommand {
                 res.add("*");
                 res.add("all");
                 for (NamespacedKey key : SFAdvancements.getAdvManager().getProgress(p).getCompletedAdvancements()) {
-                    res.add(key.toString());
+                    String s = key.toString();
+                    if (s.contains(args[2])) {
+                        res.add(key.toString());
+                    }
                 }
                 return res;
             }

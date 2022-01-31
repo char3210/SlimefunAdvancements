@@ -22,8 +22,17 @@ public class ConfigUtils {
             return config.getItemStack(path);
         }
 
+
         ConfigurationSection itemSection = config.getConfigurationSection(path);
         if (itemSection == null) {
+            String itemName = config.getString(path);
+            if(itemName != null) {
+                try {
+                    return getTemplate(itemName).clone();
+                } catch (IllegalArgumentException x) {
+                    SFAdvancements.warn("invalid item name " + itemName);
+                }
+            }
             return null;
         }
 

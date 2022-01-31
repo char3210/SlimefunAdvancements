@@ -6,6 +6,7 @@ import me.char321.sfadvancements.api.criteria.Criterion;
 import me.char321.sfadvancements.api.criteria.MultiBlockCriterion;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 
 import java.util.HashMap;
@@ -20,7 +21,7 @@ public class MultiBlockCriterionCompleter implements CriterionCompleter, Listene
         Bukkit.getPluginManager().registerEvents(this, SFAdvancements.instance());
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onMultiBlock(MultiBlockInteractEvent e) {
         String machineid = e.getMultiBlock().getSlimefunItem().getId();
         if(!criteria.containsKey(machineid)) {

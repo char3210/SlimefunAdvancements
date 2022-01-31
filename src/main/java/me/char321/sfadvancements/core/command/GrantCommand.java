@@ -70,7 +70,10 @@ public class GrantCommand implements SubCommand {
                 res.add("all");
                 for (Advancement adv : SFAdvancements.getRegistry().getAdvancements().values()) {
                     if (!SFAdvancements.getAdvManager().isCompleted(p, adv)) {
-                        res.add(adv.getKey().toString());
+                        String s = adv.getKey().toString();
+                        if(s.contains(args[2])) {
+                            res.add(s);
+                        }
                     }
                 }
                 return res;

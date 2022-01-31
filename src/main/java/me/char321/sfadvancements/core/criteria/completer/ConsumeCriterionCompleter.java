@@ -8,6 +8,7 @@ import me.char321.sfadvancements.api.criteria.InteractCriterion;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.inventory.ItemStack;
@@ -24,7 +25,7 @@ public class ConsumeCriterionCompleter implements CriterionCompleter, Listener {
         Bukkit.getPluginManager().registerEvents(this, SFAdvancements.instance());
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onConsume(PlayerItemConsumeEvent e) {
         ItemStack consumed = e.getItem();
         Set<ConsumeCriterion> allCriteria = criteria.get(consumed.getType());

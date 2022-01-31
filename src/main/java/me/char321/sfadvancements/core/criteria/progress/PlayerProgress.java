@@ -103,6 +103,7 @@ public class PlayerProgress {
         }
         progressMap.get(adv).done = false;
         for (CriteriaProgress progress : progressMap.get(adv).criteria) {
+            progress.done = false;
             progress.progress = 0;
         }
         return true;
