@@ -28,6 +28,7 @@ public class DefaultAdvancements {
             "&7&ohi"));
 
     public static void registerDefaultAdvancements() {
+        /*
         new AdvancementBuilder()
                 .key(Utils.keyOf("interact"))
                 .group(testing)
@@ -92,6 +93,8 @@ public class DefaultAdvancements {
                 )
                 .register();
         testing.register();
+
+         */
 
     }
 }

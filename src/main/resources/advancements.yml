@@ -8,6 +8,7 @@ portable_workbench:
   name: "&a[Portable Crafting]"
   criteria:
     interact:
+      name: "Use portable crafting table"
       type: interact
       amount: 1
       item:
@@ -20,30 +21,30 @@ dust:
     name: "&aInto dust it turns"
     lore:
       - "Crush an ore using an ore crusher"
-  name: "&a[Inventory]"
+  name: "&a[Into dust it turns]"
   criteria:
     inventory:
-      type: inventory
-      item:
-        type: ENERGY_REGULATOR
+      name: "Use an ore crusher"
+      type: multiblock
+      multiblock: ORE_CRUSHER
 
-build:
-  group: testing
+electricity:
+  group: electric
   display:
-    type: DIRT
-    name: "&abuild"
+    type: ENERGY_REGULATOR
+    name: "&aElectricity!!!"
     lore:
-      - "place 100 dirt"
-  name: "&a[Build]"
+      - "Place an energy regulator"
+  name: "&a[Electricity!!!]"
   criteria:
     build:
       type: place
-      amount: 100
+      amount: 1
       item:
-        type: DIRT
+        type: ENERGY_REGULATOR
 
-research:
-  group: testing
+gapple_juice:
+  group: other
   display:
     type: EXPERIENCE_BOTTLE
     name: "&aresearch"

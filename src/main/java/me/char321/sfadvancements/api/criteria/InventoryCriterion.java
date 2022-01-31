@@ -15,8 +15,8 @@ public class InventoryCriterion extends Criterion {
      * @param id the id of the criterion (should be unique per advancement)
      * @param item the item a player must have to complete this criterion
      */
-    public InventoryCriterion(String id, ItemStack item) {
-        super(id);
+    public InventoryCriterion(String id, String name, ItemStack item) {
+        super(id, name);
         item = item.clone();
         item.setAmount(1);
         this.item = item;

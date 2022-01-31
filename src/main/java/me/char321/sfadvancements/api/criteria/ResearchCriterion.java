@@ -14,8 +14,8 @@ public class ResearchCriterion extends Criterion {
      * @param id the id of the criterion (should be unique per advancement)
      * @param research the namespaced key of the research
      */
-    public ResearchCriterion(String id, NamespacedKey research) {
-        super(id);
+    public ResearchCriterion(String id, String name, NamespacedKey research) {
+        super(id, name);
         this.research = research;
     }
 

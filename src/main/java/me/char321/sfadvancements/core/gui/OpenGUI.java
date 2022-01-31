@@ -161,11 +161,11 @@ public class OpenGUI {
                 lore.add("");
 
                 for (Criterion criterion : adv.getCriteria()) {
-                    String criterionId = criterion.getId();
+                    String criterionName = criterion.getName();
                     int progress = SFAdvancements.getAdvManager().getCriterionProgress(player, criterion);
                     int max = criterion.getCount();
                     boolean cridone = progress >= max;
-                    lore.add(ChatColor.GRAY + criterionId + ": " + (cridone? ChatColor.YELLOW : ChatColor.WHITE) + progress + "/" + max);
+                    lore.add(ChatColor.GRAY + criterionName + ": " + (cridone? ChatColor.YELLOW : ChatColor.WHITE) + progress + "/" + max);
                 }
                 displayim.setLore(lore);
                 display.setItemMeta(displayim);

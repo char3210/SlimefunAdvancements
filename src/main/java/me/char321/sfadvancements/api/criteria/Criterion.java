@@ -21,16 +21,28 @@ import java.util.UUID;
 public class Criterion {
     private NamespacedKey advancement;
     private final String id;
+    private final String name;
     private final int count;
+
+    public Criterion(String id, int count, String name) {
+        this.id = id;
+        this.count = count;
+        this.name = name;
+    }
 
     public Criterion(String id) {
         this(id, 1);
     }
 
     public Criterion(String id, int count) {
-        this.id = id;
-        this.count = count;
+        this(id, count, id);
     }
+
+    public Criterion(String id, String name) {
+        this(id, 1, name);
+
+    }
+
 
     /**
      * why is this public this should be in criterion builder class maybe
@@ -45,6 +57,12 @@ public class Criterion {
             SFAdvancements.warn("You must specify a type for criterion " + id + " in advancements.yml");
             return null;
         }
+
+        String name = config.getString("name");
+        if(name == null) {
+            name = id;
+        }
+
         switch(type) { //TODO: allow other plugins to add and make this overall better
             case "interact":
                 int amount = config.getInt("amount");
@@ -56,14 +74,14 @@ public class Criterion {
                     SFAdvancements.warn("unknown item for interact criterion " + id);
                     return null;
                 }
-                return new InteractCriterion(id, amount, item);
+                return new InteractCriterion(id, amount, name, item);
             case "inventory":
                 item = ConfigUtils.getItem(config, "item");
                 if (item == null) {
                     SFAdvancements.warn("unknown item for inventory criterion " + id);
                     return null;
                 }
-                return new InventoryCriterion(id, item);
+                return new InventoryCriterion(id, name, item);
             case "place":
                 item = ConfigUtils.getItem(config, "item");
                 if (item == null) {
@@ -74,20 +92,42 @@ public class Criterion {
                 if (amount == 0) {
                     amount = 1;
                 }
-                return new PlaceCriterion(id, amount, item);
+                return new PlaceCriterion(id, amount, name, item);
             case "research":
                 String research = config.getString("research");
                 if (research == null) {
                     SFAdvancements.warn("specify a research for criterion " + id);
                     return null;
                 }
-                return new ResearchCriterion(id, NamespacedKey.fromString(research));
+                return new ResearchCriterion(id, name, NamespacedKey.fromString(research));
+            case "multiblock":
+                String multiblockid = config.getString("multiblock");
+                if(multiblockid == null) {
+                    SFAdvancements.warn("specify a multiblock for criterion " + id);
+                    return null;
+                }
+                amount = config.getInt("amount");
+                if (amount == 0) {
+                    amount = 1;
+                }
+                return new MultiBlockCriterion(id, amount, name, multiblockid);
+            case "consume":
+                amount = config.getInt("amount");
+                if (amount == 0) {
+                    amount = 1;
+                }
+                item = ConfigUtils.getItem(config, "item");
+                if (item == null) {
+                    SFAdvancements.warn("unknown item for consume criterion " + id);
+                    return null;
+                }
+                return new ConsumeCriterion(id, amount, name, item);
             case "none":
                 amount = config.getInt("amount");
                 if (amount == 0) {
                     amount = 1;
                 }
-                return new Criterion(id, amount);
+                return new Criterion(id, amount, name);
             default:
                 SFAdvancements.warn("unknown criterion type: " + type);
                 return null;
@@ -110,6 +150,11 @@ public class Criterion {
      */
     public int getCount() {
         return count;
+    }
+
+
+    public String getName() {
+        return name;
     }
 
     /**

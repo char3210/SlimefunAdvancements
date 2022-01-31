@@ -15,8 +15,8 @@ public class InteractCriterion extends Criterion {
      * @param amount how many times the player has to click
      * @param item the item player clicks
      */
-    public InteractCriterion(String id, int amount, ItemStack item) {
-        super(id, amount);
+    public InteractCriterion(String id, int amount, String name, ItemStack item) {
+        super(id, amount, name);
         this.item = item;
     }
 

@@ -14,6 +14,7 @@ public class DefaultCompleters {
         register(new PlaceCriterionCompleter());
         register(new ResearchCriterionCompleter());
         register(new MultiBlockCriterionCompleter());
+        register(new ConsumeCriterionCompleter());
     }
 
     private static void register(CriterionCompleter completer) {

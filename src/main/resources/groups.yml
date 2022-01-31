@@ -12,6 +12,10 @@ electric:
     lore:
       - "&7&oThe center of civilization."
 
+other:
+  display:
+    type: LAVA_BUCKET
+
 testing:
   display:
     type: RED_STAINED_GLASS
