@@ -1,8 +1,8 @@
 package me.char321.sfadvancements.core.criteria.completer;
 
-import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.char321.sfadvancements.SFAdvancements;
+import me.char321.sfadvancements.api.criteria.ConsumeCriterion;
 import me.char321.sfadvancements.api.criteria.Criterion;
 import me.char321.sfadvancements.api.criteria.InteractCriterion;
 import org.bukkit.Bukkit;
@@ -10,6 +10,7 @@ import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.EnumMap;
@@ -17,23 +18,23 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public class InteractCriterionCompleter implements Listener, CriterionCompleter {
-    private final Map<Material, Set<InteractCriterion>> criteria = new EnumMap<>(Material.class);
+public class ConsumeCriterionCompleter implements CriterionCompleter, Listener {
+    private final Map<Material, Set<ConsumeCriterion>> criteria = new EnumMap<>(Material.class);
 
-    public InteractCriterionCompleter() {
+    public ConsumeCriterionCompleter() {
         Bukkit.getPluginManager().registerEvents(this, SFAdvancements.instance());
     }
 
-    @EventHandler(priority = EventPriority.MONITOR)
-    public void onInteract(PlayerRightClickEvent e) {
-        ItemStack clicked = e.getItem();
-        Set<InteractCriterion> allCriteria = criteria.get(clicked.getType());
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    public void onConsume(PlayerItemConsumeEvent e) {
+        ItemStack consumed = e.getItem();
+        Set<ConsumeCriterion> allCriteria = criteria.get(consumed.getType());
         if (allCriteria == null) {
             return;
         }
 
-        for (InteractCriterion criterion : allCriteria) {
-            if (SlimefunUtils.isItemSimilar(clicked, criterion.getItem(), false)) {
+        for (ConsumeCriterion criterion : allCriteria) {
+            if (SlimefunUtils.isItemSimilar(consumed, criterion.getItem(), false)) {
                 criterion.perform(e.getPlayer());
             }
         }
@@ -41,10 +42,10 @@ public class InteractCriterionCompleter implements Listener, CriterionCompleter 
 
     @Override
     public void register(Criterion criterion) {
-        if (!(criterion instanceof InteractCriterion)) {
-            throw new IllegalArgumentException("criterion must be an interactcriterion");
+        if (!(criterion instanceof ConsumeCriterion)) {
+            throw new IllegalArgumentException("criterion must be an ConsumeCriterion");
         }
-        InteractCriterion criterion1 = (InteractCriterion) criterion;
+        ConsumeCriterion criterion1 = (ConsumeCriterion) criterion;
         Material m = criterion1.getItem().getType();
         criteria.computeIfAbsent(m, k -> new HashSet<>());
         criteria.get(m).add(criterion1);
@@ -52,6 +53,6 @@ public class InteractCriterionCompleter implements Listener, CriterionCompleter 
 
     @Override
     public Class<? extends Criterion> getCriterionClass() {
-        return InteractCriterion.class;
+        return ConsumeCriterion.class;
     }
 }

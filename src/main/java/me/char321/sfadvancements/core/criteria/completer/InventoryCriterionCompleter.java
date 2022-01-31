@@ -3,7 +3,6 @@ package me.char321.sfadvancements.core.criteria.completer;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.char321.sfadvancements.SFAdvancements;
 import me.char321.sfadvancements.api.criteria.Criterion;
-import me.char321.sfadvancements.api.criteria.InteractCriterion;
 import me.char321.sfadvancements.api.criteria.InventoryCriterion;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -13,6 +12,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
@@ -32,12 +32,26 @@ public class InventoryCriterionCompleter implements CriterionCompleter, Listener
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onInventory(EntityPickupItemEvent e) {
         if (e.getEntity() instanceof Player) {
-            onInventory1((Player)e.getEntity());
+            Player p = (Player)e.getEntity();
+            Material material = e.getItem().getItemStack().getType();
+            if (!criteria.containsKey(material)) {
+                return;
+            }
+            for (InventoryCriterion criterion : criteria.get(material)) {
+                if (SlimefunUtils.isItemSimilar(criterion.getItem(), e.getItem().getItemStack(), false, false)) {
+                    criterion.perform(p);
+                }
+            }
         }
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-    public void onInventory(InventoryCloseEvent e) {
+    public void onInventoryClose(InventoryCloseEvent e) {
+        onInventory1((Player)e.getPlayer());
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    public void onInventoryOpen(InventoryOpenEvent e) {
         onInventory1((Player)e.getPlayer());
     }
 
@@ -59,7 +73,7 @@ public class InventoryCriterionCompleter implements CriterionCompleter, Listener
             }
             for (InventoryCriterion criterion : criteria.get(material)) {
                 if (SlimefunUtils.isItemSimilar(criterion.getItem(), item, false)) {
-                    SFAdvancements.getAdvManager().getProgress(p).doCriterion(criterion);
+                    criterion.perform(p);
                 }
             }
         }
@@ -72,9 +86,7 @@ public class InventoryCriterionCompleter implements CriterionCompleter, Listener
         }
         InventoryCriterion criterion1 = (InventoryCriterion) criterion;
         Material m = criterion1.getItem().getType();
-        if (!criteria.containsKey(m)) {
-            criteria.put(m, new HashSet<>());
-        }
+        criteria.computeIfAbsent(m, k -> new HashSet<>());
         criteria.get(m).add(criterion1);
     }
 

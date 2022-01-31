@@ -1,6 +1,7 @@
 package me.char321.sfadvancements.core;
 
 import me.char321.sfadvancements.api.Advancement;
+import me.char321.sfadvancements.api.criteria.Criterion;
 import me.char321.sfadvancements.core.criteria.progress.PlayerProgress;
 import org.bukkit.entity.Player;
 
@@ -26,10 +27,16 @@ public class AdvManager {
     }
 
     public PlayerProgress getProgress(UUID player) {
-        if (!playerMap.containsKey(player)) {
-            playerMap.put(player, PlayerProgress.get(player));
-        }
+        playerMap.computeIfAbsent(player, PlayerProgress::get);
         return playerMap.get(player);
+    }
+
+    public int getCriterionProgress(UUID p, Criterion criterion) {
+        return getProgress(p).getCriterionProgress(criterion);
+    }
+
+    public int getCriterionProgress(Player p, Criterion criterion) {
+        return getCriterionProgress(p.getUniqueId(), criterion);
     }
 
     public void save() throws IOException {

@@ -1,31 +1,30 @@
 package me.char321.sfadvancements.api.criteria;
 
-import me.char321.sfadvancements.SFAdvancements;
-import org.bukkit.NamespacedKey;
-import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 
 /**
- * impractical, only for example purposes
+ * this criterion is performed whenever someone interacts with a specified {@link ItemStack}
  */
 public class InteractCriterion extends Criterion {
     private final ItemStack item;
 
     /**
-     * this criterion is iterated when a player right clicks an item
+     * creates a criterion when a player right clicks an item
      *
-     * @param advancement the key of the advancement
      * @param id the id of the criteria (should not be the same as other criteria in the same advancement)
      * @param amount how many times the player has to click
      * @param item the item player clicks
      */
-    public InteractCriterion(NamespacedKey advancement, String id, int amount, ItemStack item) {
-        super(advancement, id, amount);
+    public InteractCriterion(String id, int amount, String name, ItemStack item) {
+        super(id, amount, name);
         this.item = item;
-
-        SFAdvancements.getRegistry().getCompleter(this).register(this);
     }
 
+    /**
+     * gets the item that must be clicked to perform the criterion
+     *
+     * @return the itemstack to be clicked
+     */
     public ItemStack getItem() {
         return item;
     }

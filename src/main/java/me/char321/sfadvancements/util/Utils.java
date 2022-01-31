@@ -9,6 +9,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 public class Utils {
+    private Utils() {}
+
     public static ItemStack makeShiny(ItemStack item) {
         item = item.clone();
         ItemMeta im = item.getItemMeta();
@@ -16,6 +18,11 @@ public class Utils {
         im.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         item.setItemMeta(im);
         return item;
+    }
+
+    public static void makeShiny(ItemMeta im) {
+        im.addEnchant(Enchantment.DURABILITY, 1, false);
+        im.addItemFlags(ItemFlag.HIDE_ENCHANTS);
     }
 
     public static NamespacedKey keyOf(String value) {
@@ -28,5 +35,9 @@ public class Utils {
 
     public static Advancement fromKey(NamespacedKey value) {
         return SFAdvancements.getRegistry().getAdvancement(value);
+    }
+
+    public static boolean isValidAdvancement(NamespacedKey key) {
+        return SFAdvancements.getRegistry().getAdvancements().containsKey(key);
     }
 }

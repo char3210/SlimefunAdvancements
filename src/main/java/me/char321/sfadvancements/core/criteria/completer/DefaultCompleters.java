@@ -3,11 +3,21 @@ package me.char321.sfadvancements.core.criteria.completer;
 import me.char321.sfadvancements.SFAdvancements;
 
 public class DefaultCompleters {
-    public static void registerDefaultCompleters() {
-        InteractCriterionCompleter interact = new InteractCriterionCompleter();
-        SFAdvancements.getRegistry().getCompleters().put(interact.getCriterionClass(), interact);
 
-        InventoryCriterionCompleter inventory = new InventoryCriterionCompleter();
-        SFAdvancements.getRegistry().getCompleters().put(inventory.getCriterionClass(), inventory);
+    private DefaultCompleters() {
+
+    }
+
+    public static void registerDefaultCompleters() {
+        register(new InteractCriterionCompleter());
+        register(new InventoryCriterionCompleter());
+        register(new PlaceCriterionCompleter());
+        register(new ResearchCriterionCompleter());
+        register(new MultiBlockCriterionCompleter());
+        register(new ConsumeCriterionCompleter());
+    }
+
+    private static void register(CriterionCompleter completer) {
+        SFAdvancements.getRegistry().getCompleters().put(completer.getCriterionClass(), completer);
     }
 }

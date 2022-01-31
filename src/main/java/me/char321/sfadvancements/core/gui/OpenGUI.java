@@ -4,6 +4,7 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import me.char321.sfadvancements.SFAdvancements;
 import me.char321.sfadvancements.api.Advancement;
 import me.char321.sfadvancements.api.AdvancementGroup;
+import me.char321.sfadvancements.api.criteria.Criterion;
 import me.char321.sfadvancements.core.registry.AdvancementsRegistry;
 import me.char321.sfadvancements.util.Utils;
 import org.bukkit.Bukkit;
@@ -12,7 +13,9 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -24,10 +27,14 @@ public class OpenGUI {
     private int groupIndex = 0;
     private int scroll = 0;
 
-    public OpenGUI(Player p) {
+    public OpenGUI(Player player) {
+        this(player.getUniqueId());
+    }
+
+    public OpenGUI(UUID player) {
         this.inventory = Bukkit.createInventory(null, 54, ChatColor.BLUE + "Advancements");
         this.registry = SFAdvancements.getRegistry();
-        this.player = p.getUniqueId();
+        this.player = player;
         refresh();
     }
 
@@ -139,10 +146,29 @@ public class OpenGUI {
             int advindex = i + 8 * scroll;
             ItemStack display = null;
             if (advindex < advancements.size()) {
-                display = advancements.get(advindex).getDisplay();
-                if (SFAdvancements.getAdvManager().isCompleted(player, advancements.get(advindex))) {
-                    display = Utils.makeShiny(display);
+                Advancement adv = advancements.get(advindex);
+                display = adv.getDisplay().clone();
+                ItemMeta displayim = display.getItemMeta();
+
+                if (SFAdvancements.getAdvManager().isCompleted(player, adv)) {
+                    Utils.makeShiny(displayim);
                 }
+
+                List<String> lore = displayim.getLore();
+                if (lore == null) {
+                    lore = new ArrayList<>();
+                }
+                lore.add("");
+
+                for (Criterion criterion : adv.getCriteria()) {
+                    String criterionName = criterion.getName();
+                    int progress = SFAdvancements.getAdvManager().getCriterionProgress(player, criterion);
+                    int max = criterion.getCount();
+                    boolean cridone = progress >= max;
+                    lore.add(ChatColor.GRAY + criterionName + ": " + (cridone? ChatColor.YELLOW : ChatColor.WHITE) + progress + "/" + max);
+                }
+                displayim.setLore(lore);
+                display.setItemMeta(displayim);
             }
 
             inventory.setItem(slot, display);

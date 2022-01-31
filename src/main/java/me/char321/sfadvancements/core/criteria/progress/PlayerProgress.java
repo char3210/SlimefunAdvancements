@@ -30,19 +30,6 @@ import java.util.UUID;
  *
  * json <br>
  *
- * {@code
- * {
- *      "sfadvancements:hi" : {
- *          "done": false
- *          "criteria": {
- *              "eaj" : 1
- *              "ejfiow" : false
- *              "fioewjo" :
- *          }
- *      }
- * }
- * }
- *
  */
 public class PlayerProgress {
     private final UUID player;
@@ -73,9 +60,7 @@ public class PlayerProgress {
 
     public void doCriterion(Criterion cri) {
         NamespacedKey adv = cri.getAdvancement();
-        if (!progressMap.containsKey(adv)) {
-            progressMap.put(adv, new AdvancementProgress(adv));
-        }
+        progressMap.computeIfAbsent(adv, AdvancementProgress::new);
 
         AdvancementProgress advProgress = progressMap.get(adv);
         if (advProgress.done) {
@@ -97,12 +82,28 @@ public class PlayerProgress {
         }
     }
 
+    public int getCriterionProgress(Criterion cri) {
+        NamespacedKey adv = cri.getAdvancement();
+        if (!progressMap.containsKey(adv)) {
+            return 0;
+        }
+
+        AdvancementProgress advProgress = progressMap.get(adv);
+        for (CriteriaProgress progress : advProgress.criteria) {
+            if (progress.id.equals(cri.getId())) {
+                return progress.progress;
+            }
+        }
+        throw new IllegalStateException();
+    }
+
     public boolean revokeAdvancement(NamespacedKey adv) {
         if (!progressMap.containsKey(adv)) {
             return false;
         }
         progressMap.get(adv).done = false;
         for (CriteriaProgress progress : progressMap.get(adv).criteria) {
+            progress.done = false;
             progress.progress = 0;
         }
         return true;
@@ -121,6 +122,10 @@ public class PlayerProgress {
     private void loadFromObject(JsonObject object) {
         for (Map.Entry<String, JsonElement> entry : object.entrySet()) {
             NamespacedKey advkey = NamespacedKey.fromString(entry.getKey());
+            if(!Utils.isValidAdvancement(advkey)) {
+                SFAdvancements.warn("unknown advancement: " + advkey);
+                continue;
+            }
             AdvancementProgress newprogress = new AdvancementProgress(advkey);
             progressMap.put(advkey, newprogress);
             newprogress.loadFromObject(entry.getValue().getAsJsonObject());
@@ -129,30 +134,38 @@ public class PlayerProgress {
 
     public void save() throws IOException {
         File f = new File("plugins/" + SFAdvancements.instance().getName() + "/advancements", player +".json");
-        f.mkdirs();
-        //this is probably bad
-        f.delete();
-        f.createNewFile();
-        JsonWriter writer = new JsonWriter(new BufferedWriter(new FileWriter(f)));
-        writer.beginObject();
-        for (Map.Entry<NamespacedKey, AdvancementProgress> entry : progressMap.entrySet()) {
-            writer.name(entry.getKey().toString());
+        if (!f.exists()) {
+            f.getParentFile().mkdirs();
+            if (!f.createNewFile()) {
+                throw new IOException("Could not create file " + f.getPath());
+            }
+        }
+        JsonWriter writer = new JsonWriter(new BufferedWriter(new FileWriter(f, StandardCharsets.UTF_8, false)));
+        try(writer) {
             writer.beginObject();
-            writer.name("done");
-            writer.value(entry.getValue().done);
-            writer.name("criteria");
-            writer.beginObject();
-            for (CriteriaProgress criterion : entry.getValue().criteria) {
-                writer.name(criterion.id);
-                writer.value(criterion.progress);
+            for (Map.Entry<NamespacedKey, AdvancementProgress> entry : progressMap.entrySet()) {
+                writer.name(entry.getKey().toString());
+                writer.beginObject();
+                writer.name("done");
+                writer.value(entry.getValue().done);
+                writer.name("criteria");
+                writer.beginObject();
+                for (CriteriaProgress criterion : entry.getValue().criteria) {
+                    writer.name(criterion.id);
+                    writer.value(criterion.progress);
+                }
+                writer.endObject();
+                writer.endObject();
             }
             writer.endObject();
-            writer.endObject();
         }
-        writer.endObject();
-        writer.close();
     }
 
+    /**
+     *
+     * @param key the key of the advancement
+     * @return if the advancement is completed
+     */
     public boolean isCompleted(NamespacedKey key) {
         if (!progressMap.containsKey(key)) {
             return false;
@@ -185,6 +198,7 @@ public class PlayerProgress {
                 }
             }
             this.done = true;
+
             adv.complete(Bukkit.getPlayer(player));
         }
 

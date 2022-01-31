@@ -4,6 +4,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
@@ -32,6 +33,6 @@ public class SFATabCompleter implements TabCompleter {
                 }
             }
         }
-        return null;
+        return Collections.emptyList();
     }
 }

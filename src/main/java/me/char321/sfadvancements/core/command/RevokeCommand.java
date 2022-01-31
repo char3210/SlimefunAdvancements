@@ -9,12 +9,14 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-public class RevokeCommand extends SubCommand {
+public class RevokeCommand implements SubCommand {
     @Override
-    boolean onExecute(CommandSender sender, Command command, String label, String[] args) {
+    public boolean onExecute(CommandSender sender, Command command, String label, String[] args) {
         if (args.length < 3) {
             sender.sendMessage(ChatColor.RED + "Usage: /" + label + " <player> <advancement>");
             return false;
@@ -45,12 +47,12 @@ public class RevokeCommand extends SubCommand {
     }
 
     @Override
-    String getCommandName() {
+    public @Nonnull String getCommandName() {
         return "revoke";
     }
 
     @Override
-    List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
+    public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         if (args.length == 2) {
             List<String> res = new ArrayList<>();
             for (Player p : Bukkit.getOnlinePlayers()) {
@@ -66,12 +68,15 @@ public class RevokeCommand extends SubCommand {
                 res.add("*");
                 res.add("all");
                 for (NamespacedKey key : SFAdvancements.getAdvManager().getProgress(p).getCompletedAdvancements()) {
-                    res.add(key.toString());
+                    String s = key.toString();
+                    if (s.contains(args[2])) {
+                        res.add(key.toString());
+                    }
                 }
                 return res;
             }
         }
-        return null;
+        return Collections.emptyList();
     }
 
 }
