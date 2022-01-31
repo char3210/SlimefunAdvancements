@@ -13,6 +13,6 @@ TODO:
 - docs
 - add advancements
 - cheat menu
-- better readme, .github, builds page
+- better readme, .github, ~~builds page~~
 - advancements api (crazy)
 - unit tests

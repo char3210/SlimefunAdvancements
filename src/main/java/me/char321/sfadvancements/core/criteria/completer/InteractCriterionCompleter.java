@@ -33,7 +33,7 @@ public class InteractCriterionCompleter implements Listener, CriterionCompleter 
         }
 
         for (InteractCriterion criterion : allCriteria) {
-            if (SlimefunUtils.isItemSimilar(clicked, criterion.getItem(), false)) {
+            if (SlimefunUtils.isItemSimilar(clicked, criterion.getItem(), false, false)) {
                 criterion.perform(e.getPlayer());
             }
         }

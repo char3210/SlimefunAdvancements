@@ -1,8 +1,11 @@
 package me.char321.sfadvancements;
 
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
+import io.github.thebusybiscuit.slimefun4.libraries.dough.config.Config;
+import io.github.thebusybiscuit.slimefun4.libraries.dough.updater.GitHubBuildsUpdater;
 import me.char321.sfadvancements.api.AdvancementBuilder;
 import me.char321.sfadvancements.api.AdvancementGroup;
+import me.char321.sfadvancements.api.criteria.CriteriaTypes;
 import me.char321.sfadvancements.core.AdvManager;
 import me.char321.sfadvancements.core.AdvancementsItemGroup;
 import me.char321.sfadvancements.core.command.SFACommand;
@@ -11,13 +14,13 @@ import me.char321.sfadvancements.core.gui.AdvGUIManager;
 import me.char321.sfadvancements.core.registry.AdvancementsRegistry;
 import me.char321.sfadvancements.core.tasks.AutoSaveTask;
 import me.char321.sfadvancements.util.ConfigUtils;
-import me.char321.sfadvancements.implementation.DefaultAdvancements;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -39,19 +42,29 @@ public final class SFAdvancements extends JavaPlugin implements SlimefunAddon {
     public void onEnable() {
         instance = this;
 
+//        autoUpdate();
+
         Bukkit.getPluginManager().registerEvents(guiManager, this);
         new AdvancementsItemGroup().register(this);
 
         DefaultCompleters.registerDefaultCompleters();
-
-        loadGroups();
-        loadAdvancements();
+        CriteriaTypes.loadDefaultCriteria();
 
         getCommand("sfadvancements").setExecutor(new SFACommand(this));
 
         new AutoSaveTask().runTaskTimerAsynchronously(this, 6000L, 6000L);
 
         Metrics metrics = new Metrics(this, 14130);
+
+        //allow other plugins to register their criteria first
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                loadGroups();
+                loadAdvancements();
+            }
+        }.runTaskLater(this, 0L);
+
     }
 
     @Override
@@ -60,6 +73,14 @@ public final class SFAdvancements extends JavaPlugin implements SlimefunAddon {
             advManager.save();
         } catch (IOException e) {
             getLogger().log(Level.SEVERE, e, () -> "could not save advancements");
+        }
+    }
+
+    private void autoUpdate() {
+        Config config = new Config(this);
+        if (config.getBoolean("auto-update")) {
+            GitHubBuildsUpdater updater = new GitHubBuildsUpdater(this, this.getFile(), "qwertyuioplkjhgfd/SlimefunAdvancements/main");
+            updater.start();
         }
     }
 

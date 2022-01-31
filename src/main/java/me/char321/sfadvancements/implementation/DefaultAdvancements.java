@@ -1,18 +1,8 @@
 package me.char321.sfadvancements.implementation;
 
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
-import me.char321.sfadvancements.api.AdvancementBuilder;
 import me.char321.sfadvancements.api.AdvancementGroup;
-import me.char321.sfadvancements.api.criteria.InteractCriterion;
-import me.char321.sfadvancements.api.criteria.InventoryCriterion;
-import me.char321.sfadvancements.api.criteria.PlaceCriterion;
-import me.char321.sfadvancements.api.criteria.ResearchCriterion;
-import me.char321.sfadvancements.util.Utils;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
-import org.bukkit.inventory.ItemStack;
 
 public class DefaultAdvancements {
     private DefaultAdvancements() {}

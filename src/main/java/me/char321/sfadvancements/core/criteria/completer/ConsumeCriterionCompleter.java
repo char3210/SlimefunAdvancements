@@ -4,7 +4,6 @@ import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.char321.sfadvancements.SFAdvancements;
 import me.char321.sfadvancements.api.criteria.ConsumeCriterion;
 import me.char321.sfadvancements.api.criteria.Criterion;
-import me.char321.sfadvancements.api.criteria.InteractCriterion;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
@@ -34,7 +33,7 @@ public class ConsumeCriterionCompleter implements CriterionCompleter, Listener {
         }
 
         for (ConsumeCriterion criterion : allCriteria) {
-            if (SlimefunUtils.isItemSimilar(consumed, criterion.getItem(), false)) {
+            if (SlimefunUtils.isItemSimilar(consumed, criterion.getItem(), false, false)) {
                 criterion.perform(e.getPlayer());
             }
         }

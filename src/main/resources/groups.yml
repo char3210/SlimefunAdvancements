@@ -39,10 +39,3 @@ other:
     name: "&7Other"
     lore:
       - "&7&oMiscellaneous advancements"
-
-testing:
-  display:
-    type: RED_STAINED_GLASS
-    name: "&4Testing"
-    lore:
-      - "&7&ohi"

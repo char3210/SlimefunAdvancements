@@ -2,11 +2,9 @@ package me.char321.sfadvancements.api.criteria;
 
 import me.char321.sfadvancements.SFAdvancements;
 import me.char321.sfadvancements.core.criteria.completer.CriterionCompleter;
-import me.char321.sfadvancements.util.ConfigUtils;
 import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 
 import java.util.UUID;
 
@@ -40,22 +38,21 @@ public class Criterion {
 
     public Criterion(String id, String name) {
         this(id, 1, name);
-
     }
 
 
     /**
      * why is this public this should be in criterion builder class maybe
      *
-     * @param id id of the criterion
      * @param config the configurationsection to create a criterion from
      * @return the created criterion
      */
-    public static Criterion loadFromConfig(String id, ConfigurationSection config) {
-        String type = config.getString("type");
-        if (type == null) {
-            SFAdvancements.warn("You must specify a type for criterion " + id + " in advancements.yml");
-            return null;
+    public static Criterion loadFromConfig(ConfigurationSection config) {
+        String id = config.getName();
+
+        int amount = config.getInt("amount");
+        if (amount == 0) {
+            amount = 1;
         }
 
         String name = config.getString("name");
@@ -63,75 +60,7 @@ public class Criterion {
             name = id;
         }
 
-        switch(type) { //TODO: allow other plugins to add and make this overall better
-            case "interact":
-                int amount = config.getInt("amount");
-                if (amount == 0) {
-                    amount = 1;
-                }
-                ItemStack item = ConfigUtils.getItem(config, "item");
-                if (item == null) {
-                    SFAdvancements.warn("unknown item for interact criterion " + id);
-                    return null;
-                }
-                return new InteractCriterion(id, amount, name, item);
-            case "inventory":
-                item = ConfigUtils.getItem(config, "item");
-                if (item == null) {
-                    SFAdvancements.warn("unknown item for inventory criterion " + id);
-                    return null;
-                }
-                return new InventoryCriterion(id, name, item);
-            case "place":
-                item = ConfigUtils.getItem(config, "item");
-                if (item == null) {
-                    SFAdvancements.warn("unknown item for place criterion " + id);
-                    return null;
-                }
-                amount = config.getInt("amount");
-                if (amount == 0) {
-                    amount = 1;
-                }
-                return new PlaceCriterion(id, amount, name, item);
-            case "research":
-                String research = config.getString("research");
-                if (research == null) {
-                    SFAdvancements.warn("specify a research for criterion " + id);
-                    return null;
-                }
-                return new ResearchCriterion(id, name, NamespacedKey.fromString(research));
-            case "multiblock":
-                String multiblockid = config.getString("multiblock");
-                if(multiblockid == null) {
-                    SFAdvancements.warn("specify a multiblock for criterion " + id);
-                    return null;
-                }
-                amount = config.getInt("amount");
-                if (amount == 0) {
-                    amount = 1;
-                }
-                return new MultiBlockCriterion(id, amount, name, multiblockid);
-            case "consume":
-                amount = config.getInt("amount");
-                if (amount == 0) {
-                    amount = 1;
-                }
-                item = ConfigUtils.getItem(config, "item");
-                if (item == null) {
-                    SFAdvancements.warn("unknown item for consume criterion " + id);
-                    return null;
-                }
-                return new ConsumeCriterion(id, amount, name, item);
-            case "none":
-                amount = config.getInt("amount");
-                if (amount == 0) {
-                    amount = 1;
-                }
-                return new Criterion(id, amount, name);
-            default:
-                SFAdvancements.warn("unknown criterion type: " + type);
-                return null;
-        }
+        return new Criterion(id, amount, name);
     }
 
     /**

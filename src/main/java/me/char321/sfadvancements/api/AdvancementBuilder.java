@@ -1,6 +1,7 @@
 package me.char321.sfadvancements.api;
 
 import me.char321.sfadvancements.SFAdvancements;
+import me.char321.sfadvancements.api.criteria.CriteriaTypes;
 import me.char321.sfadvancements.api.criteria.Criterion;
 import me.char321.sfadvancements.util.ConfigUtils;
 import me.char321.sfadvancements.util.Utils;
@@ -31,7 +32,7 @@ public class AdvancementBuilder {
         }
         List<Criterion> criteria = new ArrayList<>();
         for (String id : cripath.getKeys(false)) {
-            Criterion criterion = Criterion.loadFromConfig(id, cripath.getConfigurationSection(id));
+            Criterion criterion = CriteriaTypes.loadFromConfig(id, cripath.getConfigurationSection(id));
             if (criterion != null) {
                 criteria.add(criterion);
             }

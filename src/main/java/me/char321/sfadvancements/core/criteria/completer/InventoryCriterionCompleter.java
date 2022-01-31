@@ -72,7 +72,7 @@ public class InventoryCriterionCompleter implements CriterionCompleter, Listener
                 continue;
             }
             for (InventoryCriterion criterion : criteria.get(material)) {
-                if (SlimefunUtils.isItemSimilar(criterion.getItem(), item, false)) {
+                if (SlimefunUtils.isItemSimilar(criterion.getItem(), item, false, false)) {
                     criterion.perform(p);
                 }
             }

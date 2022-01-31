@@ -1,5 +1,8 @@
 package me.char321.sfadvancements.api.criteria;
 
+import me.char321.sfadvancements.SFAdvancements;
+import me.char321.sfadvancements.util.ConfigUtils;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
 
 /**
@@ -8,6 +11,23 @@ import org.bukkit.inventory.ItemStack;
  */
 public class InventoryCriterion extends Criterion {
     private final ItemStack item;
+
+    public static InventoryCriterion loadFromConfig(ConfigurationSection config) {
+        String id = config.getName();
+
+        String name = config.getString("name");
+        if(name == null) {
+            name = id;
+        }
+
+        ItemStack item = ConfigUtils.getItem(config, "item");
+        if (item == null) {
+            SFAdvancements.warn("unknown item for consume criterion " + id);
+            return null;
+        }
+
+        return new InventoryCriterion(id, name, item);
+    }
 
     /**
      * creates an inventory criterion
