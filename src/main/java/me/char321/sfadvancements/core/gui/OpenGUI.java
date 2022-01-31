@@ -14,6 +14,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.SkullMeta;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,11 +73,41 @@ public class OpenGUI {
     }
 
     public void refresh() {
-        //region Border
+        refreshBorders();
+        refreshStats();
+        refreshArrows();
+        refreshGroups();
+        refreshScroll();
+        refreshAdvancements();
+    }
+
+    private void refreshBorders() {
         inventory.setItem(0, MenuItems.GRAY);
-        inventory.setItem(8, MenuItems.GRAY);
-        //endregion
-        //region Arrows
+    }
+
+    private void refreshStats() {
+        ItemStack head = new ItemStack(Material.PLAYER_HEAD);
+        SkullMeta meta = (SkullMeta) head.getItemMeta();
+        meta.setOwningPlayer(Bukkit.getOfflinePlayer(player));
+        meta.setDisplayName(ChatColor.YELLOW + "Stats");
+        StringBuilder completedadvancements = new StringBuilder();
+        completedadvancements.append(ChatColor.GRAY).append("Completed Advancements: ");
+        int completed = SFAdvancements.getAdvManager().getProgress(player).getCompletedAdvancements().size();
+        int total = SFAdvancements.getRegistry().getAdvancements().size();
+        if(completed == total) {
+            completedadvancements.append(ChatColor.YELLOW);
+        } else {
+            completedadvancements.append(ChatColor.WHITE);
+        }
+        completedadvancements.append(completed).append(ChatColor.GRAY).append("/").append(total);
+        List<String> lore = new ArrayList<>();
+        lore.add(completedadvancements.toString());
+        meta.setLore(lore);
+        head.setItemMeta(meta);
+        inventory.setItem(8, head);
+    }
+
+    private void refreshArrows() {
         int maxPage = (registry.getAdvancementGroups().size() - 1) / 5 + 1;
         String pageLore = "&7(" + page + " / " + maxPage + ")";
 
@@ -95,8 +126,9 @@ public class OpenGUI {
             rightArrow = new CustomItemStack(Material.LIME_STAINED_GLASS_PANE, "&eNext Page", pageLore);
         }
         inventory.setItem(7, rightArrow);
-        //endregion
-        //region Advancement Groups
+    }
+
+    private void refreshGroups() {
         for (int i=0;i<5;i++) {
             int slot = i+2;
             int dispIndex = 5 * (page - 1) + i;
@@ -111,8 +143,9 @@ public class OpenGUI {
             }
             inventory.setItem(slot, display);
         }
-        //endregion
-        //region Scroll bar
+    }
+
+    private void refreshScroll() {
         AdvancementGroup group = registry.getAdvancementGroups().get(groupIndex);
         inventory.setItem(26, MenuItems.YELLOW);
         inventory.setItem(35, MenuItems.YELLOW);
@@ -135,8 +168,10 @@ public class OpenGUI {
             scrollDown = new CustomItemStack(Material.ARROW, "&eScroll Down");
         }
         inventory.setItem(53, scrollDown);
-        //endregion
-        //region Advancements
+    }
+
+    private void refreshAdvancements() {
+        AdvancementGroup group = registry.getAdvancementGroups().get(groupIndex);
         List<Advancement> advancements = group.getAdvancements();
         for (int i = 0; i < 40; i++) {
             int row = i / 8 + 1;
@@ -173,7 +208,5 @@ public class OpenGUI {
 
             inventory.setItem(slot, display);
         }
-        //endregion
     }
-
 }

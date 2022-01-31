@@ -42,7 +42,7 @@ public final class SFAdvancements extends JavaPlugin implements SlimefunAddon {
     public void onEnable() {
         instance = this;
 
-//        autoUpdate();
+        autoUpdate();
 
         Bukkit.getPluginManager().registerEvents(guiManager, this);
         new AdvancementsItemGroup().register(this);
@@ -78,7 +78,7 @@ public final class SFAdvancements extends JavaPlugin implements SlimefunAddon {
 
     private void autoUpdate() {
         Config config = new Config(this);
-        if (config.getBoolean("auto-update")) {
+        if (config.getBoolean("auto-update") && !getDescription().getVersion().contains("MODIFIED")) {
             GitHubBuildsUpdater updater = new GitHubBuildsUpdater(this, this.getFile(), "qwertyuioplkjhgfd/SlimefunAdvancements/main");
             updater.start();
         }
