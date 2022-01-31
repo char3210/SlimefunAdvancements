@@ -1,24 +1,25 @@
-interact:
-  group: testing
+portable_workbench:
+  group: basic
   display:
     type: CRAFTING_TABLE
-    name: "&aGetting Started"
-    lore: "interact with a totem"
-  name: "&a[Getting Started]"
+    name: "&aPortable Crafting"
+    lore:
+      - "Use a portable crafting table"
+  name: "&a[Portable Crafting]"
   criteria:
     interact:
       type: interact
       amount: 1
       item:
-        type: TOTEM_OF_UNDYING
+        type: PORTABLE_CRAFTER
 
-inventory:
-  group: testing
+dust:
+  group: basic
   display:
-    type: REDSTONE
-    name: "&ainventory"
+    type: GUNPOWDER
+    name: "&aInto dust it turns"
     lore:
-      - obtain a energy regulator
+      - "Crush an ore using an ore crusher"
   name: "&a[Inventory]"
   criteria:
     inventory:

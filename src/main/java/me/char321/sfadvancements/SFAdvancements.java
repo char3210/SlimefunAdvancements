@@ -1,14 +1,8 @@
 package me.char321.sfadvancements;
 
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
-import io.github.thebusybiscuit.slimefun4.libraries.dough.config.Config;
 import me.char321.sfadvancements.api.AdvancementBuilder;
 import me.char321.sfadvancements.api.AdvancementGroup;
-import me.char321.sfadvancements.api.criteria.Criterion;
-import me.char321.sfadvancements.api.criteria.InteractCriterion;
-import me.char321.sfadvancements.api.criteria.InventoryCriterion;
-import me.char321.sfadvancements.api.criteria.PlaceCriterion;
-import me.char321.sfadvancements.api.criteria.ResearchCriterion;
 import me.char321.sfadvancements.core.AdvManager;
 import me.char321.sfadvancements.core.AdvancementsItemGroup;
 import me.char321.sfadvancements.core.command.SFACommand;
@@ -16,29 +10,17 @@ import me.char321.sfadvancements.core.criteria.completer.DefaultCompleters;
 import me.char321.sfadvancements.core.gui.AdvGUIManager;
 import me.char321.sfadvancements.core.registry.AdvancementsRegistry;
 import me.char321.sfadvancements.core.tasks.AutoSaveTask;
-import me.char321.sfadvancements.implementation.DefaultAdvancements;
 import me.char321.sfadvancements.util.ConfigUtils;
-import me.char321.sfadvancements.util.Utils;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.yaml.snakeyaml.Yaml;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 

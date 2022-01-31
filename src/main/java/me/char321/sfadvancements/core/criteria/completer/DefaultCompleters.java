@@ -13,6 +13,7 @@ public class DefaultCompleters {
         register(new InventoryCriterionCompleter());
         register(new PlaceCriterionCompleter());
         register(new ResearchCriterionCompleter());
+        register(new MultiBlockCriterionCompleter());
     }
 
     private static void register(CriterionCompleter completer) {

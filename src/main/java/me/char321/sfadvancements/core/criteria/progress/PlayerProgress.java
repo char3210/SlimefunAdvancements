@@ -30,19 +30,6 @@ import java.util.UUID;
  *
  * json <br>
  *
- * {@code
- * {
- *      "sfadvancements:hi" : {
- *          "done": false
- *          "criteria": {
- *              "eaj" : 1
- *              "ejfiow" : false
- *              "fioewjo" :
- *          }
- *      }
- * }
- * }
- *
  */
 public class PlayerProgress {
     private final UUID player;

@@ -1,7 +1,6 @@
 package me.char321.sfadvancements.util;
 
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-import io.github.thebusybiscuit.slimefun4.libraries.dough.config.Config;
 import me.char321.sfadvancements.SFAdvancements;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
