@@ -12,7 +12,8 @@
     <name>Slimefun Advancements</name>
 
     <properties>
-        <java.version>1.8</java.version>
+        <maven.compiler.source>16</maven.compiler.source>
+        <maven.compiler.target>16</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <sonar.organization>qwertyuioplkjhgfd</sonar.organization>
@@ -42,6 +43,14 @@
                             <shadedPattern>me.char321.sfadvancements.libs.bstats</shadedPattern>
                         </relocation>
                     </relocations>
+                    <filters>
+                        <filter>
+                            <artifact>*:*</artifact>
+                            <excludes>
+                                <exclude>META-INF/*</exclude>
+                            </excludes>
+                        </filter>
+                    </filters>
                 </configuration>
                 <executions>
                     <execution>
