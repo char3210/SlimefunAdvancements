@@ -154,3 +154,16 @@ black_gold:
       type: inventory
       item: BUCKET_OF_OIL
 
+ender_charms:
+  group: magical
+  display:
+    type: ENDER_PEARL
+    name: "&aEnder Charms"
+    lore:
+      - "Research ender talismans"
+  name: "&a[Ender Charms]"
+  criteria:
+    research:
+      name: "Research ender talismans"
+      research: "slimefun:ender_talismans"
+

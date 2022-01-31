@@ -26,7 +26,7 @@ technical:
     lore:
       - "&7&ohaha spinny motor go nyooom"
 
-magic:
+magical:
   display:
     type: ENDER_EYE
     name: "&dMagical"
