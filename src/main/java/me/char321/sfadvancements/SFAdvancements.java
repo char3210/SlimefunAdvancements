@@ -9,6 +9,7 @@ import me.char321.sfadvancements.core.gui.AdvGUIManager;
 import me.char321.sfadvancements.core.registry.AdvancementsRegistry;
 import me.char321.sfadvancements.core.tasks.AutoSaveTask;
 import me.char321.sfadvancements.implementation.DefaultAdvancements;
+import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -35,6 +36,8 @@ public final class SFAdvancements extends JavaPlugin implements SlimefunAddon {
         getCommand("sfadvancements").setExecutor(new SFACommand(this));
 
         new AutoSaveTask().runTaskTimerAsynchronously(this, 6000L, 6000L);
+
+        Metrics metrics = new Metrics(this, 14130);
     }
 
 
