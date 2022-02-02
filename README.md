@@ -117,6 +117,10 @@ The type is the type of criterion. By default, these are the default criterion t
     - namespaced keys have the format "plugin:key", so for slimefun researches, it is "slimefun:research"
       - ex: "slimefun:ender_talismans"
 
+## Custom Criteria (developers)
+
+see [api.md](https://github.com/qwertyuioplkjhgfd/SlimefunAdvancements/api.md)
+
 ## TODO:
 - ~~criteria system~~
   - ~~inventory criteria~~
