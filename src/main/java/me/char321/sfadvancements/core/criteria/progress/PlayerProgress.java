@@ -15,9 +15,13 @@ import org.bukkit.entity.Player;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -49,7 +53,7 @@ public class PlayerProgress {
         File f = new File("plugins/" + SFAdvancements.instance().getName() + "/advancements", player.toString()+".json");
         if (f.exists()) {
             try {
-                JsonObject object = JsonParser.parseReader(new BufferedReader(new FileReader(f, StandardCharsets.UTF_8))).getAsJsonObject();
+                JsonObject object = JsonParser.parseReader(new BufferedReader(new InputStreamReader(new FileInputStream(f), StandardCharsets.UTF_8))).getAsJsonObject();
                 res.loadFromObject(object);
             } catch (IOException e) {
                 SFAdvancements.info("error reading file: " + e);
@@ -140,8 +144,8 @@ public class PlayerProgress {
                 throw new IOException("Could not create file " + f.getPath());
             }
         }
-        JsonWriter writer = new JsonWriter(new BufferedWriter(new FileWriter(f, StandardCharsets.UTF_8, false)));
-        try(writer) {
+
+        try(JsonWriter writer = new JsonWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(f, false), StandardCharsets.UTF_8)))) {
             writer.beginObject();
             for (Map.Entry<NamespacedKey, AdvancementProgress> entry : progressMap.entrySet()) {
                 writer.name(entry.getKey().toString());

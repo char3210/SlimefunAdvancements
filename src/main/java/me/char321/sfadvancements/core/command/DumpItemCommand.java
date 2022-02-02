@@ -21,10 +21,12 @@ import java.util.Optional;
 public class DumpItemCommand implements SubCommand {
     @Override
     public boolean onExecute(CommandSender sender, Command command, String label, String[] args) {
-        if(!(sender instanceof Player p)) {
+        if(!(sender instanceof Player)) {
             sender.sendMessage("you must be a player to execute this command");
             return false;
         }
+
+        Player p = (Player) sender;
 
         sender.sendMessage("Representing the item in your hand in yml...");
         ItemStack item = p.getInventory().getItemInMainHand();
