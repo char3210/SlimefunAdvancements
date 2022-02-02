@@ -9,15 +9,11 @@ public class DefaultCompleters {
     }
 
     public static void registerDefaultCompleters() {
-        register(new InteractCriterionCompleter());
-        register(new InventoryCriterionCompleter());
-        register(new PlaceCriterionCompleter());
-        register(new ResearchCriterionCompleter());
-        register(new MultiBlockCriterionCompleter());
-        register(new ConsumeCriterionCompleter());
-    }
-
-    private static void register(CriterionCompleter completer) {
-        SFAdvancements.getRegistry().getCompleters().put(completer.getCriterionClass(), completer);
+        new InteractCriterionCompleter().register();
+        new InventoryCriterionCompleter().register();
+        new PlaceCriterionCompleter().register();
+        new ResearchCriterionCompleter().register();
+        new MultiBlockCriterionCompleter().register();
+        new ConsumeCriterionCompleter().register();
     }
 }

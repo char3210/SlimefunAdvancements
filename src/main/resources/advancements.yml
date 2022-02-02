@@ -165,5 +165,6 @@ ender_charms:
   criteria:
     research:
       name: "Research ender talismans"
+      type: research
       research: "slimefun:ender_talismans"
 
