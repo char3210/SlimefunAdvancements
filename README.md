@@ -1,6 +1,8 @@
 # SlimefunAdvancements
 
-a slimefun addon that lets you do things like complete advancements
+a slimefun addon that lets you do things like complete and configure advancements
+
+[download here](https://thebusybiscuit.github.io/builds/qwertyuioplkjhgfd/SlimefunAdvancements/main/)
 
 ## Configuration
 
@@ -69,7 +71,7 @@ hi:
 This is where all your advancements will go.<br>
 Each item represents an advancement, where the key is the key of the advancement.<br>
 (It is stored as a NamespacedKey `sfadvancements:<key>`)<br>
-An advancement contains a group, display, name, and criteria.<br>
+An advancement contains a group, display, name, criteria, and optional rewards.<br>
 
 The group is the id defined in `groups.yml`.
 
@@ -77,7 +79,7 @@ The display is an item, represented as described in Item Representation.
 
 The name is what will appear in chat when someone completes the advancement.
 
-(all of these support color codes with `&`)
+(the display and name support color codes with `&`)
 
 The criteria are a section, where each item is a criterion and the key is the criterion key.
 
@@ -117,9 +119,20 @@ The type is the type of criterion. By default, these are the default criterion t
     - namespaced keys have the format "plugin:key", so for slimefun researches, it is "slimefun:research"
       - ex: "slimefun:ender_talismans"
 
+#### rewards
+
+The rewards have a different section for different types.<br>
+(for now, the only type is `commands`)<br>
+The name of the section determines the type of reward.
+
+Reward types:
+- command
+  - is a string list, with each line being a command to run
+  - you can refer to the name of the player that completed the advancement via `%p%`
+
 ## Custom Criteria (developers)
 
-see [api.md](https://github.com/qwertyuioplkjhgfd/SlimefunAdvancements/api.md)
+see [api.md](https://github.com/qwertyuioplkjhgfd/SlimefunAdvancements/blob/main/api.md)
 
 ## TODO:
 - ~~criteria system~~
@@ -129,10 +142,12 @@ see [api.md](https://github.com/qwertyuioplkjhgfd/SlimefunAdvancements/api.md)
       - ~~place criteria~~
   - ~~research criteria~~
 - ~~configurability~~
-- docs
+- rewards
 - add advancements
 - permissions
-- cheat menu
+- load default advancements (from other plugins)
 - better readme, .github, ~~builds page~~
+- tree
 - advancements api (crazy)
-- unit tests
+- cheat menu
+- docs

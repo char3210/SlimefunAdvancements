@@ -1,7 +1,5 @@
 package me.char321.sfadvancements.core.criteria.completer;
 
-import me.char321.sfadvancements.SFAdvancements;
-
 public class DefaultCompleters {
 
     private DefaultCompleters() {

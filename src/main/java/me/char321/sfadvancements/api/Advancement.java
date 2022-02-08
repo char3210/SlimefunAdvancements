@@ -2,6 +2,7 @@ package me.char321.sfadvancements.api;
 
 import me.char321.sfadvancements.SFAdvancements;
 import me.char321.sfadvancements.api.criteria.Criterion;
+import me.char321.sfadvancements.api.reward.Reward;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -25,13 +26,15 @@ public class Advancement {
     private ItemStack display;
     private String name;
     private Criterion[] criteria;
+    private Reward[] rewards;
 
-    public Advancement(NamespacedKey key, AdvancementGroup group, ItemStack display, String name, Criterion... criteria) {
+    public Advancement(NamespacedKey key, AdvancementGroup group, ItemStack display, String name, Criterion[] criteria, Reward[] rewards) {
         this.key = key;
         this.group = group;
         this.display = display;
         this.name = ChatColor.translateAlternateColorCodes('&', name);
         this.criteria = criteria;
+        this.rewards = rewards;
     }
 
     public NamespacedKey getKey() {
@@ -88,6 +91,10 @@ public class Advancement {
         sub.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(getDescription())));
         component.addExtra(sub);
         Bukkit.spigot().broadcast(component);
+
+        for (Reward reward : rewards) {
+            reward.give(p);
+        }
     }
 
     @Override

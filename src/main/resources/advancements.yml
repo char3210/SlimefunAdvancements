@@ -13,6 +13,9 @@ portable_workbench:
       amount: 1
       item:
         type: PORTABLE_CRAFTER
+  rewards:
+    commands:
+      - "experience add %p% 3 levels"
 
 dust:
   group: basic
