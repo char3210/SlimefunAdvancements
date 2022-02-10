@@ -130,6 +130,10 @@ Reward types:
   - is a string list, with each line being a command to run
   - you can refer to the name of the player that completed the advancement via `%p%`
 
+## Permissions
+
+`sfa.command.<command name>`: allows the user to use the command
+
 ## Custom Criteria (developers)
 
 see [api.md](https://github.com/qwertyuioplkjhgfd/SlimefunAdvancements/blob/main/api.md)
@@ -144,7 +148,7 @@ see [api.md](https://github.com/qwertyuioplkjhgfd/SlimefunAdvancements/blob/main
 - ~~configurability~~
 - rewards
 - add advancements
-- permissions
+- ~~permissions~~
 - load default advancements (from other plugins)
 - better readme, .github, ~~builds page~~
 - tree
