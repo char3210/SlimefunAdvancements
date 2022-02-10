@@ -54,7 +54,7 @@ public class PlayerProgress {
                 JsonObject object = JsonParser.parseReader(new BufferedReader(new InputStreamReader(new FileInputStream(f), StandardCharsets.UTF_8))).getAsJsonObject();
                 res.loadFromObject(object);
             } catch (IOException e) {
-                SFAdvancements.info("error reading file: " + e);
+                SFAdvancements.warn("Error reading progress file: " + e);
             }
         }
         return res;

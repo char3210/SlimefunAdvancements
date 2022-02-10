@@ -42,6 +42,7 @@ public final class SFAdvancements extends JavaPlugin implements SlimefunAddon {
     public void onEnable() {
         instance = this;
 
+        info("Checking for updates...");
         autoUpdate();
 
         Bukkit.getPluginManager().registerEvents(guiManager, this);
@@ -52,15 +53,18 @@ public final class SFAdvancements extends JavaPlugin implements SlimefunAddon {
 
         getCommand("sfadvancements").setExecutor(new SFACommand(this));
 
+        info("Starting auto-save task...");
         new AutoSaveTask().runTaskTimerAsynchronously(this, 6000L, 6000L);
 
-        Metrics metrics = new Metrics(this, 14130);
+        new Metrics(this, 14130);
 
         //allow other plugins to register their criteria first
         new BukkitRunnable() {
             @Override
             public void run() {
+                info("Loading groups from config...");
                 loadGroups();
+                info("Loading advancements from config...");
                 loadAdvancements();
             }
         }.runTaskLater(this, 0L);
@@ -72,7 +76,7 @@ public final class SFAdvancements extends JavaPlugin implements SlimefunAddon {
         try {
             advManager.save();
         } catch (IOException e) {
-            getLogger().log(Level.SEVERE, e, () -> "could not save advancements");
+            getLogger().log(Level.SEVERE, e, () -> "Could not save advancements");
         }
     }
 

@@ -8,3 +8,20 @@ authors: [ char321 ]
 commands:
   sfadvancements:
     aliases: [sfa]
+    
+permissions:
+  sfa.command.save:
+    description: Allows you to use /sfa save, which saves the advancements to the disk.
+    default: op
+  sfa.command.revoke:
+    description: Allows you to use /sfa revoke, which revokes an advancement from a player.
+    default: op
+  sfa.command.grant:
+    description: Allows you to use /sfa grant, which grants an advancement to a player.
+    default: op
+  sfa.command.gui:
+    description: Allows you to open the gui through /sfa gui.
+    default: true
+  sfa.command.dumpitem:
+    description: Allows you to use /sfa dumpitem, which dumps an item's possible representations in config to console.
+    default: op

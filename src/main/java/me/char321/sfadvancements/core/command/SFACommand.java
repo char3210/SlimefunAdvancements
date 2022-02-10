@@ -27,7 +27,12 @@ public class SFACommand implements CommandExecutor {
         if (args.length > 0) {
             for (SubCommand subcmd : subcommands) {
                 if (args[0].equalsIgnoreCase(subcmd.getCommandName())) {
-                    return subcmd.onExecute(sender, command, label, args);
+                    if (sender.hasPermission("sfa.command."+subcmd.getCommandName())) {
+                        return subcmd.onExecute(sender, command, label, args);
+                    } else {
+                        sender.sendMessage("You do not have permission to use this command.");
+                        return false;
+                    }
                 }
             }
             sender.sendMessage("Unknown subcommand! Available subcommands are: " + subcommands.stream().map(SubCommand::getCommandName).collect(Collectors.joining(", ")));
