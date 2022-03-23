@@ -54,4 +54,9 @@ public class PlaceCriterionCompleter implements CriterionCompleter, Listener {
         criteria.computeIfAbsent(m, k -> new HashSet<>());
         criteria.get(m).add(placeCriterion);
     }
+
+    @Override
+    public void reload() {
+        criteria.clear();
+    }
 }

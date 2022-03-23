@@ -47,4 +47,9 @@ public class MultiBlockCriterionCompleter implements CriterionCompleter, Listene
     public Class<? extends Criterion> getCriterionClass() {
         return MultiBlockCriterion.class;
     }
+
+    @Override
+    public void reload() {
+        criteria.clear();
+    }
 }

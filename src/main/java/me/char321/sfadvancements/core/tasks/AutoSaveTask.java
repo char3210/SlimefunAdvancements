@@ -6,7 +6,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.io.IOException;
 import java.util.logging.Level;
 
-public class AutoSaveTask extends BukkitRunnable {
+public class AutoSaveTask implements Runnable {
     @Override
     public void run() {
         try {

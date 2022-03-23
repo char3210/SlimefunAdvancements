@@ -32,4 +32,14 @@ public class AdvGUIManager implements Listener {
         return guis.get(uuid);
     }
 
+    /**
+     * finds out whether a player has the advancements gui open
+     *
+     * @param p the player
+     * @return whether the player has the advancements gui open
+     */
+    public boolean isOpen(Player p) {
+        OpenGUI openGUI = getByPlayer(p);
+        return p.getOpenInventory().getTopInventory().equals(openGUI.getInventory());
+    }
 }

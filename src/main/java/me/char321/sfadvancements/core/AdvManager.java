@@ -10,6 +10,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+/**
+ * should really be named progress manager or something
+ */
 public class AdvManager {
     private final Map<UUID, PlayerProgress> playerMap = new HashMap<>();
 
@@ -39,9 +42,13 @@ public class AdvManager {
         return getCriterionProgress(p.getUniqueId(), criterion);
     }
 
+    public Map<UUID, PlayerProgress> getPlayerMap() {
+        return playerMap;
+    }
+
     public void save() throws IOException {
         for (Map.Entry<UUID, PlayerProgress> entry : playerMap.entrySet()) {
-            entry.getValue().save();
+            entry.getValue().save(); //someone please tell me if this can cause a concurrentmodificationexception
         }
     }
 }

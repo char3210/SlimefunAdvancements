@@ -54,4 +54,9 @@ public class InteractCriterionCompleter implements Listener, CriterionCompleter 
     public Class<? extends Criterion> getCriterionClass() {
         return InteractCriterion.class;
     }
+
+    @Override
+    public void reload() {
+        criteria.clear();
+    }
 }

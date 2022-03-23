@@ -22,7 +22,7 @@ import java.util.UUID;
 
 public class OpenGUI {
     private final Inventory inventory;
-    private final AdvancementsRegistry registry;
+    private final AdvancementsRegistry registry = SFAdvancements.getRegistry();
     private final UUID player;
     private int page = 1;
     private int groupIndex = 0;
@@ -34,7 +34,6 @@ public class OpenGUI {
 
     public OpenGUI(UUID player) {
         this.inventory = Bukkit.createInventory(null, 54, ChatColor.BLUE + "Advancements");
-        this.registry = SFAdvancements.getRegistry();
         this.player = player;
         refresh();
     }
