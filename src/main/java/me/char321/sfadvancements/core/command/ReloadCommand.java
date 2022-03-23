@@ -24,11 +24,11 @@ public class ReloadCommand implements SubCommand {
             return false;
         }
 
-//        for (Player player : Bukkit.getOnlinePlayers()) {
-//            if (SFAdvancements.getGuiManager().isOpen(player)) {
-//                player.closeInventory();
-//            }
-//        }
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            if (SFAdvancements.getGuiManager().isOpen(player)) {
+                player.closeInventory();
+            }
+        }
 
         SFAdvancements.instance().reload();
 

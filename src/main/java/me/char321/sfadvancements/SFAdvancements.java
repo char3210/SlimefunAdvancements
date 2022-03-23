@@ -79,18 +79,13 @@ public final class SFAdvancements extends JavaPlugin implements SlimefunAddon {
 
         //allow other plugins to register their criteria completers
         info("Waiting for server start...");
-        Bukkit.getScheduler().runTaskLater(this, new loader(), 0L);
-
-    }
-
-    class loader implements Runnable {
-        @Override
-        public void run() {
+        Bukkit.getScheduler().runTaskLater(this, () -> {
             info("Loading groups from config...");
             loadGroups();
             info("Loading advancements from config...");
             loadAdvancements();
-        }
+        }, 0L);
+
     }
 
     @Override
