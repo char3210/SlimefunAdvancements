@@ -1,7 +1,6 @@
 package me.char321.sfadvancements.core.tasks;
 
 import me.char321.sfadvancements.SFAdvancements;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.IOException;
 import java.util.logging.Level;

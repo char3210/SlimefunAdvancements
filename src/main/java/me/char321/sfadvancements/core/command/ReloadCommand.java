@@ -33,7 +33,7 @@ public class ReloadCommand implements SubCommand {
         SFAdvancements.instance().reload();
 
         sender.sendMessage("Successfully reloaded!");
-        return false;
+        return true;
     }
 
     @Nonnull
