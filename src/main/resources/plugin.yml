@@ -28,3 +28,6 @@ permissions:
   sfa.command.reload:
     description: Allows you to reload advancements using /sfa reload.
     default: op
+  sfa.command.import:
+    description: Allows you to import default advancements from other plugins (if supported)
+    default: op

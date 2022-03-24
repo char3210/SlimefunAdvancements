@@ -16,6 +16,8 @@ import java.util.logging.Level;
 public class ReloadCommand implements SubCommand {
     @Override
     public boolean onExecute(CommandSender sender, Command command, String label, String[] args) {
+        SFAdvancements.info("Reloading advancements");
+        sender.sendMessage(ChatColor.YELLOW + "Reloading is an experimental feature. If there are any bugs, restart the server.");
         try {
             SFAdvancements.getAdvManager().save();
         } catch (IOException e) {

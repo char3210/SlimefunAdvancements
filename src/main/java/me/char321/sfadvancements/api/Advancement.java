@@ -80,21 +80,25 @@ public class Advancement {
     }
 
     /**
-     * sends the message of completion, should move out of this class //TODO
+     * sends the message of completion and gives rewards
      *
      * @param p player
      */
     public void complete(Player p) {
+        broadcastMessage(p);
+
+        for (Reward reward : rewards) {
+            reward.give(p);
+        }
+    }
+
+    private void broadcastMessage(Player p) {
         BaseComponent component = new TextComponent();
         component.addExtra(p.getName() + " has made the advancement ");
         BaseComponent sub = new TextComponent(getName());
         sub.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(getDescription())));
         component.addExtra(sub);
         Bukkit.spigot().broadcast(component);
-
-        for (Reward reward : rewards) {
-            reward.give(p);
-        }
     }
 
     @Override

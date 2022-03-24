@@ -104,6 +104,14 @@ config -> {
 }
 ```
 
+## Adding your own default advancements
+
+Adding your own advancements are very simple. <br>
+Simply include files called `sfgroups.yml` and `sfadvancements.yml` which define your custom groups and advancements, respectively.<br>
+It is recommended that any groups you use in `sfadvancements.yml` are defined in `sfgroups.yml`, because if the group does not exist, the advancement will not appear.<br>
+Now, to add these advancements , just type `/sfa import <plugin name>`, and they should be imported!<br>
+(Any groups and advancements that have the same key as an existing group/advancement will not be imported.)
+
 And that's it!
 
 Once again, you can always look at a [reference implementation](https://github.com/qwertyuioplkjhgfd/ExampleCriteria). <br>

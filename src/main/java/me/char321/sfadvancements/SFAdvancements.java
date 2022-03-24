@@ -17,7 +17,6 @@ import me.char321.sfadvancements.core.tasks.AutoSaveTask;
 import me.char321.sfadvancements.util.ConfigUtils;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.PluginDescriptionFile;
@@ -37,8 +36,8 @@ public final class SFAdvancements extends JavaPlugin implements SlimefunAddon {
     private final AdvGUIManager guiManager = new AdvGUIManager();
     private final AdvancementsRegistry registry = new AdvancementsRegistry();
 
-    private FileConfiguration advancementConfig;
-    private FileConfiguration groupConfig;
+    private YamlConfiguration advancementConfig;
+    private YamlConfiguration groupConfig;
 
     private boolean testing = false;
 
@@ -171,11 +170,11 @@ public final class SFAdvancements extends JavaPlugin implements SlimefunAddon {
         return instance.registry;
     }
 
-    public FileConfiguration getAdvancementConfig() {
+    public YamlConfiguration getAdvancementConfig() {
         return advancementConfig;
     }
 
-    public FileConfiguration getGroupsConfig() {
+    public YamlConfiguration getGroupsConfig() {
         return groupConfig;
     }
 
