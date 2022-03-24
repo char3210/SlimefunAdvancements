@@ -94,4 +94,9 @@ public class InventoryCriterionCompleter implements CriterionCompleter, Listener
     public Class<? extends Criterion> getCriterionClass() {
         return InventoryCriterion.class;
     }
+
+    @Override
+    public void reload() {
+        criteria.clear();
+    }
 }

@@ -11,4 +11,6 @@ public interface CriterionCompleter {
     }
 
     Class<? extends Criterion> getCriterionClass();
+
+    void reload();
 }

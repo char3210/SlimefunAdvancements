@@ -54,4 +54,9 @@ public class ConsumeCriterionCompleter implements CriterionCompleter, Listener {
     public Class<? extends Criterion> getCriterionClass() {
         return ConsumeCriterion.class;
     }
+
+    @Override
+    public void reload() {
+        criteria.clear();
+    }
 }

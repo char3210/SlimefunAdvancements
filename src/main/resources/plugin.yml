@@ -25,3 +25,9 @@ permissions:
   sfa.command.dumpitem:
     description: Allows you to use /sfa dumpitem, which dumps an item's possible representations in config to console.
     default: op
+  sfa.command.reload:
+    description: Allows you to reload advancements using /sfa reload.
+    default: op
+  sfa.command.import:
+    description: Allows you to import default advancements from other plugins (if supported)
+    default: op

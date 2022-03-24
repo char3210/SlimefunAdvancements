@@ -11,8 +11,8 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class AdvancementBuilder {
@@ -25,10 +25,30 @@ public class AdvancementBuilder {
 
     public static AdvancementBuilder loadFromConfig(String key, ConfigurationSection config) {
         AdvancementBuilder builder = new AdvancementBuilder();
+
         builder.key(Utils.keyOf(key));
-        builder.group(config.getString("group"));
-        builder.display(ConfigUtils.getItem(config, "display"));
-        builder.name(config.getString("name"));
+
+        String groupName = config.getString("group");
+        AdvancementGroup group = getGroup(groupName);
+        if (group == null) {
+            SFAdvancements.warn("unknown group " + groupName + " for advancement " + key);
+            return null;
+        }
+        builder.group(group);
+
+        ItemStack display = ConfigUtils.getItem(config, "display");
+        if (display == null) {
+            SFAdvancements.warn("invalid display for advancement " + key);
+            return null;
+        }
+        builder.display(display);
+
+        String advname = config.getString("name");
+        if (advname == null) {
+            advname = key;
+        }
+        builder.name(advname);
+
         ConfigurationSection cripath = config.getConfigurationSection("criteria");
         if (cripath == null) {
             SFAdvancements.warn("criteria must be specified for advancement " + key);
@@ -51,7 +71,24 @@ public class AdvancementBuilder {
             }
         }
         builder.rewards(rewards);
+
         return builder;
+    }
+
+    /**
+     * Gets an AdvancementGroup given a name.
+     *
+     * @param name the name of the advancementgroup
+     * @return the group with the given name, null otherwise
+     */
+    @Nullable
+    public static AdvancementGroup getGroup(String name) {
+        for (AdvancementGroup advgroup : SFAdvancements.getRegistry().getAdvancementGroups()) {
+            if (advgroup.getId().equals(name)) {
+                return advgroup;
+            }
+        }
+        return null;
     }
 
     public AdvancementBuilder key(NamespacedKey key) {
@@ -60,13 +97,10 @@ public class AdvancementBuilder {
     }
 
     public AdvancementBuilder group(String group) {
-        for (AdvancementGroup advgroup : SFAdvancements.getRegistry().getAdvancementGroups()) {
-            if (advgroup.getId().equals(group)) {
-                this.group = advgroup;
-                return this;
-            }
+        this.group = getGroup(group);
+        if (this.group == null) {
+            SFAdvancements.warn("unknown group: " + group);
         }
-        SFAdvancements.warn("unknown group: " + group);
         return this;
     }
 

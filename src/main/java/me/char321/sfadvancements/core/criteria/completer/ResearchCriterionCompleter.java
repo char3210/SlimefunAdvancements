@@ -68,4 +68,9 @@ public class ResearchCriterionCompleter implements CriterionCompleter, Listener 
     public Class<? extends Criterion> getCriterionClass() {
         return ResearchCriterion.class;
     }
+
+    @Override
+    public void reload() {
+        criteria.clear();
+    }
 }
