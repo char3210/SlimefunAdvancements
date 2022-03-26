@@ -94,6 +94,10 @@ public class ImportCommand implements SubCommand {
     }
 
     private void importGroups(Plugin pl, InputStream groupInputStream) {
+        if (groupInputStream == null) {
+            return;
+        }
+
         File outfile = new File(SFAdvancements.instance().getDataFolder(), "groups.yml");
         BufferedReader reader = new BufferedReader(new InputStreamReader(groupInputStream));
         YamlConfiguration config = YamlConfiguration.loadConfiguration(reader);

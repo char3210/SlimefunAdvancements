@@ -41,7 +41,7 @@ class TestReload {
     void testReloadNew() throws IOException {
         //slimefun doesn't load items in a testing environment :NOOOO:
         int oldamount = SFAdvancements.getRegistry().getAdvancements().size();
-        File file = server.getPluginManager().getPlugin("SFAdvancements").getDataFolder();
+        File file = SFAdvancements.instance().getDataFolder();
         File advancementsFile = new File(file, "advancements.yml");
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(advancementsFile, true))) {
             writer.write("\n" +
