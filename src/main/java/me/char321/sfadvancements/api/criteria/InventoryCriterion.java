@@ -7,10 +7,12 @@ import org.bukkit.inventory.ItemStack;
 
 /**
  * this criterion is performed when someone obtains an item
- * count is not applicable in this class (support for multiple items soon[tm]) //TODO
+ * count is not applicable in this class
  */
 public class InventoryCriterion extends Criterion {
     private final ItemStack item;
+
+    private final int amount;
 
     public static InventoryCriterion loadFromConfig(ConfigurationSection config) {
         String id = config.getName();
@@ -22,11 +24,16 @@ public class InventoryCriterion extends Criterion {
 
         ItemStack item = ConfigUtils.getItem(config, "item");
         if (item == null) {
-            SFAdvancements.warn("unknown item for consume criterion " + id);
+            SFAdvancements.warn("unknown item for inventory criterion " + id);
             return null;
         }
 
-        return new InventoryCriterion(id, name, item);
+        int amount = config.getInt("amount");
+        if (amount <= 0) {
+            amount = 1;
+        }
+
+        return new InventoryCriterion(id, name, item, amount);
     }
 
     /**
@@ -35,11 +42,12 @@ public class InventoryCriterion extends Criterion {
      * @param id the id of the criterion (should be unique per advancement)
      * @param item the item a player must have to complete this criterion
      */
-    public InventoryCriterion(String id, String name, ItemStack item) {
+    public InventoryCriterion(String id, String name, ItemStack item, int amount) {
         super(id, name);
         item = item.clone();
         item.setAmount(1);
         this.item = item;
+        this.amount = amount;
     }
 
     /**
@@ -51,4 +59,7 @@ public class InventoryCriterion extends Criterion {
         return item;
     }
 
+    public int getAmount() {
+        return amount;
+    }
 }

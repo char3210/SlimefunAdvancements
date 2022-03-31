@@ -104,6 +104,7 @@ The type is the type of criterion. By default, these are the default criterion t
 - `inventory`
   - for having an item in an inventory
   - has an item parameter `item`, the item to have in the inventory
+  - has an integer parameter `amount`, which is the number of items you need to complete the criterion
   - this does not check amount, it will trigger when a player has a single item (amount coming soon)
 - `multiblock`
   - for interacting with a slimefun multiblock
@@ -146,10 +147,10 @@ see [api.md](https://github.com/qwertyuioplkjhgfd/SlimefunAdvancements/blob/main
       - ~~place criteria~~
   - ~~research criteria~~
 - ~~configurability~~
-- rewards
+- ~~rewards~~
 - add advancements
 - ~~permissions~~
-- load default advancements (from other plugins)
+- ~~load default advancements (from other plugins)~~
 - better readme, .github, ~~builds page~~
 - tree
 - advancements api (crazy)

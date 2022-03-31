@@ -28,7 +28,7 @@ public class PlaceCriterion extends Criterion {
 
         ItemStack item = ConfigUtils.getItem(config, "item");
         if (item == null) {
-            SFAdvancements.warn("unknown item for consume criterion " + id);
+            SFAdvancements.warn("unknown item for place criterion " + id);
             return null;
         }
 

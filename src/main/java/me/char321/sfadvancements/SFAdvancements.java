@@ -15,6 +15,7 @@ import me.char321.sfadvancements.core.gui.AdvGUIManager;
 import me.char321.sfadvancements.core.registry.AdvancementsRegistry;
 import me.char321.sfadvancements.core.tasks.AutoSaveTask;
 import me.char321.sfadvancements.util.ConfigUtils;
+import me.char321.sfadvancements.util.Utils;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -77,7 +78,7 @@ public final class SFAdvancements extends JavaPlugin implements SlimefunAddon {
 
         //allow other plugins to register their criteria completers
         info("Waiting for server start...");
-        Bukkit.getScheduler().runTaskLater(this, () -> {
+        Utils.runLater(() -> {
             info("Loading groups from config...");
             loadGroups();
             info("Loading advancements from config...");

@@ -2,11 +2,17 @@ package me.char321.sfadvancements.util;
 
 import me.char321.sfadvancements.SFAdvancements;
 import me.char321.sfadvancements.api.Advancement;
+import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class Utils {
     private Utils() {}
@@ -39,5 +45,22 @@ public class Utils {
 
     public static boolean isValidAdvancement(NamespacedKey key) {
         return SFAdvancements.getRegistry().getAdvancements().containsKey(key);
+    }
+
+    public static Map<ItemStack, Integer> getContents(Inventory inv) {
+        Map<ItemStack, Integer> contents = new HashMap<>();
+        for (ItemStack item : inv) {
+            if (item == null || item.getType() == Material.AIR) {
+                continue;
+            }
+            ItemStack clone = item.clone();
+            clone.setAmount(1);
+            contents.merge(clone, item.getAmount(), Integer::sum);
+        }
+        return contents;
+    }
+
+    public static void runLater(Runnable runnable, long delay) {
+        Bukkit.getScheduler().runTaskLater(SFAdvancements.instance(), runnable, delay);
     }
 }

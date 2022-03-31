@@ -4,8 +4,10 @@ import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.char321.sfadvancements.SFAdvancements;
 import me.char321.sfadvancements.api.criteria.Criterion;
 import me.char321.sfadvancements.api.criteria.InventoryCriterion;
+import me.char321.sfadvancements.util.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -17,7 +19,6 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.EnumMap;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -31,17 +32,9 @@ public class InventoryCriterionCompleter implements CriterionCompleter, Listener
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onInventory(EntityPickupItemEvent e) {
-        if (e.getEntity() instanceof Player) {
-            Player p = (Player)e.getEntity();
-            Material material = e.getItem().getItemStack().getType();
-            if (!criteria.containsKey(material)) {
-                return;
-            }
-            for (InventoryCriterion criterion : criteria.get(material)) {
-                if (SlimefunUtils.isItemSimilar(criterion.getItem(), e.getItem().getItemStack(), false, false)) {
-                    criterion.perform(p);
-                }
-            }
+        Entity entity = e.getEntity();
+        if (entity instanceof Player) {
+            Utils.runLater(() -> onInventory1((Player) entity), 1L);
         }
     }
 
@@ -57,22 +50,16 @@ public class InventoryCriterionCompleter implements CriterionCompleter, Listener
 
     public void onInventory1(Player p) {
         Inventory inv = p.getInventory();
-        Map<ItemStack, Integer> contents = new HashMap<>();
-        for (ItemStack item : inv) {
-            if (item == null || item.getType() == Material.AIR) {
-                continue;
-            }
-            ItemStack clone = item.clone();
-            clone.setAmount(1);
-            contents.merge(clone, item.getAmount(), Integer::sum);
-        }
+        Map<ItemStack, Integer> contents = Utils.getContents(inv);
+
         for (ItemStack item : contents.keySet()) {
             Material material = item.getType();
             if (!criteria.containsKey(material)) {
                 continue;
             }
             for (InventoryCriterion criterion : criteria.get(material)) {
-                if (SlimefunUtils.isItemSimilar(criterion.getItem(), item, false, false)) {
+                if (SlimefunUtils.isItemSimilar(criterion.getItem(), item, false, false) &&
+                        contents.get(item) >= criterion.getAmount()) {
                     criterion.perform(p);
                 }
             }
