@@ -41,6 +41,10 @@ public class Advancement {
         return key;
     }
 
+    public AdvancementGroup getGroup() {
+        return group;
+    }
+
     public ItemStack getDisplay() {
         return display;
     }
@@ -85,11 +89,17 @@ public class Advancement {
      * @param p player
      */
     public void complete(Player p) {
-        broadcastMessage(p);
+//        broadcastMessage(p);
 
         for (Reward reward : rewards) {
             reward.give(p);
         }
+
+        SFAdvancements.getVanillaHook().complete(p, this.getKey());
+    }
+
+    public void revoke(Player p) {
+        SFAdvancements.getVanillaHook().revoke(p, this.getKey());
     }
 
     private void broadcastMessage(Player p) {

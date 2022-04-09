@@ -16,6 +16,7 @@ import me.char321.sfadvancements.core.registry.AdvancementsRegistry;
 import me.char321.sfadvancements.core.tasks.AutoSaveTask;
 import me.char321.sfadvancements.util.ConfigUtils;
 import me.char321.sfadvancements.util.Utils;
+import me.char321.sfadvancements.vanilla.VanillaHook;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -36,6 +37,7 @@ public final class SFAdvancements extends JavaPlugin implements SlimefunAddon {
     private final AdvManager advManager = new AdvManager();
     private final AdvGUIManager guiManager = new AdvGUIManager();
     private final AdvancementsRegistry registry = new AdvancementsRegistry();
+    private final VanillaHook vanillaHook = new VanillaHook(this);
 
     private YamlConfiguration advancementConfig;
     private YamlConfiguration groupConfig;
@@ -83,6 +85,10 @@ public final class SFAdvancements extends JavaPlugin implements SlimefunAddon {
             loadGroups();
             info("Loading advancements from config...");
             loadAdvancements();
+
+            if (!testing) {
+                vanillaHook.init();
+            }
         }, 0L);
 
     }
@@ -169,6 +175,10 @@ public final class SFAdvancements extends JavaPlugin implements SlimefunAddon {
 
     public static AdvancementsRegistry getRegistry() {
         return instance.registry;
+    }
+
+    public static VanillaHook getVanillaHook() {
+        return instance.vanillaHook;
     }
 
     public YamlConfiguration getAdvancementConfig() {

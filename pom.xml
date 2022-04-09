@@ -60,6 +60,10 @@
                             <pattern>org.bstats</pattern>
                             <shadedPattern>me.char321.sfadvancements.libs.bstats</shadedPattern>
                         </relocation>
+                        <relocation>
+                            <pattern>net.roxeez.advancement</pattern>
+                            <shadedPattern>me.char321.sfadvancements.libs.advancementapi</shadedPattern>
+                        </relocation>
                     </relocations>
                     <filters>
                         <filter>
@@ -144,6 +148,13 @@
                     <artifactId>dough-api</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.qwertyuioplkjhgfd</groupId>
+            <artifactId>AdvancementAPI</artifactId>
+            <version>0688607a59</version>
+            <scope>compile</scope>
         </dependency>
 
         <dependency>

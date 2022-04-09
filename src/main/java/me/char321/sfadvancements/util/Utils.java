@@ -60,6 +60,10 @@ public class Utils {
         return contents;
     }
 
+    public static void runSync(Runnable runnable) {
+        Bukkit.getScheduler().runTask(SFAdvancements.instance(), runnable);
+    }
+
     public static void runLater(Runnable runnable, long delay) {
         Bukkit.getScheduler().runTaskLater(SFAdvancements.instance(), runnable, delay);
     }

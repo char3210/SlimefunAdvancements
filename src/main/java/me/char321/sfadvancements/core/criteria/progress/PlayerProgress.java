@@ -108,6 +108,7 @@ public class PlayerProgress {
             progress.done = false;
             progress.progress = 0;
         }
+        Utils.fromKey(adv).revoke(Bukkit.getPlayer(player));
         return true;
     }
 
