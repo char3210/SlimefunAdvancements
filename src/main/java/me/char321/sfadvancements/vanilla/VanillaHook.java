@@ -36,7 +36,7 @@ public class VanillaHook {
                     ItemStack item = group.getDisplayItem();
                     ItemMeta meta = item.getItemMeta();
                     display.setTitle(meta.getDisplayName());
-                    display.setDescription(String.join("", meta.getLore()));
+                    display.setDescription(String.join("\n", meta.getLore()));
                     display.setIcon(new Icon(item));
                     display.setBackground(BackgroundType.BEDROCK);
                 });
@@ -54,8 +54,9 @@ public class VanillaHook {
 
                 vadvancement.setDisplay(display -> {
                     ItemStack item = advancement.getDisplay();
-                    display.setTitle(advancement.getName().replaceAll("[\\[\\]]", ""));
-                    display.setDescription(advancement.getDescription());
+                    ItemMeta meta = item.getItemMeta();
+                    display.setTitle(meta.getDisplayName());
+                    display.setDescription(String.join("\n", meta.getLore()));
                     display.setIcon(new Icon(item));
                 });
 
