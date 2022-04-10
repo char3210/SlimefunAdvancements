@@ -105,7 +105,6 @@ The type is the type of criterion. By default, these are the default criterion t
   - for having an item in an inventory
   - has an item parameter `item`, the item to have in the inventory
   - has an integer parameter `amount`, which is the number of items you need to complete the criterion
-  - this does not check amount, it will trigger when a player has a single item (amount coming soon)
 - `multiblock`
   - for interacting with a slimefun multiblock
   - has a string parameter `multiblock`, which is the slimefun item id of the multiblock
