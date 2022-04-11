@@ -15,6 +15,7 @@ public class CriteriaTypes {
         putType("consume", ConsumeCriterion::loadFromConfig);
         putType("interact", InteractCriterion::loadFromConfig);
         putType("inventory", InventoryCriterion::loadFromConfig);
+        putType("mobkill", MobKillCriterion::loadFromConfig);
         putType("multiblock", MultiBlockCriterion::loadFromConfig);
         putType("place", PlaceCriterion::loadFromConfig);
         putType("research", ResearchCriterion::loadFromConfig);

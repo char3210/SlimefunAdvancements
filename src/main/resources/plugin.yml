@@ -1,7 +1,7 @@
 name: SFAdvancements
 version: '${project.version}'
 main: me.char321.sfadvancements.SFAdvancements
-api-version: 1.18
+api-version: 1.14
 depend: [ Slimefun ]
 authors: [ char321 ]
 
