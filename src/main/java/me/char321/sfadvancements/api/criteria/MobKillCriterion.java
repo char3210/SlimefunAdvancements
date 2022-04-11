@@ -1,16 +1,15 @@
 package me.char321.sfadvancements.api.criteria;
 
 import me.char321.sfadvancements.SFAdvancements;
-import me.char321.sfadvancements.util.ConfigUtils;
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.inventory.ItemStack;
+import org.bukkit.entity.EntityType;
 
 /**
  * this criterion is performed when a player kills a mob
  *
  */
 public class MobKillCriterion extends Criterion {
-    private final String entity;
+    private final EntityType entity;
 
     public static MobKillCriterion loadFromConfig(ConfigurationSection config) {
         String id = config.getName();
@@ -30,16 +29,21 @@ public class MobKillCriterion extends Criterion {
             SFAdvancements.warn("entity not provided for " + id);
             return null;
         }
+        EntityType entityType = EntityType.fromName(entity);
+        if (entityType == null) {
+            SFAdvancements.warn("invalid entity type " + entity + " for criterion " + id);
+            return null;
+        }
 
-        return new MobKillCriterion(id, amount, name, entity);
+        return new MobKillCriterion(id, amount, name, entityType);
     }
 
-    public MobKillCriterion(String id, int amount, String name, String entity) {
+    public MobKillCriterion(String id, int amount, String name, EntityType entity) {
         super(id, amount, name);
         this.entity = entity;
     }
 
-    public String getEntity() {
+    public EntityType getEntity() {
         return entity;
     }
 }

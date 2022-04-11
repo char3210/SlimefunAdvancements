@@ -118,6 +118,10 @@ The type is the type of criterion. By default, these are the default criterion t
   - has a string parameter `research`, which is the namespaced key of the research
     - namespaced keys have the format "plugin:key", so for slimefun researches, it is "slimefun:research"
       - ex: "slimefun:ender_talismans"
+- `mobkill`
+  - for killing a type of mob
+  - has a string parameter `entity` which is the mob to kill
+  - entity types are generally lowercase, separated by underscores (ex. `stray`, `cave_spider`, `glow_squid`, etc.)
 
 #### rewards
 
