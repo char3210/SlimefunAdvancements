@@ -120,6 +120,7 @@ The type is the type of criterion. By default, these are the default criterion t
       - ex: "slimefun:ender_talismans"
 - `mobkill`
   - for killing a type of mob
+  - int parameter 'amount', the number of mobs to kill
   - has a string parameter `entity` which is the mob to kill
   - entity types are generally lowercase, separated by underscores (ex. `stray`, `cave_spider`, `glow_squid`, etc.)
 
