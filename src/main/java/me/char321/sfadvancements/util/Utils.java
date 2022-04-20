@@ -6,12 +6,14 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.event.Listener;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public class Utils {
@@ -31,6 +33,10 @@ public class Utils {
         im.addItemFlags(ItemFlag.HIDE_ENCHANTS);
     }
 
+    public static boolean keyIsSFA(NamespacedKey key) {
+        return key.getNamespace().equals(SFAdvancements.instance().getName().toLowerCase(Locale.ROOT));
+    }
+
     public static NamespacedKey keyOf(String value) {
         return new NamespacedKey(SFAdvancements.instance(), value);
     }
@@ -45,6 +51,10 @@ public class Utils {
 
     public static boolean isValidAdvancement(NamespacedKey key) {
         return SFAdvancements.getRegistry().getAdvancements().containsKey(key);
+    }
+
+    public static void listen(Listener listener) {
+        Bukkit.getPluginManager().registerEvents(listener, SFAdvancements.instance());
     }
 
     public static Map<ItemStack, Integer> getContents(Inventory inv) {

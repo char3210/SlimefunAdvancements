@@ -37,7 +37,7 @@ public final class SFAdvancements extends JavaPlugin implements SlimefunAddon {
     private final AdvManager advManager = new AdvManager();
     private final AdvGUIManager guiManager = new AdvGUIManager();
     private final AdvancementsRegistry registry = new AdvancementsRegistry();
-    private final VanillaHook vanillaHook = new VanillaHook(this);
+    private final VanillaHook vanillaHook = new VanillaHook();
 
     private YamlConfiguration advancementConfig;
     private YamlConfiguration groupConfig;
@@ -120,6 +120,10 @@ public final class SFAdvancements extends JavaPlugin implements SlimefunAddon {
 
         loadGroups();
         loadAdvancements();
+
+        if (!testing) {
+            vanillaHook.reload();
+        }
     }
 
     public void loadGroups() {

@@ -17,6 +17,7 @@ import java.util.List;
 
 public class AdvancementBuilder {
     private NamespacedKey key;
+    private NamespacedKey parent;
     private AdvancementGroup group;
     private ItemStack display;
     private String name;
@@ -59,6 +60,8 @@ public class AdvancementBuilder {
             Criterion criterion = CriteriaTypes.loadFromConfig(id, cripath.getConfigurationSection(id));
             if (criterion != null) {
                 criteria.add(criterion);
+            } else {
+                return null; //criterion failed to load, don't load the advancement
             }
         }
         builder.criteria(criteria);
@@ -93,6 +96,11 @@ public class AdvancementBuilder {
 
     public AdvancementBuilder key(NamespacedKey key) {
         this.key = key;
+        return this;
+    }
+
+    public AdvancementBuilder parent(NamespacedKey parent) {
+        this.parent = parent;
         return this;
     }
 
@@ -134,7 +142,7 @@ public class AdvancementBuilder {
             criterion.setAdvancement(key);
             criterion.register();
         }
-        Advancement adv = new Advancement(key, group, display, name, criteria.toArray(new Criterion[0]), rewards.toArray(new Reward[0]));
+        Advancement adv = new Advancement(key, parent, group, display, name, criteria.toArray(new Criterion[0]), rewards.toArray(new Reward[0]));
         adv.register();
     }
 

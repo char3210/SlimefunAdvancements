@@ -30,8 +30,7 @@ public class AdvManager {
     }
 
     public PlayerProgress getProgress(UUID player) {
-        playerMap.computeIfAbsent(player, PlayerProgress::get);
-        return playerMap.get(player);
+        return playerMap.computeIfAbsent(player, PlayerProgress::get);
     }
 
     public int getCriterionProgress(UUID p, Criterion criterion) {

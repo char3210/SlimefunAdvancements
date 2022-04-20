@@ -6,6 +6,7 @@ import me.char321.sfadvancements.api.AdvancementGroup;
 import me.char321.sfadvancements.core.criteria.progress.PlayerProgress;
 import me.char321.sfadvancements.util.Utils;
 import net.roxeez.advancement.AdvancementCreator;
+import net.roxeez.advancement.AdvancementManager;
 import net.roxeez.advancement.display.BackgroundType;
 import net.roxeez.advancement.display.Icon;
 import net.roxeez.advancement.trigger.TriggerType;
@@ -16,20 +17,31 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public class VanillaHook {
-    private SFAdvancements plugin;
-    private net.roxeez.advancement.AdvancementManager vanillaManager;
-
-    public VanillaHook(SFAdvancements plugin) {
-        this.plugin = plugin;
-    }
+    private AdvancementManager vanillaManager;
 
     public void init() {
-        vanillaManager = new net.roxeez.advancement.AdvancementManager(plugin);
+        this.vanillaManager = new AdvancementManager(SFAdvancements.instance());
+
+        Utils.listen(new PlayerJoinListener());
+        Utils.listen(new AdvancementListener());
+        reload();
+    }
+
+    public void reload() {
+        registerGroups(vanillaManager);
+        registerAdvancements(vanillaManager);
+        vanillaManager.createAll(true);
+
+        for (Player p : Bukkit.getOnlinePlayers()) {
+            syncProgress(p);
+        }
+    }
+
+    private static void registerGroups(AdvancementManager manager) {
         for (AdvancementGroup group : SFAdvancements.getRegistry().getAdvancementGroups()) {
-            vanillaManager.register(context -> {
+            manager.register(context -> {
                 net.roxeez.advancement.Advancement vadvancement = new net.roxeez.advancement.Advancement(Utils.keyOf(group.getId()));
 
                 vadvancement.setDisplay(display -> {
@@ -46,10 +58,12 @@ public class VanillaHook {
                 return vadvancement;
             });
         }
+    }
 
+    private static void registerAdvancements(AdvancementManager manager) {
         for (Map.Entry<NamespacedKey, Advancement> entry : SFAdvancements.getRegistry().getAdvancements().entrySet()) {
             Advancement advancement = entry.getValue();
-            vanillaManager.register(context -> {
+            manager.register(context -> {
                 net.roxeez.advancement.Advancement vadvancement = new net.roxeez.advancement.Advancement(entry.getKey());
 
                 vadvancement.setDisplay(display -> {
@@ -60,22 +74,17 @@ public class VanillaHook {
                     display.setIcon(new Icon(item));
                 });
 
-                vadvancement.setParent(Utils.keyOf(advancement.getGroup().getId()));
+                vadvancement.setParent(advancement.getParent());
                 vadvancement.addCriteria("impossible", TriggerType.IMPOSSIBLE, a -> {});
 
                 return vadvancement;
             });
         }
-
-        vanillaManager.createAll(false);
-
-        Bukkit.getPluginManager().registerEvents(new PlayerJoinListener(), SFAdvancements.instance());
     }
 
     public void syncProgress(Player p) {
-        PlayerProgress progress = SFAdvancements.getAdvManager().getProgress(p);
         for (Advancement adv : SFAdvancements.getRegistry().getAdvancements().values()) {
-            if (progress.isCompleted(adv.getKey())) {
+            if (SFAdvancements.getAdvManager().isCompleted(p, adv)) {
                 complete(p, adv.getKey());
             } else {
                 revoke(p, adv.getKey());
