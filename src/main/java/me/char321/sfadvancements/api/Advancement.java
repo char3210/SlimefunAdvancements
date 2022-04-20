@@ -119,11 +119,15 @@ public class Advancement {
             reward.give(p);
         }
 
-        SFAdvancements.getVanillaHook().complete(p, this.getKey());
+        if (SFAdvancements.getMainConfig().getBoolean("use-advancements-api")) {
+            SFAdvancements.getVanillaHook().complete(p, this.getKey());
+        }
     }
 
     public void revoke(Player p) {
-        SFAdvancements.getVanillaHook().revoke(p, this.getKey());
+        if (SFAdvancements.getMainConfig().getBoolean("use-advancements-api")) {
+            SFAdvancements.getVanillaHook().revoke(p, this.getKey());
+        }
     }
 
     private void broadcastMessage(Player p) {

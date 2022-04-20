@@ -39,6 +39,7 @@ public final class SFAdvancements extends JavaPlugin implements SlimefunAddon {
     private final AdvancementsRegistry registry = new AdvancementsRegistry();
     private final VanillaHook vanillaHook = new VanillaHook();
 
+    private Config config;
     private YamlConfiguration advancementConfig;
     private YamlConfiguration groupConfig;
 
@@ -56,6 +57,8 @@ public final class SFAdvancements extends JavaPlugin implements SlimefunAddon {
     @Override
     public void onEnable() {
         instance = this;
+
+        config = new Config(this);
 
         autoUpdate();
 
@@ -86,7 +89,7 @@ public final class SFAdvancements extends JavaPlugin implements SlimefunAddon {
             info("Loading advancements from config...");
             loadAdvancements();
 
-            if (!testing) {
+            if (!testing && config.getBoolean("use-advancements-api")) {
                 vanillaHook.init();
             }
         }, 0L);
@@ -104,7 +107,6 @@ public final class SFAdvancements extends JavaPlugin implements SlimefunAddon {
     }
 
     private void autoUpdate() {
-        Config config = new Config(this);
         if (config.getBoolean("auto-update") && !getDescription().getVersion().contains("MODIFIED")) {
             info("Checking for updates...");
             GitHubBuildsUpdater updater = new GitHubBuildsUpdater(this, this.getFile(), "qwertyuioplkjhgfd/SlimefunAdvancements/main");
@@ -113,6 +115,7 @@ public final class SFAdvancements extends JavaPlugin implements SlimefunAddon {
     }
 
     public void reload() {
+        config.reload();
         advManager.getPlayerMap().clear();
         registry.getAdvancements().clear();
         registry.getAdvancementGroups().clear();
@@ -121,19 +124,19 @@ public final class SFAdvancements extends JavaPlugin implements SlimefunAddon {
         loadGroups();
         loadAdvancements();
 
-        if (!testing) {
+        if (!testing && config.getBoolean("use-advancements-api")) {
             vanillaHook.reload();
         }
     }
 
     public void loadGroups() {
         File groupFile = new File(getDataFolder(), "groups.yml");
-        if(!groupFile.exists()) {
+        if (!groupFile.exists()) {
             saveResource("groups.yml", false);
         }
         groupConfig = YamlConfiguration.loadConfiguration(groupFile);
         for (String key : groupConfig.getKeys(false)) {
-            ItemStack display = ConfigUtils.getItem(groupConfig, key+".display");
+            ItemStack display = ConfigUtils.getItem(groupConfig, key + ".display");
             AdvancementGroup group = new AdvancementGroup(key, display);
             group.register();
         }
@@ -141,7 +144,7 @@ public final class SFAdvancements extends JavaPlugin implements SlimefunAddon {
 
     public void loadAdvancements() {
         File advancementsFile = new File(getDataFolder(), "advancements.yml");
-        if(!advancementsFile.exists()) {
+        if (!advancementsFile.exists()) {
             saveResource("advancements.yml", false);
         }
         advancementConfig = YamlConfiguration.loadConfiguration(advancementsFile);
@@ -183,6 +186,10 @@ public final class SFAdvancements extends JavaPlugin implements SlimefunAddon {
 
     public static VanillaHook getVanillaHook() {
         return instance.vanillaHook;
+    }
+
+    public static Config getMainConfig() {
+        return instance.config;
     }
 
     public YamlConfiguration getAdvancementConfig() {
