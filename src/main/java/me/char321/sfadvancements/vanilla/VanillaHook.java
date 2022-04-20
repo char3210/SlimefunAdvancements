@@ -21,8 +21,12 @@ import java.util.Map;
 
 public class VanillaHook {
     private AdvancementManager vanillaManager;
+    private boolean initialized = false;
 
     public void init() {
+        if (initialized) return;
+        initialized = true;
+
         this.vanillaManager = new AdvancementManager(SFAdvancements.instance());
 
         Utils.listen(new PlayerJoinListener());
@@ -31,6 +35,10 @@ public class VanillaHook {
     }
 
     public void reload() {
+        if (!initialized) {
+            init();
+        }
+
         vanillaManager.clearAdvancements();
         registerGroups(vanillaManager);
         registerAdvancements(vanillaManager);
