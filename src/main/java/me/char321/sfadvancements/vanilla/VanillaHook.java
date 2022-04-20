@@ -16,6 +16,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.util.HashSet;
 import java.util.Map;
 
 public class VanillaHook {
@@ -30,6 +31,7 @@ public class VanillaHook {
     }
 
     public void reload() {
+        vanillaManager.clearAdvancements();
         registerGroups(vanillaManager);
         registerAdvancements(vanillaManager);
         vanillaManager.createAll(true);
@@ -62,24 +64,39 @@ public class VanillaHook {
 
     private static void registerAdvancements(AdvancementManager manager) {
         for (Map.Entry<NamespacedKey, Advancement> entry : SFAdvancements.getRegistry().getAdvancements().entrySet()) {
-            Advancement advancement = entry.getValue();
-            manager.register(context -> {
-                net.roxeez.advancement.Advancement vadvancement = new net.roxeez.advancement.Advancement(entry.getKey());
-
-                vadvancement.setDisplay(display -> {
-                    ItemStack item = advancement.getDisplay();
-                    ItemMeta meta = item.getItemMeta();
-                    display.setTitle(meta.getDisplayName());
-                    display.setDescription(String.join("\n", meta.getLore()));
-                    display.setIcon(new Icon(item));
-                });
-
-                vadvancement.setParent(advancement.getParent());
-                vadvancement.addCriteria("impossible", TriggerType.IMPOSSIBLE, a -> {});
-
-                return vadvancement;
-            });
+            registerAdvancement(manager, entry.getValue());
         }
+    }
+
+    private static void registerAdvancement(AdvancementManager manager, Advancement advancement) {
+        if (manager == null) return;
+        if (advancement == null) return;
+
+        if (manager.getAdvancements().stream().anyMatch(vadv -> vadv.getKey().equals(advancement.getKey()))) return;
+
+        if (manager.getAdvancements().stream().noneMatch(vadv -> vadv.getKey().equals(advancement.getParent()))) {
+            Advancement parent = Utils.fromKey(advancement.getParent());
+            if (parent != null) {
+                registerAdvancement(manager, parent);
+            }
+        }
+
+        manager.register(context -> {
+            net.roxeez.advancement.Advancement vadvancement = new net.roxeez.advancement.Advancement(advancement.getKey());
+
+            vadvancement.setDisplay(display -> {
+                ItemStack item = advancement.getDisplay();
+                ItemMeta meta = item.getItemMeta();
+                display.setTitle(meta.getDisplayName());
+                display.setDescription(String.join("\n", meta.getLore()));
+                display.setIcon(new Icon(item));
+            });
+
+            vadvancement.setParent(advancement.getParent());
+            vadvancement.addCriteria("impossible", TriggerType.IMPOSSIBLE, a -> {});
+
+            return vadvancement;
+        });
     }
 
     public void syncProgress(Player p) {

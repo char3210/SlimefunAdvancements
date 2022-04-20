@@ -37,6 +37,13 @@ public class AdvancementBuilder {
         }
         builder.group(group);
 
+        String parent = config.getString("parent");
+        if (parent == null) {
+            parent = groupName;
+        }
+        NamespacedKey parentKey = NamespacedKey.fromString(parent, SFAdvancements.instance());
+        builder.parent(parentKey != null ? parentKey : Utils.keyOf(parent));
+
         ItemStack display = ConfigUtils.getItem(config, "display");
         if (display == null) {
             SFAdvancements.warn("invalid display for advancement " + key);
