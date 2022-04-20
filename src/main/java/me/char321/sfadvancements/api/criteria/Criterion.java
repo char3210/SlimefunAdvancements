@@ -130,4 +130,7 @@ public class Criterion {
         this.perform(p.getUniqueId());
     }
 
+    public void complete(Player p) {
+        SFAdvancements.getAdvManager().getProgress(p).completeCriterion(this);
+    }
 }

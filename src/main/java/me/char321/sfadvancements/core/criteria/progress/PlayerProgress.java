@@ -26,6 +26,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.logging.Level;
 
 /**
  * a per-player object that stores their advancement progress <br>
@@ -48,20 +49,21 @@ public class PlayerProgress {
     public static PlayerProgress get(UUID player) {
         PlayerProgress res = new PlayerProgress(player);
 
-        File f = new File("plugins/" + SFAdvancements.instance().getName() + "/advancements", player.toString()+".json");
+        File advancementsFolder = new File(SFAdvancements.instance().getDataFolder(), "/advancements");
+        File f = new File(advancementsFolder, player.toString() + ".json");
         if (f.exists()) {
             try {
                 JsonObject object = JsonParser.parseReader(new BufferedReader(new InputStreamReader(new FileInputStream(f), StandardCharsets.UTF_8))).getAsJsonObject();
                 res.loadFromObject(object);
             } catch (IOException e) {
-                SFAdvancements.warn("Error reading progress file: " + e);
+                SFAdvancements.logger().log(Level.SEVERE, "Error reading progress file", e);
             }
         }
         return res;
     }
 
-    public void doCriterion(Criterion cri) {
-        NamespacedKey adv = cri.getAdvancement();
+    public void doCriterion(Criterion criterion) {
+        NamespacedKey adv = criterion.getAdvancement();
         progressMap.computeIfAbsent(adv, AdvancementProgress::new);
 
         AdvancementProgress advProgress = progressMap.get(adv);
@@ -70,17 +72,36 @@ public class PlayerProgress {
         }
 
         for (CriteriaProgress progress : advProgress.criteria) {
-            if (!progress.id.equals(cri.getId())) {
+            if (!progress.id.equals(criterion.getId())) {
                 continue;
             }
 
-            if (progress.progress < cri.getCount()) {
+            if (progress.progress < criterion.getCount()) {
                 progress.progress++;
-                if (progress.progress >= cri.getCount()) {
+                if (progress.progress >= criterion.getCount()) {
                     progress.done = true;
                     advProgress.updateDone();
                 }
             }
+        }
+    }
+
+    public void completeCriterion(Criterion criterion) { //TODO: needs refactoring
+        NamespacedKey adv = criterion.getAdvancement();
+        AdvancementProgress progress = progressMap.computeIfAbsent(adv, AdvancementProgress::new);
+
+        for (CriteriaProgress criteriaProgress : progress.criteria) {
+            if (!criteriaProgress.id.equals(criterion.getId())) {
+                continue;
+            }
+
+            if (criteriaProgress.done) {
+                return;
+            }
+
+            criteriaProgress.done = true;
+            criteriaProgress.progress = criterion.getCount();
+            progress.updateDone();
         }
     }
 
@@ -108,6 +129,7 @@ public class PlayerProgress {
             progress.done = false;
             progress.progress = 0;
         }
+        Utils.fromKey(adv).revoke(Bukkit.getPlayer(player));
         return true;
     }
 
@@ -125,7 +147,7 @@ public class PlayerProgress {
         for (Map.Entry<String, JsonElement> entry : object.entrySet()) {
             NamespacedKey advkey = NamespacedKey.fromString(entry.getKey());
             if(!Utils.isValidAdvancement(advkey)) {
-                SFAdvancements.warn("unknown advancement: " + advkey);
+                SFAdvancements.warn("unknown advancement in player progress: " + advkey);
                 continue;
             }
             AdvancementProgress newprogress = new AdvancementProgress(advkey);
@@ -135,7 +157,8 @@ public class PlayerProgress {
     }
 
     public void save() throws IOException {
-        File f = new File("plugins/" + SFAdvancements.instance().getName() + "/advancements", player +".json");
+        File advancementsFolder = new File(SFAdvancements.instance().getDataFolder(), "/advancements");
+        File f = new File(advancementsFolder, player +".json");
         if (!f.exists()) {
             f.getParentFile().mkdirs();
             if (!f.createNewFile()) {
@@ -148,13 +171,11 @@ public class PlayerProgress {
             for (Map.Entry<NamespacedKey, AdvancementProgress> entry : progressMap.entrySet()) {
                 writer.name(entry.getKey().toString());
                 writer.beginObject();
-                writer.name("done");
-                writer.value(entry.getValue().done);
+                writer.name("done").value(entry.getValue().done);
                 writer.name("criteria");
                 writer.beginObject();
                 for (CriteriaProgress criterion : entry.getValue().criteria) {
-                    writer.name(criterion.id);
-                    writer.value(criterion.progress);
+                    writer.name(criterion.id).value(criterion.progress);
                 }
                 writer.endObject();
                 writer.endObject();
@@ -164,6 +185,7 @@ public class PlayerProgress {
     }
 
     /**
+     * determines if a given advancement is completed for this player progress
      *
      * @param key the key of the advancement
      * @return if the advancement is completed
@@ -207,12 +229,18 @@ public class PlayerProgress {
         void loadFromObject(JsonObject object) {
             done = object.get("done").getAsBoolean();
             JsonObject jsonCriteria = object.get("criteria").getAsJsonObject();
-            criteria = new CriteriaProgress[jsonCriteria.size()];
+            criteria = new CriteriaProgress[adv.getCriteria().length];
             int i = 0;
             for (Map.Entry<String, JsonElement> entry : jsonCriteria.entrySet()) {
-                CriteriaProgress newProgress = new CriteriaProgress(entry.getKey(), entry.getValue().getAsInt());
-                newProgress.done = entry.getValue().getAsInt() >= adv.getCriterion(entry.getKey()).getCount(); //no
-                criteria[i] = newProgress;
+                Criterion criterion = adv.getCriterion(entry.getKey());
+                if (criterion == null) {
+                    SFAdvancements.warn("unknown criterion in progress: " + entry.getKey());
+                    continue;
+                }
+                int progress = entry.getValue().getAsInt();
+                CriteriaProgress criteriaProgress = new CriteriaProgress(entry.getKey(), progress);
+                criteriaProgress.done = progress >= criterion.getCount(); //no
+                criteria[i] = criteriaProgress;
                 i++;
             }
         }

@@ -3,6 +3,7 @@ package me.char321.sfadvancements.api;
 import me.char321.sfadvancements.SFAdvancements;
 import me.char321.sfadvancements.api.criteria.Criterion;
 import me.char321.sfadvancements.api.reward.Reward;
+import me.char321.sfadvancements.util.Utils;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -14,6 +15,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import javax.annotation.Nullable;
 import java.util.Objects;
 
 /**
@@ -21,15 +23,20 @@ import java.util.Objects;
  * when all of an advancement's criteria are completed, it becomes shiny oooh
  */
 public class Advancement {
-    private NamespacedKey key;
-    private AdvancementGroup group;
-    private ItemStack display;
-    private String name;
-    private Criterion[] criteria;
-    private Reward[] rewards;
+    private final NamespacedKey key;
+    private final NamespacedKey parent;
+    private final AdvancementGroup group;
+    private final ItemStack display;
+    private final String name;
+    private final Criterion[] criteria;
+    private final Reward[] rewards;
 
-    public Advancement(NamespacedKey key, AdvancementGroup group, ItemStack display, String name, Criterion[] criteria, Reward[] rewards) {
+    public Advancement(NamespacedKey key, @Nullable NamespacedKey parent, AdvancementGroup group, ItemStack display, String name, Criterion[] criteria, Reward[] rewards) {
         this.key = key;
+        if (parent == null) {
+            parent = Utils.keyOf(group.getId());
+        }
+        this.parent = parent;
         this.group = group;
         this.display = display;
         this.name = ChatColor.translateAlternateColorCodes('&', name);
@@ -39,6 +46,14 @@ public class Advancement {
 
     public NamespacedKey getKey() {
         return key;
+    }
+
+    public NamespacedKey getParent() {
+        return parent;
+    }
+
+    public AdvancementGroup getGroup() {
+        return group;
     }
 
     public ItemStack getDisplay() {
@@ -53,6 +68,16 @@ public class Advancement {
         return criteria;
     }
 
+    public Reward[] getRewards() {
+        return rewards;
+    }
+
+    /**
+     * returns a criterion based on its on id
+     * @param id the id of the criterion
+     * @return the found criterion, null otherwise
+     */
+    @Nullable
     public Criterion getCriterion(String id) {
         for (Criterion criterion : criteria) {
             if (criterion.getId().equals(id)) {
@@ -85,10 +110,23 @@ public class Advancement {
      * @param p player
      */
     public void complete(Player p) {
-        broadcastMessage(p);
+//        broadcastMessage(p);
+        for (Criterion criterion : criteria) {
+            criterion.complete(p);
+        }
 
         for (Reward reward : rewards) {
             reward.give(p);
+        }
+
+        if (SFAdvancements.getMainConfig().getBoolean("use-advancements-api")) {
+            SFAdvancements.getVanillaHook().complete(p, this.getKey());
+        }
+    }
+
+    public void revoke(Player p) {
+        if (SFAdvancements.getMainConfig().getBoolean("use-advancements-api")) {
+            SFAdvancements.getVanillaHook().revoke(p, this.getKey());
         }
     }
 
