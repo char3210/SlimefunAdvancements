@@ -108,6 +108,9 @@ public class VanillaHook {
     }
 
     public void syncProgress(Player p) {
+        for (AdvancementGroup group : SFAdvancements.getRegistry().getAdvancementGroups()) {
+            complete(p, Utils.keyOf(group.getId()));
+        }
         for (Advancement adv : SFAdvancements.getRegistry().getAdvancements().values()) {
             if (SFAdvancements.getAdvManager().isCompleted(p, adv)) {
                 complete(p, adv.getKey());
