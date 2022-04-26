@@ -18,6 +18,7 @@ import me.char321.sfadvancements.util.ConfigUtils;
 import me.char321.sfadvancements.util.Utils;
 import me.char321.sfadvancements.vanilla.VanillaHook;
 import org.bstats.bukkit.Metrics;
+import org.bstats.charts.SimplePie;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
@@ -29,6 +30,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.io.File;
 import java.io.IOException;
+import java.util.concurrent.Callable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -78,7 +80,8 @@ public final class SFAdvancements extends JavaPlugin implements SlimefunAddon {
         Bukkit.getScheduler().runTaskTimerAsynchronously(this, new AutoSaveTask(), 6000L, 6000L);
 
         if (!testing) {
-            new Metrics(this, 14130);
+            Metrics metrics = new Metrics(this, 14130);
+            metrics.addCustomChart(new SimplePie("AdvancementAPI enabled", () -> config.getBoolean("use-advancements-api") ? "true" : "false"));
         }
 
         //allow other plugins to register their criteria completers

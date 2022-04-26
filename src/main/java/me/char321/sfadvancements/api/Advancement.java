@@ -110,7 +110,7 @@ public class Advancement {
      * @param p player
      */
     public void complete(Player p) {
-//        broadcastMessage(p);
+
         for (Criterion criterion : criteria) {
             criterion.complete(p);
         }
@@ -121,6 +121,8 @@ public class Advancement {
 
         if (SFAdvancements.getMainConfig().getBoolean("use-advancements-api")) {
             SFAdvancements.getVanillaHook().complete(p, this.getKey());
+        } else {
+            broadcastMessage(p);
         }
     }
 
