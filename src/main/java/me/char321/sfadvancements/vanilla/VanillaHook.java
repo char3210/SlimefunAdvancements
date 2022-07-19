@@ -16,7 +16,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 
 public class VanillaHook {
@@ -58,7 +60,11 @@ public class VanillaHook {
                     ItemStack item = group.getDisplayItem();
                     ItemMeta meta = item.getItemMeta();
                     display.setTitle(meta.getDisplayName());
-                    display.setDescription(String.join("\n", meta.getLore()));
+                    List<String> lore = meta.getLore();
+                    if (lore == null) {
+                        lore = new ArrayList<>();
+                    }
+                    display.setDescription(String.join("\n", lore));
                     display.setIcon(new Icon(item));
                     display.setBackground(BackgroundType.BEDROCK);
                 });

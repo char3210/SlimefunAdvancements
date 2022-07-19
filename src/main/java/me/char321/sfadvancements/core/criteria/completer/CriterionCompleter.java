@@ -12,5 +12,9 @@ public interface CriterionCompleter {
 
     Class<? extends Criterion> getCriterionClass();
 
+    /**
+     * when this is called don't complete criteria previously registered via register(Criterion)
+     * typically this is done by clearing the collection/map that held the criteria
+     */
     void reload();
 }
