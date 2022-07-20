@@ -67,12 +67,7 @@ public class VanillaHook {
                     }
                     display.setDescription(String.join("\n", lore));
                     display.setIcon(new Icon(item));
-                    try {
-                        display.setBackground(NamespacedKey.minecraft("textures/block/" + back + ".png"));
-                    } catch (IllegalArgumentException x) {
-                        SFAdvancements.warn("invalid background type " + back);
-                        display.setBackground(NamespacedKey.minecraft("textures/block/bedrock.png"));
-                    }
+                    display.setBackground(NamespacedKey.minecraft("textures/block/" + back + ".png"));
                     
                 });
 
