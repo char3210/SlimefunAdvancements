@@ -1,4 +1,5 @@
 basic:
+  background: BEDROCK
   display:
     type: SLIME_BALL
     name: "&fBasic"
@@ -6,6 +7,7 @@ basic:
       - "&7&oThe core spirit of Slimefun."
 
 electric:
+  background: BEDROCK
   display:
     type: REDSTONE
     name: "&eElectric"
@@ -13,6 +15,7 @@ electric:
       - "&7&oThe center of civilization."
 
 cargo:
+  background: BEDROCK
   display:
     type: CARGO_MANAGER
     name: "&6Cargo"
@@ -20,6 +23,7 @@ cargo:
       - "&7&oThe beginnings of something magnificent."
 
 technical:
+  background: BEDROCK
   display:
     type: DIAMOND_PICKAXE
     name: "&4Technical"
@@ -27,6 +31,7 @@ technical:
       - "&7&ohaha spinny motor go nyooom"
 
 magical:
+  background: BEDROCK
   display:
     type: ENDER_EYE
     name: "&dMagical"
@@ -34,6 +39,7 @@ magical:
       - "&7&oMastery is the product of time."
 
 other:
+  background: BEDROCK
   display:
     type: LAVA_BUCKET
     name: "&7Other"

@@ -58,6 +58,7 @@ public class VanillaHook {
 
                 vadvancement.setDisplay(display -> {
                     ItemStack item = group.getDisplayItem();
+                    String back = group.getBack();
                     ItemMeta meta = item.getItemMeta();
                     display.setTitle(meta.getDisplayName());
                     List<String> lore = meta.getLore();
@@ -66,7 +67,13 @@ public class VanillaHook {
                     }
                     display.setDescription(String.join("\n", lore));
                     display.setIcon(new Icon(item));
-                    display.setBackground(BackgroundType.BEDROCK);
+                    try {
+                        display.setBackground(NamespacedKey.minecraft("textures/block/" + back + ".png"));
+                    } catch (IllegalArgumentException x) {
+                        SFAdvancements.warn("invalid background type " + back);
+                        display.setBackground(NamespacedKey.minecraft("textures/block/bedrock.png"));
+                    }
+                    
                 });
 
                 vadvancement.addCriteria("impossible", TriggerType.IMPOSSIBLE, a -> {});

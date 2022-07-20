@@ -17,6 +17,15 @@ public class ConfigUtils {
         return ChatColor.translateAlternateColorCodes('&', s);
     }
 
+    public static String getString(ConfigurationSection config, String path) {
+        if (config.isString(path)) {
+            String back = config.getString(path);
+            return back.toLowerCase();
+        } else {
+            return "bedrock";
+        }
+    }
+
     public static ItemStack getItem(ConfigurationSection config, String path) {
         if (config.isItemStack(path)) {
             return config.getItemStack(path);

@@ -10,9 +10,11 @@ public class AdvancementGroup {
     private final ItemStack display;
     private List<Advancement> advancements = new ArrayList<>();
     private String id;
+    private String back;
 
-    public AdvancementGroup(String id, ItemStack display) {
+    public AdvancementGroup(String id, ItemStack display, String back) {
         this.id = id;
+        this.back = back;
         this.display = display;
     }
 
@@ -30,5 +32,9 @@ public class AdvancementGroup {
 
     public String getId() {
         return id;
+    }
+
+    public String getBack() {
+        return back;
     }
 }
