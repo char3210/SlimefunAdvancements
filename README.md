@@ -76,9 +76,11 @@ hi:
 This is where all your advancements will go.<br>
 Each item represents an advancement, where the key is the key of the advancement.<br>
 (It is stored as a NamespacedKey `sfadvancements:<key>`)<br>
-An advancement contains a group, display, name, criteria, and optional rewards.<br>
+An advancement contains a group, parent(optional), display, name, criteria, and optional rewards.<br>
 
 The group is the id defined in `groups.yml`.
+
+The parent is the id of a different Advancement for this to be under. (For Advancement Trees)
 
 The display is an item, represented as described in Item Representation.
 
