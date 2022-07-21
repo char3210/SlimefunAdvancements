@@ -10,11 +10,11 @@ public class AdvancementGroup {
     private final ItemStack display;
     private List<Advancement> advancements = new ArrayList<>();
     private String id;
-    private String back;
+    private String background;
 
-    public AdvancementGroup(String id, ItemStack display, String back) {
+    public AdvancementGroup(String id, ItemStack display, String background) {
         this.id = id;
-        this.back = back;
+        this.background = background;
         this.display = display;
     }
 
@@ -34,7 +34,7 @@ public class AdvancementGroup {
         return id;
     }
 
-    public String getBack() {
-        return back;
+    public String getBackground() {
+        return background;
     }
 }

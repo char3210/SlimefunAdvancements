@@ -7,7 +7,6 @@ import me.char321.sfadvancements.core.criteria.progress.PlayerProgress;
 import me.char321.sfadvancements.util.Utils;
 import net.roxeez.advancement.AdvancementCreator;
 import net.roxeez.advancement.AdvancementManager;
-import net.roxeez.advancement.display.BackgroundType;
 import net.roxeez.advancement.display.Icon;
 import net.roxeez.advancement.trigger.TriggerType;
 import org.bukkit.Bukkit;
@@ -58,7 +57,7 @@ public class VanillaHook {
 
                 vadvancement.setDisplay(display -> {
                     ItemStack item = group.getDisplayItem();
-                    String back = group.getBack();
+                    String background = group.getBackground();
                     ItemMeta meta = item.getItemMeta();
                     display.setTitle(meta.getDisplayName());
                     List<String> lore = meta.getLore();
@@ -67,7 +66,7 @@ public class VanillaHook {
                     }
                     display.setDescription(String.join("\n", lore));
                     display.setIcon(new Icon(item));
-                    display.setBackground(NamespacedKey.minecraft("textures/block/" + back + ".png"));
+                    display.setBackground(NamespacedKey.minecraft("textures/block/" + background.toLowerCase() + ".png"));
                     
                 });
 
