@@ -12,6 +12,10 @@ public class AdvancementGroup {
     private String id;
     private String background;
 
+    public AdvancementGroup(String id, ItemStack display) {
+        this(id, display, "BEDROCK");
+    }
+
     public AdvancementGroup(String id, ItemStack display, String background) {
         this.id = id;
         this.background = background;
