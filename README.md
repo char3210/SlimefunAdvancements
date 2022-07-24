@@ -12,14 +12,17 @@ The configuration files can be found in your `plugins/SFAdvancements/` folder.
 
 Each item in the yml represents an advancement group, where the key is the key of the group.<br>
 The key is used to refer to the group in `advancements.yml`.<br>
-Each group has a `display`, which is an item. It should be an item representation.
+Each group has a `display`, which is an item. It should be an item representation.<br>
+The item is used to display the group in the GUI.<br>
+You can optionally specify a `background` string for the group, which is used in the vanilla GUI. (By default, groups will have a bedrock texture)<br>
+It should be the name of a block texture file. These files can be found on https://mcasset.cloud/ in `assets/minecraft/textures/block/` for the specified version.
 
 ### Item Representation
 
 You can represent an item in a few ways.<br>
 1. just a string, the id of the item (either [vanilla material](https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html) or [slimefun item id](https://sf-items.walshy.dev/))
 2. an object with a string `type` (the id of the item), optional string `name`, and optional string list `lore`.
-3. a serialized representaion of the item
+3. a serialized representation of the item
 
 You can generate representations of an item by holding the item in your hand in-game and typing `/sfa dumpitem`.<br>
 The results will be displayed in console.
@@ -28,9 +31,11 @@ Examples of #1 in `groups.yml`
 ```yaml
 my_cool_group:
   display: NETHER_STAR
+  background: glass
 
 my_other_group:
   display: ELECTRIC_MOTOR
+  background: redstone_block
 ```
 
 Examples of #2 in `groups.yml`
@@ -71,9 +76,11 @@ hi:
 This is where all your advancements will go.<br>
 Each item represents an advancement, where the key is the key of the advancement.<br>
 (It is stored as a NamespacedKey `sfadvancements:<key>`)<br>
-An advancement contains a group, display, name, criteria, and optional rewards.<br>
+An advancement contains a group, parent(optional), display, name, criteria, and optional rewards.<br>
 
 The group is the id defined in `groups.yml`.
+
+The parent is the id of a different Advancement for this to be under. (For Advancement Trees)
 
 The display is an item, represented as described in Item Representation.
 
@@ -123,6 +130,9 @@ The type is the type of criterion. By default, these are the default criterion t
   - int parameter 'amount', the number of mobs to kill
   - has a string parameter `entity` which is the mob to kill
   - entity types are generally lowercase, separated by underscores (ex. `stray`, `cave_spider`, `glow_squid`, etc.)
+- `search`
+  - for searching for a string in the slimefun guide
+  - string parameter `search` which is the exact string to search for
 
 #### rewards
 
@@ -156,7 +166,7 @@ see [api.md](https://github.com/qwertyuioplkjhgfd/SlimefunAdvancements/blob/main
 - ~~permissions~~
 - ~~load default advancements (from other plugins)~~
 - better readme, .github, ~~builds page~~
-- tree
+- ~~tree~~
 - advancements api (crazy)
 - cheat menu
 - docs

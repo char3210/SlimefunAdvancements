@@ -20,6 +20,7 @@ public class CriteriaTypes {
         putType("place", PlaceCriterion::loadFromConfig);
         putType("research", ResearchCriterion::loadFromConfig);
         putType("none", Criterion::loadFromConfig);
+        putType("search", SearchCriterion::loadFromConfig);
     }
 
     /**

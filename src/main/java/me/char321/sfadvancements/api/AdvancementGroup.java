@@ -10,9 +10,15 @@ public class AdvancementGroup {
     private final ItemStack display;
     private List<Advancement> advancements = new ArrayList<>();
     private String id;
+    private String background;
 
     public AdvancementGroup(String id, ItemStack display) {
+        this(id, display, "BEDROCK");
+    }
+
+    public AdvancementGroup(String id, ItemStack display, String background) {
         this.id = id;
+        this.background = background;
         this.display = display;
     }
 
@@ -30,5 +36,9 @@ public class AdvancementGroup {
 
     public String getId() {
         return id;
+    }
+
+    public String getBackground() {
+        return background;
     }
 }

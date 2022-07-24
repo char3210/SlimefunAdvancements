@@ -171,3 +171,16 @@ ender_charms:
       type: research
       research: "slimefun:ender_talismans"
 
+who_asked:
+  group: other
+  display:
+    type: MAP
+    name: "&aWho Asked?"
+    lore:
+      - "Search for who asked"
+  name: "&a[Who Asked?]"
+  criteria:
+    ask:
+      name: "Search for who asked"
+      type: search
+      search: "who asked"

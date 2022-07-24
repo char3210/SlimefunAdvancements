@@ -7,7 +7,6 @@ import me.char321.sfadvancements.core.criteria.progress.PlayerProgress;
 import me.char321.sfadvancements.util.Utils;
 import net.roxeez.advancement.AdvancementCreator;
 import net.roxeez.advancement.AdvancementManager;
-import net.roxeez.advancement.display.BackgroundType;
 import net.roxeez.advancement.display.Icon;
 import net.roxeez.advancement.trigger.TriggerType;
 import org.bukkit.Bukkit;
@@ -16,7 +15,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 
 public class VanillaHook {
@@ -56,11 +57,17 @@ public class VanillaHook {
 
                 vadvancement.setDisplay(display -> {
                     ItemStack item = group.getDisplayItem();
+                    String background = group.getBackground();
                     ItemMeta meta = item.getItemMeta();
                     display.setTitle(meta.getDisplayName());
-                    display.setDescription(String.join("\n", meta.getLore()));
+                    List<String> lore = meta.getLore();
+                    if (lore == null) {
+                        lore = new ArrayList<>();
+                    }
+                    display.setDescription(String.join("\n", lore));
                     display.setIcon(new Icon(item));
-                    display.setBackground(BackgroundType.BEDROCK);
+                    display.setBackground(NamespacedKey.minecraft("textures/block/" + background.toLowerCase() + ".png"));
+                    
                 });
 
                 vadvancement.addCriteria("impossible", TriggerType.IMPOSSIBLE, a -> {});

@@ -14,5 +14,6 @@ public class DefaultCompleters {
         new MultiBlockCriterionCompleter().register();
         new ConsumeCriterionCompleter().register();
         new MobKillCriterionCompleter().register();
+        new SearchCriterionCompleter().register();
     }
 }

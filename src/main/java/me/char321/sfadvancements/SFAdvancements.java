@@ -139,8 +139,9 @@ public final class SFAdvancements extends JavaPlugin implements SlimefunAddon {
         }
         groupConfig = YamlConfiguration.loadConfiguration(groupFile);
         for (String key : groupConfig.getKeys(false)) {
+            String background = groupConfig.getString(key + ".background", "BEDROCK");
             ItemStack display = ConfigUtils.getItem(groupConfig, key + ".display");
-            AdvancementGroup group = new AdvancementGroup(key, display);
+            AdvancementGroup group = new AdvancementGroup(key, display, background);
             group.register();
         }
     }
