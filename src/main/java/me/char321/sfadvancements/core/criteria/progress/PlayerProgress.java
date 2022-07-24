@@ -231,15 +231,16 @@ public class PlayerProgress {
             JsonObject jsonCriteria = object.get("criteria").getAsJsonObject();
             criteria = new CriteriaProgress[adv.getCriteria().length];
             int i = 0;
-            for (Map.Entry<String, JsonElement> entry : jsonCriteria.entrySet()) {
-                Criterion criterion = adv.getCriterion(entry.getKey());
-                if (criterion == null) {
-                    SFAdvancements.warn("unknown criterion in progress: " + entry.getKey());
-                    continue;
+            for (Criterion criterion : adv.getCriteria()) {
+                CriteriaProgress criteriaProgress;
+                JsonElement element = jsonCriteria.get(criterion.getId());
+                if (element == null || !element.isJsonPrimitive()) {
+                    criteriaProgress = new CriteriaProgress(criterion.getId(), 0);
+                } else {
+                    int progress = element.getAsInt();
+                    criteriaProgress = new CriteriaProgress(criterion.getId(), progress);
+                    criteriaProgress.done = progress >= criterion.getCount();
                 }
-                int progress = entry.getValue().getAsInt();
-                CriteriaProgress criteriaProgress = new CriteriaProgress(entry.getKey(), progress);
-                criteriaProgress.done = progress >= criterion.getCount(); //no
                 criteria[i] = criteriaProgress;
                 i++;
             }
