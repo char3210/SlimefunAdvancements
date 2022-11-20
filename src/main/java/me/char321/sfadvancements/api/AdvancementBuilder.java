@@ -21,6 +21,7 @@ public class AdvancementBuilder {
     private AdvancementGroup group;
     private ItemStack display;
     private String name;
+    private boolean hidden;
     private List<Criterion> criteria = new ArrayList<>();
     private List<Reward> rewards = new ArrayList<>();
 
@@ -56,6 +57,8 @@ public class AdvancementBuilder {
             advname = key;
         }
         builder.name(advname);
+
+        builder.hidden(config.getBoolean("hidden"));
 
         ConfigurationSection cripath = config.getConfigurationSection("criteria");
         if (cripath == null) {
@@ -134,6 +137,11 @@ public class AdvancementBuilder {
         return this;
     }
 
+    public AdvancementBuilder hidden(boolean hidden) {
+        this.hidden = hidden;
+        return this;
+    }
+
     public AdvancementBuilder criteria(List<Criterion> criteria) {
         this.criteria.addAll(criteria);
         return this;
@@ -149,7 +157,7 @@ public class AdvancementBuilder {
             criterion.setAdvancement(key);
             criterion.register();
         }
-        Advancement adv = new Advancement(key, parent, group, display, name, criteria.toArray(new Criterion[0]), rewards.toArray(new Reward[0]));
+        Advancement adv = new Advancement(key, parent, group, display, name, hidden, criteria.toArray(new Criterion[0]), rewards.toArray(new Reward[0]));
         adv.register();
     }
 

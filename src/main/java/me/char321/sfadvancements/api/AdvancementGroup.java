@@ -4,7 +4,10 @@ import me.char321.sfadvancements.SFAdvancements;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class AdvancementGroup {
     private final ItemStack display;
@@ -30,8 +33,20 @@ public class AdvancementGroup {
         return display;
     }
 
+    /**
+     * gets an immutable view of the advancements
+     * @return list of all advancements in this group
+     */
     public List<Advancement> getAdvancements() {
-        return advancements;
+        return Collections.unmodifiableList(advancements);
+    }
+
+    /**
+     * @param player the player
+     * @return the list of advancements in this group that can be seen
+     */
+    public List<Advancement> getVisibleAdvancements(UUID player) {
+        return advancements.stream().filter(a -> !a.isHidden() || SFAdvancements.getAdvManager().isCompleted(player, a)).collect(Collectors.toList());
     }
 
     public String getId() {
@@ -40,5 +55,9 @@ public class AdvancementGroup {
 
     public String getBackground() {
         return background;
+    }
+
+    public void addAdvancement(Advancement advancement) {
+        advancements.add(advancement);
     }
 }

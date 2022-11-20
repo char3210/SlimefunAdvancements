@@ -87,8 +87,9 @@ public class VanillaHook {
         if (manager == null) return;
         if (advancement == null) return;
 
+        //TODO optimize
         if (manager.getAdvancements().stream().anyMatch(vadv -> vadv.getKey().equals(advancement.getKey()))) return;
-
+        //do i even need to do this?
         if (manager.getAdvancements().stream().noneMatch(vadv -> vadv.getKey().equals(advancement.getParent()))) {
             Advancement parent = Utils.fromKey(advancement.getParent());
             if (parent != null) {
@@ -105,6 +106,7 @@ public class VanillaHook {
                 display.setTitle(meta.getDisplayName());
                 display.setDescription(String.join("\n", meta.getLore()));
                 display.setIcon(new Icon(item));
+                display.setHidden(advancement.isHidden());
             });
 
             vadvancement.setParent(advancement.getParent());

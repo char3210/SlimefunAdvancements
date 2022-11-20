@@ -86,7 +86,7 @@ public class PlayerProgress {
         }
     }
 
-    public void completeCriterion(Criterion criterion) { //TODO: needs refactoring
+    public void completeCriterion(Criterion criterion) {
         NamespacedKey adv = criterion.getAdvancement();
         AdvancementProgress progress = progressMap.computeIfAbsent(adv, AdvancementProgress::new);
 

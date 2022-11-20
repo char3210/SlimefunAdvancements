@@ -62,7 +62,7 @@ public class OpenGUI {
         } else if (slot == 53) {
             AdvancementGroup group = registry.getAdvancementGroups().get(groupIndex);
             //make better
-            int size = group.getAdvancements().size();
+            int size = group.getVisibleAdvancements(player).size();
             int maxScroll = (size - 1) / 8 - 4;
             if (scroll + 1 <= maxScroll) {
                 scroll++;
@@ -159,7 +159,7 @@ public class OpenGUI {
         inventory.setItem(17, scrollUp);
 
         ItemStack scrollDown;
-        int size = group.getAdvancements().size();
+        int size = group.getVisibleAdvancements(player).size();
         int maxScroll = (size - 1) / 8 - 4;
         if (scroll >= maxScroll) {
             scrollDown = MenuItems.YELLOW;
@@ -171,7 +171,7 @@ public class OpenGUI {
 
     private void refreshAdvancements() {
         AdvancementGroup group = registry.getAdvancementGroups().get(groupIndex);
-        List<Advancement> advancements = group.getAdvancements();
+        List<Advancement> advancements = group.getVisibleAdvancements(player);
         for (int i = 0; i < 40; i++) {
             int row = i / 8 + 1;
             int col = i % 8;

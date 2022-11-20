@@ -1,5 +1,6 @@
 package me.char321.sfadvancements.core.gui;
 
+import me.char321.sfadvancements.util.Utils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -21,8 +22,8 @@ public class AdvGUIManager implements Listener {
     public void onClick(InventoryClickEvent e) {
         OpenGUI openGUI = getByPlayer((Player) e.getWhoClicked());
         if (e.getInventory().equals(openGUI.getInventory())) {
-            openGUI.click(e.getRawSlot());
             e.setCancelled(true);
+            Utils.runSync(() -> openGUI.click(e.getRawSlot()));
         }
     }
 

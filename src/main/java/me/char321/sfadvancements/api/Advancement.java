@@ -28,10 +28,11 @@ public class Advancement {
     private final AdvancementGroup group;
     private final ItemStack display;
     private final String name;
+    private final boolean hidden;
     private final Criterion[] criteria;
     private final Reward[] rewards;
 
-    public Advancement(NamespacedKey key, @Nullable NamespacedKey parent, AdvancementGroup group, ItemStack display, String name, Criterion[] criteria, Reward[] rewards) {
+    public Advancement(NamespacedKey key, @Nullable NamespacedKey parent, AdvancementGroup group, ItemStack display, String name, boolean hidden, Criterion[] criteria, Reward[] rewards) {
         this.key = key;
         if (parent == null) {
             parent = Utils.keyOf(group.getId());
@@ -40,6 +41,7 @@ public class Advancement {
         this.group = group;
         this.display = display;
         this.name = ChatColor.translateAlternateColorCodes('&', name);
+        this.hidden = hidden;
         this.criteria = criteria;
         this.rewards = rewards;
     }
@@ -62,6 +64,10 @@ public class Advancement {
 
     public String getName() {
         return name;
+    }
+
+    public boolean isHidden() {
+        return hidden;
     }
 
     public Criterion[] getCriteria() {
@@ -100,7 +106,8 @@ public class Advancement {
     }
 
     public void register() {
-        group.getAdvancements().add(this);
+        group.addAdvancement(this);
+//        group.getAdvancements().add(this);
         SFAdvancements.getRegistry().getAdvancements().put(key, this);
     }
 

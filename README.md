@@ -76,7 +76,7 @@ hi:
 This is where all your advancements will go.<br>
 Each item represents an advancement, where the key is the key of the advancement.<br>
 (It is stored as a NamespacedKey `sfadvancements:<key>`)<br>
-An advancement contains a group, parent(optional), display, name, criteria, and optional rewards.<br>
+An advancement contains a group, parent(optional), display, name, criteria, optionally hidden, and optional rewards.<br>
 
 The group is the id defined in `groups.yml`.
 
@@ -88,7 +88,11 @@ The name is what will appear in chat when someone completes the advancement.
 
 (the display and name support color codes with `&`)
 
-The criteria are a section, where each item is a criterion and the key is the criterion key.
+The criteria are a section, where each item is a criterion and the key is the criterion key. (details below)
+
+`hidden` is either `true` or `false`. If true, the advancement is hidden by default both in the chest gui and in the vanilla menu. 
+
+The rewards are a section of different reward types (e.g. `command`s, details below)
 
 #### criterion
 
