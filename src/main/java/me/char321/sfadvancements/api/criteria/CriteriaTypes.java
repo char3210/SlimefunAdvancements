@@ -21,6 +21,7 @@ public class CriteriaTypes {
         putType("research", ResearchCriterion::loadFromConfig);
         putType("none", Criterion::loadFromConfig);
         putType("search", SearchCriterion::loadFromConfig);
+        putType("break", BlockBreakCriterion::loadFromConfig);
     }
 
     /**

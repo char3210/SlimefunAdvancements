@@ -130,6 +130,11 @@ public class Criterion {
         this.perform(p.getUniqueId());
     }
 
+    /**
+     * finishes this criterion completely
+     *
+     * @param p the player to complete the criterion
+     */
     public void complete(Player p) {
         SFAdvancements.getAdvManager().getProgress(p).completeCriterion(this);
     }

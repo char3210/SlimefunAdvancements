@@ -123,7 +123,9 @@ The type is the type of criterion. By default, these are the default criterion t
   - for placing blocks
   - has an item parameter `item`, which is the item to place down
   - has an integer parameter `amount`, which is the number of items to place
-  - note that there is no protection against players repeatedly breaking and replacing the block, so for most items just use one for the amount
+  - note that there is no protection against players repeatedly breaking and replacing the block, so for most items setting the `amount` to 1 would be appropriate
+- `break`
+  - like `place` but for breaking blocks, same parameters
 - `research`
   - for completing a research
   - has a string parameter `research`, which is the namespaced key of the research
