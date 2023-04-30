@@ -20,10 +20,11 @@ public class AdvGUIManager implements Listener {
 
     @EventHandler
     public void onClick(InventoryClickEvent e) {
-        OpenGUI openGUI = getByPlayer((Player) e.getWhoClicked());
+        final Player player = (Player) e.getWhoClicked();
+        OpenGUI openGUI = getByPlayer(player);
         if (e.getInventory().equals(openGUI.getInventory())) {
             e.setCancelled(true);
-            Utils.runSync(() -> openGUI.click(e.getRawSlot()));
+            Utils.runSync(() -> openGUI.click(player, e.getRawSlot()));
         }
     }
 
