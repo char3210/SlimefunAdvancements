@@ -1,5 +1,8 @@
 package me.char321.sfadvancements.core.gui;
 
+import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
+import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
+import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideMode;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import me.char321.sfadvancements.SFAdvancements;
 import me.char321.sfadvancements.api.Advancement;
@@ -23,7 +26,7 @@ import java.util.UUID;
 public class OpenGUI {
     private final Inventory inventory;
     private final AdvancementsRegistry registry = SFAdvancements.getRegistry();
-    private final UUID player;
+    private final UUID playerUUID;
     private int page = 1;
     private int groupIndex = 0;
     private int scroll = 0;
@@ -32,9 +35,9 @@ public class OpenGUI {
         this(player.getUniqueId());
     }
 
-    public OpenGUI(UUID player) {
+    public OpenGUI(UUID playerUUID) {
         this.inventory = Bukkit.createInventory(null, 54, ChatColor.BLUE + "Advancements");
-        this.player = player;
+        this.playerUUID = playerUUID;
         refresh();
     }
 
@@ -43,8 +46,10 @@ public class OpenGUI {
         return inventory;
     }
 
-    public void click(int slot) {
-        if (slot == 1 && page > 1) {
+    public void click(Player player, int slot) {
+        if (slot == 0) {
+            PlayerProfile.find(player).ifPresent(profile -> SlimefunGuide.openMainMenu(profile, SlimefunGuideMode.SURVIVAL_MODE, profile.getGuideHistory().getMainMenuPage()));
+        } else if (slot == 1 && page > 1) {
             page--;
         } else if (slot == 7) {
             int maxPage = (registry.getAdvancementGroups().size() - 1) / 5 + 1;
@@ -62,7 +67,7 @@ public class OpenGUI {
         } else if (slot == 53) {
             AdvancementGroup group = registry.getAdvancementGroups().get(groupIndex);
             //make better
-            int size = group.getVisibleAdvancements(player).size();
+            int size = group.getVisibleAdvancements(playerUUID).size();
             int maxScroll = (size - 1) / 8 - 4;
             if (scroll + 1 <= maxScroll) {
                 scroll++;
@@ -72,7 +77,7 @@ public class OpenGUI {
     }
 
     public void refresh() {
-        refreshBorders();
+        refreshBackButton();
         refreshStats();
         refreshArrows();
         refreshGroups();
@@ -80,18 +85,18 @@ public class OpenGUI {
         refreshAdvancements();
     }
 
-    private void refreshBorders() {
-        inventory.setItem(0, MenuItems.GRAY);
+    private void refreshBackButton() {
+        inventory.setItem(0, MenuItems.BACK_ITEM);
     }
 
     private void refreshStats() {
         ItemStack head = new ItemStack(Material.PLAYER_HEAD);
         SkullMeta meta = (SkullMeta) head.getItemMeta();
-        meta.setOwningPlayer(Bukkit.getOfflinePlayer(player));
+        meta.setOwningPlayer(Bukkit.getOfflinePlayer(playerUUID));
         meta.setDisplayName(ChatColor.YELLOW + "Stats");
         StringBuilder completedadvancements = new StringBuilder();
         completedadvancements.append(ChatColor.GRAY).append("Completed Advancements: ");
-        int completed = SFAdvancements.getAdvManager().getProgress(player).getCompletedAdvancements().size();
+        int completed = SFAdvancements.getAdvManager().getProgress(playerUUID).getCompletedAdvancements().size();
         int total = SFAdvancements.getRegistry().getAdvancements().size();
         if(completed == total) {
             completedadvancements.append(ChatColor.YELLOW);
@@ -159,7 +164,7 @@ public class OpenGUI {
         inventory.setItem(17, scrollUp);
 
         ItemStack scrollDown;
-        int size = group.getVisibleAdvancements(player).size();
+        int size = group.getVisibleAdvancements(playerUUID).size();
         int maxScroll = (size - 1) / 8 - 4;
         if (scroll >= maxScroll) {
             scrollDown = MenuItems.YELLOW;
@@ -171,7 +176,7 @@ public class OpenGUI {
 
     private void refreshAdvancements() {
         AdvancementGroup group = registry.getAdvancementGroups().get(groupIndex);
-        List<Advancement> advancements = group.getVisibleAdvancements(player);
+        List<Advancement> advancements = group.getVisibleAdvancements(playerUUID);
         for (int i = 0; i < 40; i++) {
             int row = i / 8 + 1;
             int col = i % 8;
@@ -184,7 +189,7 @@ public class OpenGUI {
                 display = adv.getDisplay().clone();
                 ItemMeta displayim = display.getItemMeta();
 
-                if (SFAdvancements.getAdvManager().isCompleted(player, adv)) {
+                if (SFAdvancements.getAdvManager().isCompleted(playerUUID, adv)) {
                     Utils.makeShiny(displayim);
                 }
 
@@ -196,7 +201,7 @@ public class OpenGUI {
 
                 for (Criterion criterion : adv.getCriteria()) {
                     String criterionName = criterion.getName();
-                    int progress = SFAdvancements.getAdvManager().getCriterionProgress(player, criterion);
+                    int progress = SFAdvancements.getAdvManager().getCriterionProgress(playerUUID, criterion);
                     int max = criterion.getCount();
                     boolean cridone = progress >= max;
                     lore.add(ChatColor.GRAY + criterionName + ": " + (cridone? ChatColor.YELLOW : ChatColor.WHITE) + progress + "/" + max);
