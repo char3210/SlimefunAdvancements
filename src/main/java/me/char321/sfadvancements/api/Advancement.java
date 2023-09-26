@@ -112,23 +112,31 @@ public class Advancement {
     }
 
     /**
+     * forces a player to complete this advancement
+     *
+     * @param p the player
+     */
+    public void complete(Player p) {
+        for (Criterion criterion : criteria) {
+            criterion.complete(p);
+        }
+    }
+
+    /**
      * sends the message of completion and gives rewards
      *
      * @param p player
      */
-    public void complete(Player p) {
-
-        for (Criterion criterion : criteria) {
-            criterion.complete(p);
-        }
-
+    public void onComplete(Player p) {
         for (Reward reward : rewards) {
             reward.give(p);
         }
 
         if (SFAdvancements.getMainConfig().getBoolean("use-advancements-api")) {
             SFAdvancements.getVanillaHook().complete(p, this.getKey());
-        } else {
+        }
+
+        if (SFAdvancements.getMainConfig().getConfiguration().getBoolean("announce-advancements", true)) {
             broadcastMessage(p);
         }
     }

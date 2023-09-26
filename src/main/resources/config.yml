@@ -1,4 +1,6 @@
 auto-update: true
 
-#use advancements api (experimental)
+# adds your advancements to the vanilla advancements menu (experimental)
 use-advancements-api: true
+# whether to announce advancements
+announce-advancements: true

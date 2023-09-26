@@ -223,7 +223,7 @@ public class PlayerProgress {
             }
             this.done = true;
 
-            adv.complete(Bukkit.getPlayer(player));
+            adv.onComplete(Bukkit.getPlayer(player));
         }
 
         void loadFromObject(JsonObject object) {

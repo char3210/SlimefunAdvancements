@@ -67,7 +67,7 @@ public class VanillaHook {
                     display.setDescription(String.join("\n", lore));
                     display.setIcon(new Icon(item));
                     display.setBackground(NamespacedKey.minecraft("textures/block/" + background.toLowerCase() + ".png"));
-                    
+                    display.setAnnounce(false);
                 });
 
                 vadvancement.addCriteria("impossible", TriggerType.IMPOSSIBLE, a -> {});
@@ -107,6 +107,7 @@ public class VanillaHook {
                 display.setDescription(String.join("\n", meta.getLore()));
                 display.setIcon(new Icon(item));
                 display.setHidden(advancement.isHidden());
+                display.setAnnounce(false);
             });
 
             vadvancement.setParent(advancement.getParent());

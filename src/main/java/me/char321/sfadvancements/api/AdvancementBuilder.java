@@ -80,7 +80,11 @@ public class AdvancementBuilder {
         ConfigurationSection rewardSection = config.getConfigurationSection("rewards");
         if(rewardSection != null) {
             for (String command : rewardSection.getStringList("commands")) {
-                rewards.add(p -> Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), command.replace("%p%", p.getName())));
+                rewards.add(p -> {
+                    Utils.runSync(() -> {
+                        Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), command.replace("%p%", p.getName()));
+                    });
+                });
             }
         }
         builder.rewards(rewards);
