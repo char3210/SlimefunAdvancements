@@ -3,9 +3,7 @@ package me.char321.sfadvancements.vanilla;
 import me.char321.sfadvancements.SFAdvancements;
 import me.char321.sfadvancements.api.Advancement;
 import me.char321.sfadvancements.api.AdvancementGroup;
-import me.char321.sfadvancements.core.criteria.progress.PlayerProgress;
 import me.char321.sfadvancements.util.Utils;
-import net.roxeez.advancement.AdvancementCreator;
 import net.roxeez.advancement.AdvancementManager;
 import net.roxeez.advancement.display.Icon;
 import net.roxeez.advancement.trigger.TriggerType;
@@ -16,7 +14,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -107,6 +104,7 @@ public class VanillaHook {
                 display.setDescription(String.join("\n", meta.getLore()));
                 display.setIcon(new Icon(item));
                 display.setHidden(advancement.isHidden());
+                display.setAnnounce(false);
             });
 
             vadvancement.setParent(advancement.getParent());

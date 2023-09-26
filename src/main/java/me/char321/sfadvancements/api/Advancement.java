@@ -116,8 +116,7 @@ public class Advancement {
      *
      * @param p player
      */
-    public void complete(Player p) {
-
+    public void onComplete(Player p) {
         for (Criterion criterion : criteria) {
             criterion.complete(p);
         }
@@ -126,14 +125,10 @@ public class Advancement {
             reward.give(p);
         }
 
-        if (SFAdvancements.getMainConfig().getBoolean("use-advancements-api")) {
-            SFAdvancements.getVanillaHook().complete(p, this.getKey());
-        } else {
-            broadcastMessage(p);
-        }
+        broadcastMessage(p);
     }
 
-    public void revoke(Player p) {
+    public void onRevoke(Player p) {
         if (SFAdvancements.getMainConfig().getBoolean("use-advancements-api")) {
             SFAdvancements.getVanillaHook().revoke(p, this.getKey());
         }

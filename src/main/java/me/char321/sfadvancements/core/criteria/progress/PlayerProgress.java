@@ -129,7 +129,7 @@ public class PlayerProgress {
             progress.done = false;
             progress.progress = 0;
         }
-        Utils.fromKey(adv).revoke(Bukkit.getPlayer(player));
+        Utils.fromKey(adv).onRevoke(Bukkit.getPlayer(player));
         return true;
     }
 
@@ -160,8 +160,8 @@ public class PlayerProgress {
         File advancementsFolder = new File(SFAdvancements.instance().getDataFolder(), "/advancements");
         File f = new File(advancementsFolder, player +".json");
         if (!f.exists()) {
-            f.getParentFile().mkdirs();
-            if (!f.createNewFile()) {
+            boolean success = f.getParentFile().mkdirs();
+            if (!success && !f.createNewFile()) {
                 throw new IOException("Could not create file " + f.getPath());
             }
         }
@@ -223,7 +223,7 @@ public class PlayerProgress {
             }
             this.done = true;
 
-            adv.complete(Bukkit.getPlayer(player));
+            adv.onComplete(Bukkit.getPlayer(player));
         }
 
         void loadFromObject(JsonObject object) {

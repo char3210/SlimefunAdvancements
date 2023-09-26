@@ -30,7 +30,7 @@ public class GrantCommand implements SubCommand {
 
         if (args[2].equals("*") || args[2].equals("all")) {
             for (Advancement adv : SFAdvancements.getRegistry().getAdvancements().values()) {
-                adv.complete(p);
+                adv.onComplete(p);
             }
             sender.sendMessage("Successfully granted all advancements!");
             return true;
@@ -42,7 +42,7 @@ public class GrantCommand implements SubCommand {
             return false;
         }
 
-        adv.complete(p);
+        adv.onComplete(p);
         sender.sendMessage("Successfully granted advancement " + adv.getKey() + " to player " + p.getName());
         return true;
     }

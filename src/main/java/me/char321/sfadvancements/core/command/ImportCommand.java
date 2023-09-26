@@ -62,7 +62,10 @@ public class ImportCommand implements SubCommand {
         File dataFolder = SFAdvancements.instance().getDataFolder();
         File backupFolder = new File(dataFolder, "backups");
         if (!backupFolder.exists()) {
-            backupFolder.mkdirs();
+            boolean success = backupFolder.mkdirs();
+            if (!success) {
+                throw new IllegalStateException("Could not create backup folder");
+            }
         }
         if (!backupFolder.isDirectory()) {
             throw new IllegalStateException("File " + backupFolder + " is not a directory");

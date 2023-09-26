@@ -23,6 +23,6 @@ public class AdvancementListener implements Listener {
         Player player = e.getPlayer();
         if (SFAdvancements.getAdvManager().isCompleted(player, advancement)) return;
 
-        advancement.complete(player);
+        advancement.onComplete(player);
     }
 }
