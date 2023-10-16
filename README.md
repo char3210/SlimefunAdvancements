@@ -82,7 +82,9 @@ The group is the id defined in `groups.yml`.
 
 The parent is the id of a different Advancement for this to be under. (For Advancement Trees)
 
-The display is an item, represented as described in Item Representation.
+The display is an item, represented as described in Item Representation. This is the item that is displayed in both the 
+SFA GUI and the vanilla GUI. You can specify a placeholder line `%criteria%` in the lore, which will be replaced with the
+criteria of the advancement. 
 
 The name is what will appear in chat when someone completes the advancement.
 
@@ -100,7 +102,7 @@ The key of the criterion should be unique per advancement (but may share keys in
 The string itself doesn't matter, but if no name is specified, it will use the key.<br>
 Each criterion has a name, type, and optional other parameters.
 
-The name is what appears in the gui for progress. 
+The name is what appears in the gui for progress. (Supports color codes with `&`)
 
 The type is the type of criterion. By default, these are the default criterion types:
 - `consume`

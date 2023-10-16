@@ -1,6 +1,7 @@
 package me.char321.sfadvancements.api.criteria;
 
 import me.char321.sfadvancements.SFAdvancements;
+import org.bukkit.ChatColor;
 import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.ConfigurationSection;
 
@@ -17,6 +18,8 @@ public class ResearchCriterion extends Criterion {
         if(name == null) {
             name = id;
         }
+
+        name = ChatColor.translateAlternateColorCodes('&', name);
 
         String research = config.getString("research");
         if (research == null) {

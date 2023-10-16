@@ -2,6 +2,7 @@ package me.char321.sfadvancements.api.criteria;
 
 import me.char321.sfadvancements.SFAdvancements;
 import me.char321.sfadvancements.core.criteria.completer.CriterionCompleter;
+import org.bukkit.ChatColor;
 import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
@@ -59,6 +60,8 @@ public class Criterion {
         if(name == null) {
             name = id;
         }
+
+        name = ChatColor.translateAlternateColorCodes('&', name);
 
         return new Criterion(id, amount, name);
     }

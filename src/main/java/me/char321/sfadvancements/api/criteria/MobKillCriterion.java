@@ -1,6 +1,7 @@
 package me.char321.sfadvancements.api.criteria;
 
 import me.char321.sfadvancements.SFAdvancements;
+import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.EntityType;
 
@@ -23,6 +24,8 @@ public class MobKillCriterion extends Criterion {
         if(name == null) {
             name = id;
         }
+
+        name = ChatColor.translateAlternateColorCodes('&', name);
 
         String entity = config.getString("entity");
         if (entity == null) {

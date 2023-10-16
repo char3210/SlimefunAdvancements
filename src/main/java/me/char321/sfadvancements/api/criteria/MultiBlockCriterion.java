@@ -1,6 +1,7 @@
 package me.char321.sfadvancements.api.criteria;
 
 import me.char321.sfadvancements.SFAdvancements;
+import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
 
 public class MultiBlockCriterion extends Criterion {
@@ -18,6 +19,8 @@ public class MultiBlockCriterion extends Criterion {
         if(name == null) {
             name = id;
         }
+
+        name = ChatColor.translateAlternateColorCodes('&', name);
 
         String multiBlockId = config.getString("multiblock");
         if(multiBlockId == null) {

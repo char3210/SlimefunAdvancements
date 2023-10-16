@@ -3,6 +3,7 @@ package me.char321.sfadvancements.vanilla;
 import me.char321.sfadvancements.SFAdvancements;
 import me.char321.sfadvancements.api.Advancement;
 import me.char321.sfadvancements.api.AdvancementGroup;
+import me.char321.sfadvancements.api.criteria.Criterion;
 import me.char321.sfadvancements.core.criteria.progress.PlayerProgress;
 import me.char321.sfadvancements.util.Utils;
 import net.roxeez.advancement.AdvancementCreator;
@@ -16,6 +17,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -104,7 +106,7 @@ public class VanillaHook {
                 ItemStack item = advancement.getDisplay();
                 ItemMeta meta = item.getItemMeta();
                 display.setTitle(meta.getDisplayName());
-                display.setDescription(String.join("\n", meta.getLore()));
+                display.setDescription(getDescriptionFor(meta.getLore(), advancement));
                 display.setIcon(new Icon(item));
                 display.setHidden(advancement.isHidden());
                 display.setAnnounce(false);
@@ -115,6 +117,26 @@ public class VanillaHook {
 
             return vadvancement;
         });
+    }
+
+    private static String getDescriptionFor(List<String> lore, Advancement adv) {
+        lore = new ArrayList<>(lore);
+        for (int i = lore.size() - 1; i >= 0; i--) {
+            if ("%criteria%".equals(lore.get(i))) {
+                lore.remove(i);
+                lore.addAll(i, getCriteriaLore(adv));
+                return String.join("\n", lore);
+            }
+        }
+        return String.join("\n", lore);
+    }
+
+    private static List<String> getCriteriaLore(Advancement adv) {
+        List<String> res = new ArrayList<>();
+        for (Criterion criterion : adv.getCriteria()) {
+            res.add("§7" + criterion.getName());
+        }
+        return res;
     }
 
     public void syncProgress(Player p) {

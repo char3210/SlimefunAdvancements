@@ -2,6 +2,7 @@ package me.char321.sfadvancements.api.criteria;
 
 import me.char321.sfadvancements.SFAdvancements;
 import me.char321.sfadvancements.util.ConfigUtils;
+import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
 
@@ -16,6 +17,8 @@ public class SearchCriterion extends Criterion {
         if(name == null) {
             name = id;
         }
+
+        name = ChatColor.translateAlternateColorCodes('&', name);
 
         int amount = config.getInt("amount");
         if (amount == 0) {

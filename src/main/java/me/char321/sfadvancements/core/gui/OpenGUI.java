@@ -15,6 +15,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
@@ -186,31 +187,57 @@ public class OpenGUI {
             ItemStack display = null;
             if (advindex < advancements.size()) {
                 Advancement adv = advancements.get(advindex);
-                display = adv.getDisplay().clone();
-                ItemMeta displayim = display.getItemMeta();
-
-                if (SFAdvancements.getAdvManager().isCompleted(playerUUID, adv)) {
-                    Utils.makeShiny(displayim);
-                }
-
-                List<String> lore = displayim.getLore();
-                if (lore == null) {
-                    lore = new ArrayList<>();
-                }
-                lore.add("");
-
-                for (Criterion criterion : adv.getCriteria()) {
-                    String criterionName = criterion.getName();
-                    int progress = SFAdvancements.getAdvManager().getCriterionProgress(playerUUID, criterion);
-                    int max = criterion.getCount();
-                    boolean cridone = progress >= max;
-                    lore.add(ChatColor.GRAY + criterionName + ": " + (cridone? ChatColor.YELLOW : ChatColor.WHITE) + progress + "/" + max);
-                }
-                displayim.setLore(lore);
-                display.setItemMeta(displayim);
+                display = getDisplayFor(adv);
             }
 
             inventory.setItem(slot, display);
         }
+    }
+
+    private ItemStack getDisplayFor(Advancement adv) {
+        ItemStack display = adv.getDisplay().clone();
+        ItemMeta displayim = display.getItemMeta();
+        if (displayim == null) {
+            throw new IllegalArgumentException("display item meta is null");
+        }
+
+        displayim.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+        if (SFAdvancements.getAdvManager().isCompleted(playerUUID, adv)) {
+            Utils.makeShiny(displayim);
+        }
+
+        List<String> lore = displayim.getLore();
+        if (lore == null) {
+            lore = new ArrayList<>();
+        }
+
+        boolean loreAdded = false;
+        for (int i = lore.size() - 1; i >= 0; i--) {
+            if ("%criteria%".equals(lore.get(i))) {
+                lore.remove(i);
+                lore.addAll(i, this.getCriteriaLore(adv));
+                loreAdded = true;
+            }
+        }
+        if (!loreAdded) {
+            lore.addAll(this.getCriteriaLore(adv));
+        }
+
+        displayim.setLore(lore);
+        display.setItemMeta(displayim);
+        return display;
+    }
+
+    private List<String> getCriteriaLore(Advancement adv) {
+        List<String> res = new ArrayList<>();
+        for (Criterion criterion : adv.getCriteria()) {
+            String criterionName = criterion.getName();
+            System.out.println(adv.getName() + " " + criterionName);
+            int progress = SFAdvancements.getAdvManager().getCriterionProgress(playerUUID, criterion);
+            int max = criterion.getCount();
+            boolean cridone = progress >= max;
+            res.add(ChatColor.GRAY + criterionName + ": " + (cridone ? ChatColor.YELLOW : ChatColor.WHITE) + progress + "/" + max);
+        }
+        return res;
     }
 }
