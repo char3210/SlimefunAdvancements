@@ -4,3 +4,4 @@ auto-update: true
 use-advancements-api: true
 # whether to announce advancements
 announce-advancements: true
+add-advancements-to-guide: true

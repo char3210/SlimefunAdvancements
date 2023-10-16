@@ -30,7 +30,6 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.io.File;
 import java.io.IOException;
-import java.util.concurrent.Callable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -70,7 +69,7 @@ public final class SFAdvancements extends JavaPlugin implements SlimefunAddon {
         Bukkit.getPluginManager().registerEvents(guiManager, this);
 
         // init sf
-        new AdvancementsItemGroup().register(this);
+        AdvancementsItemGroup.init(this);
 
         // init core
         DefaultCompleters.registerDefaultCompleters();

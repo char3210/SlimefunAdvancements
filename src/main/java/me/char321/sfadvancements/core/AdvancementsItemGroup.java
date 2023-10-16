@@ -11,6 +11,12 @@ import org.bukkit.entity.Player;
 
 public class AdvancementsItemGroup extends FlexItemGroup {
 
+    public static void init(SFAdvancements plugin) {
+        if (SFAdvancements.getMainConfig().getConfiguration().getBoolean("add-advancements-to-guide")) {
+            new AdvancementsItemGroup().register(plugin);
+        }
+    }
+
     public AdvancementsItemGroup() {
         super(
                 new NamespacedKey(SFAdvancements.instance(), "advancements"),
