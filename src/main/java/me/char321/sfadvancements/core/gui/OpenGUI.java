@@ -232,7 +232,6 @@ public class OpenGUI {
         List<String> res = new ArrayList<>();
         for (Criterion criterion : adv.getCriteria()) {
             String criterionName = criterion.getName();
-            System.out.println(adv.getName() + " " + criterionName);
             int progress = SFAdvancements.getAdvManager().getCriterionProgress(playerUUID, criterion);
             int max = criterion.getCount();
             boolean cridone = progress >= max;
