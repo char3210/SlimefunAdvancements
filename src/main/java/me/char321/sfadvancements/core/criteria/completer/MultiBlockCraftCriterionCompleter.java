@@ -1,28 +1,26 @@
 package me.char321.sfadvancements.core.criteria.completer;
 
 import io.github.thebusybiscuit.slimefun4.api.events.MultiBlockCraftEvent;
-import io.github.thebusybiscuit.slimefun4.api.events.ResearchUnlockEvent;
-import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
-import io.github.thebusybiscuit.slimefun4.api.researches.Research;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.char321.sfadvancements.SFAdvancements;
 import me.char321.sfadvancements.api.criteria.Criterion;
 import me.char321.sfadvancements.api.criteria.MultiBlockCraftCriterion;
-import me.char321.sfadvancements.api.criteria.ResearchCriterion;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.*;
+import java.util.EnumMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 public class MultiBlockCraftCriterionCompleter implements CriterionCompleter, Listener {
     private final Map<Material, Set<MultiBlockCraftCriterion>> criteria = new EnumMap<>(Material.class);
+    private final Set<MultiBlockCraftCriterion> nonMaterialCriteria = new HashSet<>();
 
     public MultiBlockCraftCriterionCompleter() {
         Bukkit.getPluginManager().registerEvents(this, SFAdvancements.instance());
@@ -30,17 +28,26 @@ public class MultiBlockCraftCriterionCompleter implements CriterionCompleter, Li
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onMultiBlockCraft(MultiBlockCraftEvent e) {
-        performCriteria(e.getPlayer(), e.getOutput());
+        performCriteria(e.getPlayer(), e.getMachine().getId(), e.getOutput());
     }
 
-    private void performCriteria(Player player, ItemStack output) {
+    private void performCriteria(Player player, String machineId, ItemStack output) {
+        for (MultiBlockCraftCriterion criterion : nonMaterialCriteria) {
+            String machineId1 = criterion.getMachineId();
+            if (machineId1 == null || machineId1.equals(machineId)) {
+                criterion.perform(player);
+            }
+        }
+
         Set<MultiBlockCraftCriterion> allcriteria = criteria.get(output.getType());
         if (allcriteria == null) {
             return;
         }
 
         for (MultiBlockCraftCriterion criterion : allcriteria) {
-            if (SlimefunUtils.isItemSimilar(output, criterion.getItem(), false, false)) {
+            String machineId1 = criterion.getMachineId();
+            if ((machineId1 == null || machineId1.equals(machineId)) &&
+                    SlimefunUtils.isItemSimilar(output, criterion.getItem(), false, false)) {
                 criterion.perform(player);
             }
         }
@@ -53,8 +60,12 @@ public class MultiBlockCraftCriterionCompleter implements CriterionCompleter, Li
         }
 
         MultiBlockCraftCriterion criterion1 = ((MultiBlockCraftCriterion) criterion);
-        Material material = criterion1.getItem().getType();
-        criteria.computeIfAbsent(material, k -> new HashSet<>()).add(criterion1);
+        ItemStack item = criterion1.getItem();
+        if (item == null) {
+            nonMaterialCriteria.add(criterion1);
+        } else {
+            criteria.computeIfAbsent(item.getType(), k -> new HashSet<>()).add(criterion1);
+        }
     }
 
     @Override
@@ -65,5 +76,6 @@ public class MultiBlockCraftCriterionCompleter implements CriterionCompleter, Li
     @Override
     public void reload() {
         criteria.clear();
+        nonMaterialCriteria.clear();
     }
 }

@@ -6,8 +6,11 @@ import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
 
+import javax.annotation.Nullable;
+
 public class MultiBlockCraftCriterion extends Criterion {
-    private final ItemStack item;
+    @Nullable private final ItemStack item;
+    @Nullable private final String machineId;
 
     public static MultiBlockCraftCriterion loadFromConfig(ConfigurationSection config) {
         String id = config.getName();
@@ -29,28 +32,39 @@ public class MultiBlockCraftCriterion extends Criterion {
 
         name = ChatColor.translateAlternateColorCodes('&', name);
 
-        ItemStack item = ConfigUtils.getItem(config, "item");
-        if (item == null) {
-            SFAdvancements.warn("unknown item for multiblock craft criterion " + id);
-            return null;
+
+        ItemStack item = null;
+        if (config.contains("item", true)) {
+            item = ConfigUtils.getItem(config, "item");
+            if (item == null) {
+                SFAdvancements.warn("unknown item for multiblock craft criterion " + id);
+                return null;
+            }
         }
 
-        return new MultiBlockCraftCriterion(id, amount, name, item);
+        String machineid = config.getString("multiblock");
+
+        return new MultiBlockCraftCriterion(id, amount, name, item, machineid);
     }
 
     /**
      *
-     * @param id
-     * @param count
-     * @param name
-     * @param item the output item of the multiblock craft
+     * @param item the output item of the multiblock craft.
+     * @param machineId multiblock machine id
      */
-    public MultiBlockCraftCriterion(String id, int count, String name, ItemStack item) {
+    public MultiBlockCraftCriterion(String id, int count, String name, @Nullable ItemStack item, @Nullable String machineId) {
         super(id, count, name);
         this.item = item;
+        this.machineId = machineId;
     }
 
+    @Nullable
     public ItemStack getItem() {
         return item;
+    }
+
+    @Nullable
+    public String getMachineId() {
+        return machineId;
     }
 }

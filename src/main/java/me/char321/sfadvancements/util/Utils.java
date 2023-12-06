@@ -2,6 +2,7 @@ package me.char321.sfadvancements.util;
 
 import me.char321.sfadvancements.SFAdvancements;
 import me.char321.sfadvancements.api.Advancement;
+import net.md_5.bungee.api.chat.TranslatableComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -16,12 +17,14 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+@SuppressWarnings("unused")
 public class Utils {
     private Utils() {}
 
     public static ItemStack makeShiny(ItemStack item) {
         item = item.clone();
         ItemMeta im = item.getItemMeta();
+        //noinspection DataFlowIssue
         im.addEnchant(Enchantment.DURABILITY, 1, false);
         im.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         item.setItemMeta(im);
@@ -68,6 +71,18 @@ public class Utils {
             contents.merge(clone, item.getAmount(), Integer::sum);
         }
         return contents;
+    }
+
+    public static TranslatableComponent getItemName(ItemStack item) {
+        return getItemName(item.getType());
+    }
+
+    public static TranslatableComponent getItemName(Material type) {
+        if (type.isBlock()) {
+            return new TranslatableComponent("block.minecraft."+type.getKey().getKey());
+        } else {
+            return new TranslatableComponent("item.minecraft."+type.getKey().getKey());
+        }
     }
 
     public static void runSync(Runnable runnable) {

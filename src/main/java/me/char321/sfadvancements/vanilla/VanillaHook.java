@@ -4,9 +4,9 @@ import me.char321.sfadvancements.SFAdvancements;
 import me.char321.sfadvancements.api.Advancement;
 import me.char321.sfadvancements.api.AdvancementGroup;
 import me.char321.sfadvancements.api.criteria.Criterion;
-import me.char321.sfadvancements.core.criteria.progress.PlayerProgress;
 import me.char321.sfadvancements.util.Utils;
-import net.roxeez.advancement.AdvancementCreator;
+import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.TextComponent;
 import net.roxeez.advancement.AdvancementManager;
 import net.roxeez.advancement.display.Icon;
 import net.roxeez.advancement.trigger.TriggerType;
@@ -17,8 +17,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -61,6 +59,7 @@ public class VanillaHook {
                     ItemStack item = group.getDisplayItem();
                     String background = group.getBackground();
                     ItemMeta meta = item.getItemMeta();
+                    //noinspection DataFlowIssue
                     display.setTitle(meta.getDisplayName());
                     List<String> lore = meta.getLore();
                     if (lore == null) {
@@ -105,8 +104,17 @@ public class VanillaHook {
             vadvancement.setDisplay(display -> {
                 ItemStack item = advancement.getDisplay();
                 ItemMeta meta = item.getItemMeta();
-                display.setTitle(meta.getDisplayName());
-                display.setDescription(getDescriptionFor(meta.getLore(), advancement));
+                BaseComponent title;
+                String description;
+                //noinspection DataFlowIssue
+                if (meta.hasDisplayName()) {
+                    title = new TextComponent(meta.getDisplayName());
+                } else {
+                    title = Utils.getItemName(item);
+                }
+                description = getDescriptionFor(meta.getLore(), advancement);
+                display.setTitle(title);
+                display.setDescription(description);
                 display.setIcon(new Icon(item));
                 display.setHidden(advancement.isHidden());
                 display.setAnnounce(false);
@@ -120,7 +128,7 @@ public class VanillaHook {
     }
 
     private static String getDescriptionFor(List<String> lore, Advancement adv) {
-        lore = new ArrayList<>(lore);
+        lore = lore == null ? new ArrayList<>() : new ArrayList<>(lore);
         for (int i = lore.size() - 1; i >= 0; i--) {
             if ("%criteria%".equals(lore.get(i))) {
                 lore.remove(i);

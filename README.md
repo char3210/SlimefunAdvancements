@@ -142,8 +142,12 @@ The type is the type of criterion. By default, these are the default criterion t
   - string parameter `search`, the exact string to search for in the guide
 - `multiblockcraft`
   - for crafting an item in a multiblock
-  - has an item parameter `item`, the item to craft
-  - has an integer parameter `amount`, the number of times to craft it (not how many items are to be crafted)
+  - has an integer parameter `amount`, the number of times to craft (not how many items are to be crafted)
+  - (optional) has an item parameter `item`, the item to craft
+    - if not present, any item crafted with the multiblock will complete the criterion
+  - (optional) has a string parameter `multiblock`, the slimefun id of the multiblock to craft
+    - if not present, any multiblock can be used to craft the item to complete the criterion
+    - you may specify neither an item nor multiblock, in which case any multiblock craft done by the player will increment the criterion
 
 #### rewards
 
