@@ -54,14 +54,13 @@ public class ResearchCriterionCompleter implements CriterionCompleter, Listener 
 
     @Override
     public void register(Criterion criterion) {
-        if (!(criterion instanceof ResearchCriterion)) {
-            throw new IllegalArgumentException("criterion must be an " + getCriterionClass().getName());
+        if (!(getCriterionClass().isInstance(criterion))) {
+            throw new IllegalArgumentException("criterion must be a " + getCriterionClass().getName());
         }
 
         ResearchCriterion criterion1 = ((ResearchCriterion) criterion);
         NamespacedKey research = criterion1.getResearch();
-        criteria.computeIfAbsent(research, k -> new HashSet<>());
-        criteria.get(research).add(criterion1);
+        criteria.computeIfAbsent(research, k -> new HashSet<>()).add(criterion1);
     }
 
     @Override

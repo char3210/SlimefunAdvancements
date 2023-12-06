@@ -22,6 +22,7 @@ public class CriteriaTypes {
         putType("none", Criterion::loadFromConfig);
         putType("search", SearchCriterion::loadFromConfig);
         putType("break", BlockBreakCriterion::loadFromConfig);
+        putType("multiblockcraft", MultiBlockCraftCriterion::loadFromConfig);
     }
 
     /**

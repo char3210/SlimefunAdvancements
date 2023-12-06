@@ -41,13 +41,13 @@ public class InteractCriterionCompleter implements Listener, CriterionCompleter 
 
     @Override
     public void register(Criterion criterion) {
-        if (!(criterion instanceof InteractCriterion)) {
-            throw new IllegalArgumentException("criterion must be an interactcriterion");
+        if (!(getCriterionClass().isInstance(criterion))) {
+            throw new IllegalArgumentException("criterion must be an " + getCriterionClass().getName());
         }
+
         InteractCriterion criterion1 = (InteractCriterion) criterion;
         Material m = criterion1.getItem().getType();
-        criteria.computeIfAbsent(m, k -> new HashSet<>());
-        criteria.get(m).add(criterion1);
+        criteria.computeIfAbsent(m, k -> new HashSet<>()).add(criterion1);
     }
 
     @Override

@@ -39,6 +39,10 @@ public class BlockBreakCriterionCompleter implements CriterionCompleter, Listene
 
     @Override
     public void register(Criterion criterion) {
+        if (!(getCriterionClass().isInstance(criterion))) {
+            throw new IllegalArgumentException("criterion must be an " + getCriterionClass().getName());
+        }
+
         BlockBreakCriterion criterion1 = (BlockBreakCriterion) criterion;
         criteria.computeIfAbsent(criterion1.getItem().getType(), k -> new ArrayList<>()).add(criterion1);
     }

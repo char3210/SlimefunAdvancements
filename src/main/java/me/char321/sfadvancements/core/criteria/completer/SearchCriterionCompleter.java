@@ -64,8 +64,8 @@ public class SearchCriterionCompleter implements CriterionCompleter {
 
     @Override
     public void register(Criterion criterion) {
-        if (!(criterion instanceof SearchCriterion)) {
-            throw new IllegalArgumentException("criterion must be an " + getCriterionClass().getName());
+        if (!(getCriterionClass().isInstance(criterion))) {
+            throw new IllegalArgumentException("criterion must be a " + getCriterionClass().getName());
         }
 
         SearchCriterion criterion1 = (SearchCriterion) criterion;

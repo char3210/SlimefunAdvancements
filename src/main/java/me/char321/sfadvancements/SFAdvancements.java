@@ -1,8 +1,8 @@
 package me.char321.sfadvancements;
 
+import io.github.bakedlibs.dough.config.Config;
 import io.github.bakedlibs.dough.updater.BlobBuildUpdater;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
-import io.github.thebusybiscuit.slimefun4.libraries.dough.config.Config;
 import me.char321.sfadvancements.api.AdvancementBuilder;
 import me.char321.sfadvancements.api.AdvancementGroup;
 import me.char321.sfadvancements.api.criteria.CriteriaTypes;
@@ -45,6 +45,7 @@ public final class SFAdvancements extends JavaPlugin implements SlimefunAddon {
     private YamlConfiguration groupConfig;
 
     private boolean testing = false;
+    private boolean multiBlockCraftEvent = false;
 
     public SFAdvancements() {
 
@@ -60,6 +61,8 @@ public final class SFAdvancements extends JavaPlugin implements SlimefunAddon {
         instance = this;
 
         config = new Config(this);
+
+        detectCapabilities();
 
         autoUpdate();
 
@@ -105,6 +108,15 @@ public final class SFAdvancements extends JavaPlugin implements SlimefunAddon {
             advManager.save();
         } catch (IOException e) {
             getLogger().log(Level.SEVERE, e, () -> "Could not save advancements");
+        }
+    }
+
+    private void detectCapabilities() {
+        try {
+            Class.forName("io.github.thebusybiscuit.slimefun4.api.events.MultiBlockCraftEvent");
+            multiBlockCraftEvent = true;
+        } catch (ClassNotFoundException e) {
+            multiBlockCraftEvent = false;
         }
     }
 
@@ -205,6 +217,10 @@ public final class SFAdvancements extends JavaPlugin implements SlimefunAddon {
 
     public boolean isTesting() {
         return testing;
+    }
+
+    public boolean isMultiBlockCraftEvent() {
+        return multiBlockCraftEvent;
     }
 
     public static Logger logger() {

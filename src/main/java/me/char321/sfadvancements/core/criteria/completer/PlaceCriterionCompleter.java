@@ -45,14 +45,13 @@ public class PlaceCriterionCompleter implements CriterionCompleter, Listener {
 
     @Override
     public void register(Criterion criterion) {
-        if (!(criterion instanceof PlaceCriterion)) {
-            throw new IllegalArgumentException("criterion must be an " + getCriterionClass().getName());
+        if (!(getCriterionClass().isInstance(criterion))) {
+            throw new IllegalArgumentException("criterion must be a " + getCriterionClass().getName());
         }
 
         PlaceCriterion placeCriterion = (PlaceCriterion) criterion;
         Material m = placeCriterion.getItem().getType();
-        criteria.computeIfAbsent(m, k -> new HashSet<>());
-        criteria.get(m).add(placeCriterion);
+        criteria.computeIfAbsent(m, k -> new HashSet<>()).add(placeCriterion);
     }
 
     @Override

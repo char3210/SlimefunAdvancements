@@ -34,13 +34,13 @@ public class MultiBlockCriterionCompleter implements CriterionCompleter, Listene
 
     @Override
     public void register(Criterion criterion) {
-        if (!(criterion instanceof MultiBlockCriterion)) {
-            throw new IllegalArgumentException("criterion must be an multiblockcriterion");
+        if (!(getCriterionClass().isInstance(criterion))) {
+            throw new IllegalArgumentException("criterion must be a " + getCriterionClass().getName());
         }
+
         MultiBlockCriterion criterion1 = (MultiBlockCriterion) criterion;
         String machine = criterion1.getMachineId();
-        criteria.computeIfAbsent(machine, k -> new HashSet<>());
-        criteria.get(machine).add(criterion1);
+        criteria.computeIfAbsent(machine, k -> new HashSet<>()).add(criterion1);
     }
 
     @Override

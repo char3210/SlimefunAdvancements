@@ -45,9 +45,10 @@ public class MobKillCriterionCompleter implements CriterionCompleter, Listener {
 
     @Override
     public void register(Criterion criterion) {
-        if (!(criterion instanceof MobKillCriterion)) {
-            throw new IllegalArgumentException("criterion must be a MobKillCriterion");
+        if (!(getCriterionClass().isInstance(criterion))) {
+            throw new IllegalArgumentException("criterion must be an " + getCriterionClass().getName());
         }
+
         MobKillCriterion criterion1 = (MobKillCriterion) criterion;
         criteria.computeIfAbsent(criterion1.getEntity(), k -> new ArrayList<>()).add(criterion1);
     }

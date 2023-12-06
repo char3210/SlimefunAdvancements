@@ -107,40 +107,43 @@ The name is what appears in the gui for progress. (Supports color codes with `&`
 The type is the type of criterion. By default, these are the default criterion types:
 - `consume`
   - for eating items
-  - has an item parameter `item`, which is the item to consume
   - note that this only works for vanilla consumption, NOT exotic garden fruits for example, use `interact` for that
+  - has an item parameter `item`, item to consume
   - has an integer parameter `amount`, the number of items to consume
 - `interact`
   - for right-clicking items
-  - has an item parameter `item`, which is the item to be right-clicked
+  - has an item parameter `item`, the item to be right-clicked
   - has an integer parameter `amount`, the number of times to interact
 - `inventory`
   - for having an item in an inventory
   - has an item parameter `item`, the item to have in the inventory
-  - has an integer parameter `amount`, which is the number of items you need to complete the criterion
+  - has an integer parameter `amount`, the number of items you need to complete the criterion
 - `multiblock`
   - for interacting with a slimefun multiblock
-  - has a string parameter `multiblock`, which is the slimefun item id of the multiblock
+  - has a string parameter `multiblock`, the slimefun item id of the multiblock
 - `place`
   - for placing blocks
-  - has an item parameter `item`, which is the item to place down
-  - has an integer parameter `amount`, which is the number of items to place
-  - note that there is no protection against players repeatedly breaking and replacing the block, so for most items setting the `amount` to 1 would be appropriate
+  - has an item parameter `item`, the item to place down
+  - has an integer parameter `amount`, the number of items to place
+    - note that there is no protection against players repeatedly breaking and replacing the same block, so for most items setting the `amount` to 1 would be appropriate
 - `break`
   - like `place` but for breaking blocks, same parameters
 - `research`
   - for completing a research
-  - has a string parameter `research`, which is the namespaced key of the research
-    - namespaced keys have the format "plugin:key", so for slimefun researches, it is "slimefun:research"
-      - ex: "slimefun:ender_talismans"
+  - has a string parameter `research`, the namespaced key of the research
+    - namespaced keys have the format "plugin:key", so for slimefun researches, it is "slimefun:research", e.g. "slimefun:ender_talismans"
 - `mobkill`
   - for killing a type of mob
-  - int parameter 'amount', the number of mobs to kill
-  - has a string parameter `entity` which is the mob to kill
-  - entity types are generally lowercase, separated by underscores (ex. `stray`, `cave_spider`, `glow_squid`, etc.)
+  - has an integer parameter `amount`, the number of mobs to kill
+  - has a string parameter `entity`, the mob to kill
+    - entity types are generally lowercase, separated by underscores (ex. `stray`, `cave_spider`, `glow_squid`, etc.)
 - `search`
   - for searching for a string in the slimefun guide
-  - string parameter `search` which is the exact string to search for
+  - string parameter `search`, the exact string to search for in the guide
+- `multiblockcraft`
+  - for crafting an item in a multiblock
+  - has an item parameter `item`, the item to craft
+  - has an integer parameter `amount`, the number of times to craft it (not how many items are to be crafted)
 
 #### rewards
 
@@ -164,7 +167,7 @@ see [api.md](https://github.com/qwertyuioplkjhgfd/SlimefunAdvancements/blob/main
 ## TODO:
 - ~~criteria system~~
   - ~~inventory criteria~~
-  - craft criteria (soon, see [Slimefun/Slimefun4#3439](https://github.com/Slimefun/Slimefun4/pull/3439))
+  - ~~craft criteria (soon, see [Slimefun/Slimefun4#3439](https://github.com/Slimefun/Slimefun4/pull/3439))~~
   - ~~interact criteria~~
       - ~~place criteria~~
   - ~~research criteria~~
