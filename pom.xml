@@ -67,6 +67,10 @@
                             <pattern>net.roxeez.advancement</pattern>
                             <shadedPattern>me.char321.sfadvancements.libs.advancementapi</shadedPattern>
                         </relocation>
+                        <relocation>
+                            <pattern>io.github.bakedlibs.dough</pattern>
+                            <shadedPattern>me.char321.sfadvancements.libs.dough</shadedPattern>
+                        </relocation>
                     </relocations>
                     <filters>
                         <filter>
@@ -186,6 +190,13 @@
             <artifactId>MockBukkit-v1.18</artifactId>
             <version>1.24.1</version>
             <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.baked-libs.dough</groupId>
+            <artifactId>dough-api</artifactId>
+            <version>a6519e666c</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 </project>

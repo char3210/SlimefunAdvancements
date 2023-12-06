@@ -1,8 +1,8 @@
 package me.char321.sfadvancements;
 
+import io.github.bakedlibs.dough.updater.BlobBuildUpdater;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.config.Config;
-import io.github.thebusybiscuit.slimefun4.libraries.dough.updater.GitHubBuildsUpdater;
 import me.char321.sfadvancements.api.AdvancementBuilder;
 import me.char321.sfadvancements.api.AdvancementGroup;
 import me.char321.sfadvancements.api.criteria.CriteriaTypes;
@@ -111,7 +111,7 @@ public final class SFAdvancements extends JavaPlugin implements SlimefunAddon {
     private void autoUpdate() {
         if (config.getBoolean("auto-update") && !getDescription().getVersion().contains("MODIFIED")) {
             info("Checking for updates...");
-            GitHubBuildsUpdater updater = new GitHubBuildsUpdater(this, this.getFile(), "qwertyuioplkjhgfd/SlimefunAdvancements/main");
+            BlobBuildUpdater updater = new BlobBuildUpdater(this, this.getFile(), "SlimefunAdvancements");
             updater.start();
         }
     }
