@@ -2,7 +2,7 @@
 
 a slimefun addon that lets you do things like complete and configure advancements
 
-[download here](https://thebusybiscuit.github.io/builds/qwertyuioplkjhgfd/SlimefunAdvancements/main/)
+[download here](https://blob.build/project/SlimefunAdvancements)
 
 ## Configuration
 
