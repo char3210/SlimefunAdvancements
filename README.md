@@ -13,6 +13,8 @@ The configuration files can be found in your `plugins/SFAdvancements/` folder.
 Each item in the yml represents an advancement group, where the key is the key of the group.<br>
 The key is used to refer to the group in `advancements.yml`.<br>
 Each group has a `display`, which is an item. It should be an item representation.<br>
+You can optionally specify a `frame_type` for the frame type surrounding the display item in the vanilla GUI. (By default, groups will have a Goal frame type)<br>
+The valid types for a frame are `GOAL`, `TASK`, and `CHALLENGER`<br>
 The item is used to display the group in the GUI.<br>
 You can optionally specify a `background` string for the group, which is used in the vanilla GUI. (By default, groups will have a bedrock texture)<br>
 It should be the name of a block texture file. These files can be found on https://mcasset.cloud/ in `assets/minecraft/textures/block/` for the specified version.
@@ -32,6 +34,7 @@ Examples of #1 in `groups.yml`
 my_cool_group:
   display: NETHER_STAR
   background: glass
+  frame_type: CHALLENGER
 
 my_other_group:
   display: ELECTRIC_MOTOR
@@ -83,8 +86,8 @@ The group is the id defined in `groups.yml`.
 The parent is the id of a different Advancement for this to be under. (For Advancement Trees)
 
 The display is an item, represented as described in Item Representation. This is the item that is displayed in both the 
-SFA GUI and the vanilla GUI. You can specify a placeholder line `%criteria%` in the lore, which will be replaced with the
-criteria of the advancement. 
+SFA GUI and the vanilla GUI. You can specify a frame type that will appear in the vanilla gui. (GOAL, TASK, CHALLENGER). 
+You can specify a placeholder line `%criteria%` in the lore, which will be replaced with the criteria of the advancement. 
 
 The name is what will appear in chat when someone completes the advancement.
 
