@@ -8,6 +8,7 @@ import me.char321.sfadvancements.util.Utils;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.roxeez.advancement.AdvancementManager;
+import net.roxeez.advancement.display.FrameType;
 import net.roxeez.advancement.display.Icon;
 import net.roxeez.advancement.trigger.TriggerType;
 import org.bukkit.Bukkit;
@@ -67,6 +68,7 @@ public class VanillaHook {
                     }
                     display.setDescription(String.join("\n", lore));
                     display.setIcon(new Icon(item));
+                    display.setFrame(FrameType.valueOf(group.getFrameType()));
                     display.setBackground(NamespacedKey.minecraft("textures/block/" + background.toLowerCase() + ".png"));
                     display.setAnnounce(false);
                 });
@@ -116,6 +118,7 @@ public class VanillaHook {
                 display.setTitle(title);
                 display.setDescription(description);
                 display.setIcon(new Icon(item));
+                display.setFrame(FrameType.valueOf(advancement.getFrameType()));
                 display.setHidden(advancement.isHidden());
                 display.setAnnounce(false);
             });

@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 
 public class AdvancementGroup {
     private final ItemStack display;
+    private final String frameType;
     private List<Advancement> advancements = new ArrayList<>();
     private String id;
     private String background;
@@ -20,9 +21,14 @@ public class AdvancementGroup {
     }
 
     public AdvancementGroup(String id, ItemStack display, String background) {
+        this(id, display, "GOAL", background);
+    }
+
+    public AdvancementGroup(String id, ItemStack display, String frameType, String background) {
         this.id = id;
         this.background = background;
         this.display = display;
+        this.frameType = frameType;
     }
 
     public void register() {
@@ -31,6 +37,10 @@ public class AdvancementGroup {
 
     public ItemStack getDisplayItem() {
         return display;
+    }
+
+    public String getFrameType() {
+        return frameType;
     }
 
     /**

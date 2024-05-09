@@ -5,6 +5,7 @@ portable_workbench:
     name: "&aPortable Crafting"
     lore:
       - "Use a portable crafting table"
+  frame_type: GOAL
   name: "&a[Portable Crafting]"
   criteria:
     interact:
@@ -24,6 +25,7 @@ dust:
     name: "&aInto dust it turns"
     lore:
       - "Crush an ore using an ore crusher"
+  frame_type: TASK
   name: "&a[Into dust it turns]"
   criteria:
     inventory:
@@ -136,6 +138,7 @@ carbonado:
     name: "&aShiny darkness"
     lore:
       - "Create a carbonado diamond"
+  frame_type: CHALLENGER
   name: "&a[Shiny darkness]"
   criteria:
     carbonado:

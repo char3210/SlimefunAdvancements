@@ -20,6 +20,7 @@ public class AdvancementBuilder {
     private NamespacedKey parent;
     private AdvancementGroup group;
     private ItemStack display;
+    private String frame;
     private String name;
     private boolean hidden;
     private List<Criterion> criteria = new ArrayList<>();
@@ -51,6 +52,12 @@ public class AdvancementBuilder {
             return null;
         }
         builder.display(display);
+
+        String frame = config.getString("frame_type");
+        if (frame == null) {
+            frame = "GOAL";
+        }
+        builder.frame(frame);
 
         String advname = config.getString("name");
         if (advname == null) {
@@ -136,6 +143,11 @@ public class AdvancementBuilder {
         return this;
     }
 
+    public AdvancementBuilder frame(String frame) {
+        this.frame = frame;
+        return this;
+    }
+
     public AdvancementBuilder name(String name) {
         this.name = name;
         return this;
@@ -161,7 +173,7 @@ public class AdvancementBuilder {
             criterion.setAdvancement(key);
             criterion.register();
         }
-        Advancement adv = new Advancement(key, parent, group, display, name, hidden, criteria.toArray(new Criterion[0]), rewards.toArray(new Reward[0]));
+        Advancement adv = new Advancement(key, parent, group, display, name, frame, hidden, criteria.toArray(new Criterion[0]), rewards.toArray(new Reward[0]));
         adv.register();
     }
 

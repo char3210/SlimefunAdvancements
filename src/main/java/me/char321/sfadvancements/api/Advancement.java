@@ -27,12 +27,17 @@ public class Advancement {
     private final NamespacedKey parent;
     private final AdvancementGroup group;
     private final ItemStack display;
+    private final String frameType;
     private final String name;
     private final boolean hidden;
     private final Criterion[] criteria;
     private final Reward[] rewards;
 
     public Advancement(NamespacedKey key, @Nullable NamespacedKey parent, AdvancementGroup group, ItemStack display, String name, boolean hidden, Criterion[] criteria, Reward[] rewards) {
+        this(key, parent, group, display, "GOAL", name, hidden, criteria, rewards);
+    }
+
+    public Advancement(NamespacedKey key, @Nullable NamespacedKey parent, AdvancementGroup group, ItemStack display, String frameType, String name, boolean hidden, Criterion[] criteria, Reward[] rewards) {
         this.key = key;
         if (parent == null) {
             parent = Utils.keyOf(group.getId());
@@ -40,6 +45,7 @@ public class Advancement {
         this.parent = parent;
         this.group = group;
         this.display = display;
+        this.frameType = frameType;
         this.name = ChatColor.translateAlternateColorCodes('&', name);
         this.hidden = hidden;
         this.criteria = criteria;
@@ -60,6 +66,10 @@ public class Advancement {
 
     public ItemStack getDisplay() {
         return display;
+    }
+
+    public String getFrameType() {
+        return frameType;
     }
 
     public String getName() {
