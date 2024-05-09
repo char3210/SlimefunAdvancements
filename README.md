@@ -1,6 +1,6 @@
 # SlimefunAdvancements
 
-a slimefun addon that lets you do things like complete and configure advancements
+A slimefun addon that lets you do things like complete and configure advancements
 
 [download here](https://blob.build/project/SlimefunAdvancements)
 
