@@ -173,7 +173,7 @@ public class AdvancementBuilder {
             criterion.setAdvancement(key);
             criterion.register();
         }
-        Advancement adv = new Advancement(key, parent, group, display, name, frame, hidden, criteria.toArray(new Criterion[0]), rewards.toArray(new Reward[0]));
+        Advancement adv = new Advancement(key, parent, group, display, frame, name, hidden, criteria.toArray(new Criterion[0]), rewards.toArray(new Reward[0]));
         adv.register();
     }
 
