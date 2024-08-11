@@ -55,7 +55,7 @@ public class AdvancementBuilder {
 
         String frame = config.getString("frame_type");
         if (frame == null) {
-            frame = "GOAL";
+            frame = "TASK";
         }
         builder.frame(frame);
 
